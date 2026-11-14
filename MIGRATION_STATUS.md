@@ -41,12 +41,11 @@ All 26 source files in `proto/` are represented in the destination, including th
 
 ## Known source issue
 
-The overview image showing five needs profiles is already corrupt in source blob `a635b7d1ff9b60e6a0ad6253c8628608ce6d7883`: its base64 contains `... 1161080 bytes omitted ...`. It was preserved rather than replaced with an unrelated image. The original complete image is still needed to restore it.
+The overview image showing five needs profiles is already corrupt in source blob `a635b7d1ff9b60e6a0ad6253c8628608ce6d7883`: its base64 contains `... 1161080 bytes omitted ...`. It was preserved rather than replaced with an unrelated image. The original complete image is still needed to restore it. A scan of the 136 available local PNG files found no matching original image dimensions (1816 x 758).
 
 ## Remaining work
 
 1. Recover the complete original five-profiles image to repair the pre-existing overview image defect.
-2. Verify any future changes to the original image independently; the migration and publication are complete.
 
-The complete destination is already published at the intended URL. No content redesign or dashboard reconstruction was performed.
+The complete destination is already published at the intended URL. The source Pages deployment completed successfully, all seven old entry points serve the redirect HTML, and the browser confirmed that the original overview URL navigates to https://lclarete-test.github.io/gmbny/. No content redesign or dashboard reconstruction was performed.
 
