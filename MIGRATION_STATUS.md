@@ -31,7 +31,13 @@ All 26 source files in `proto/` are represented in the destination, including th
 - Dashboard data parses as JSON, with row/definition dimensions checked.
 - Anatomia da Dor embedded JPEG decodes successfully (768 x 1152).
 - Local asset, module and page paths are checked before committing.
-- Live-site and interactive checks are pending the Pages build.
+- All six destination pages and dashboard data returned HTTP 200 after publication.
+- All 30 destination files were fetched from the remote commit and matched the local bytes.
+- All 80 local HTML, asset and module references resolve; inline scripts also passed syntax checks.
+- Browser: dashboard loaded 121,714 weighted population and 1,024 records. Excluding NY changed the population to 85,866, and clearing filters restored the selection. Frequencies rendered six rows; cross-tab panel opened.
+- Browser: Anatomia da Dor rendered its anatomical image and interactive regions. Selecting Cabeça enabled reset; reset restored the full map.
+- Full-site copy commit: `d17a56d7acfda8c663e7f4d11ca9bb190c557afd`.
+- Old URL redirects committed in source: `030253913d19bdf51038528a8896d4e64484373f` (six sections plus dashboard entry). Query strings and fragments are preserved. Other source files, data and DPP pages are unchanged.
 
 ## Known source issue
 
@@ -39,6 +45,8 @@ The overview image showing five needs profiles is already corrupt in source blob
 
 ## Remaining work
 
-1. Confirm the complete destination is live, including dashboard tabs and filters.
-2. After confirmation, redirect the six old section URLs and old dashboard entry point to the new corresponding addresses. Preserve other source content.
-3. Record final verification and commit IDs here.
+1. Recover the complete original five-profiles image to repair the pre-existing overview image defect.
+2. Verify any future changes to the original image independently; the migration and publication are complete.
+
+The complete destination is already published at the intended URL. No content redesign or dashboard reconstruction was performed.
+
