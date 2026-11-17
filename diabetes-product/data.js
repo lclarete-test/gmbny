@@ -49,6 +49,11 @@ export const sources = {
     "url": "https://www.cdc.gov/diabetes/about/gestational-diabetes.html",
     "note": "CDC general estimate: 5–9% of US pregnancies are affected. The denominator is pregnancies, not all people with diabetes."
   },
+  "births2023": {
+    "title": "NCHS · Births: Final Data for 2023",
+    "url": "https://www.cdc.gov/nchs/data/nvsr/nvsr74/nvsr74-1.pdf",
+    "note": "Birth certificate data for 2023: gestational diabetes was recorded for 296,661 of 3,596,017 live births, or 82.6 per 1,000 (8.26%). Maternal-age rates per 1,000 live births were 24.7 under age 20, 46.3 at 20–24, 71.1 at 25–29, 91.9 at 30–34, 119.1 at 35–39, and 149.7 at 40–54."
+  },
   "cost": {
     "title": "ADA · Economic costs of diabetes in 2022",
     "url": "https://diabetesjournals.org/care/article/47/1/26/153797/Economic-Costs-of-Diabetes-in-the-U-S-in-2022",
