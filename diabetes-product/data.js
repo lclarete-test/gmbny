@@ -14,6 +14,11 @@ export const sources = {
     "url": "https://usdss.cdc.gov/diabetes/data/statsreport/National_Diabetes_Statsitics_Report.pdf",
     "note": "CDC report updated March 11, 2026. Demographics: NHIS 2021–2023, diagnosed diabetes, adults 18+, age-adjusted. Care behaviors: NHANES August 2021–August 2023, adults with diagnosed diabetes, crude estimates."
   },
+  "meps": {
+    "title": "AHRQ MEPS · Diabetes treatment expenditures",
+    "url": "https://meps.ahrq.gov/mepsweb/data_files/publications/st568/stat568.shtml",
+    "note": "MEPS 2021–2022. Among U.S. civilian noninstitutionalized adults treated for diabetes, Medicare paid 41.0% of diabetes treatment expenditures, private insurance 32.0%, Medicaid 17.2%, out of pocket 6.2%, and other sources 3.5%. These are shares of expenditures, not shares of patients or insurance enrollment."
+  },
   "nchs": {
     "title": "NCHS · Data Brief 516",
     "url": "https://www.cdc.gov/nchs/products/databriefs/db516.htm",
