@@ -1,4 +1,9 @@
 export const sources = {
+  "state": {
+    "title": "CDC · U.S. Diabetes Surveillance System · State data",
+    "url": "https://data.cdc.gov/U-S-Diabetes-Surveillance-System/USDSS-State-Burden-Magnitude-Diabetes-Indicators/b559-sbez",
+    "note": "BRFSS age-adjusted prevalence of diagnosed diabetes among adults 18+. The national series is the median of states. The BRFSS methodology changed in 2011, which may affect comparisons across that boundary. Gestational-only diabetes is excluded."
+  },
   "cdc": {
     "title": "CDC · National Diabetes Statistics Report",
     "url": "https://www.cdc.gov/diabetes/php/data-research/index.html",
