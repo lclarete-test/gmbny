@@ -1,4 +1,4 @@
-import {sources,demographics,products,personas,creators,themes,companies,publicContent} from './data.js?v=epi-story-20261117';
+import {sources,demographics,products,personas,creators,themes,companies,publicContent} from './data.js?v=types-gestational-20261117';
 const typeData=await fetch('./data/type-data.json').then(r=>{if(!r.ok)throw new Error('Type-specific epidemiology data failed to load');return r.json()});
 const stateSeries=await fetch('./data/state-series.json').then(r=>r.json());
 const usMapSvg=await fetch('./us-map.svg').then(r=>r.text());
