@@ -52,3 +52,14 @@
   .gestational-insight b{font-size:28px}
   .gestational-bars>div{grid-template-columns:92px 1fr 38px}
 }
+
+.health-view{display:grid;gap:20px;min-width:0}
+.health-view>.panel,.health-view>.grid-two{margin:0;min-width:0}
+.health-view .profile-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));align-items:start}
+.health-view table{border-collapse:collapse;font-variant-numeric:tabular-nums}
+.health-view th,.health-view td{padding:8px 4px;border-bottom:1px solid #dee4eb}
+.complications{width:100%;table-layout:fixed;font-size:clamp(11px,1.3vw,15px)}
+.complications th:first-child{width:39%;text-align:left}
+.complications td,.complications th{text-align:right}
+.complications td i{display:block;margin:3px 0 0 auto;height:4px;background:#5858d8}
+@media(max-width:720px){.health-view .grid-two,.health-view .profile-grid{grid-template-columns:minmax(0,1fr)}.health-view .panel{min-width:0}}
