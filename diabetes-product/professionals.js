@@ -1,4 +1,5 @@
-import {atlasFigure,endocrinologySource,educationSiteSource} from './atlas-figures.js';
+import {atlasFigure,endocrinologySource} from './atlas-figures.js';
+import {physicianWorkforce,physicianSources,physicianNotes} from './physician-workforce.js';
 import { barList, dataTable, escapeHTML, lineChart, measures, sourcesFooter } from './charts.js';
 import { card, heading, pair } from './epidemiology.js';
 
@@ -39,30 +40,31 @@ export function hcpProfile() {
     ['Pharmacist', '28%', '44%'], ['Social worker', '22%', '33%'],
     ['Physician associate', '15%', '24%'], ['Community health worker', '9%', '17%']
   ];
-  return heading('Healthcare professional profile') + atlasFigure('hcp') +
+  return heading('Healthcare professional profile') + physicianWorkforce() + atlasFigure('hcp') +
     card('Who does what in diabetes care', tiles(roles)) +
     card('Who works on a diabetes education team?', dataTable(['Role reported on team', '2021', '2025'], team)) +
-    sourcesFooter([CDC_TEAM, ADA_TEAM, ADCES_SURVEY, endocrinologySource, ['Medicare · Primary care and endocrinology encounters by diabetes type','https://doi.org/10.2337/dc26-2070']], [SURVEY_METHOD,
-      'The team question allowed multiple roles. A respondent could report both a physician and a pharmacist on the same team.']);
+    educationSpecialists() +
+    sourcesFooter([...physicianSources,CDC_TEAM,ADA_TEAM,ADCES_SURVEY,ADCES_SERIES,endocrinologySource,['Medicare · Primary care and endocrinology encounters by diabetes type','https://doi.org/10.2337/dc26-2070']], [
+      ...physicianNotes,SURVEY_METHOD,
+      'The team question allowed more than one role. The historical series shows the three largest primary disciplines reported by diabetes education specialists in 2025. Respondents could select several practice settings and patient populations.'
+    ]);
 }
 
-export function hcpSegments() {
-  return heading('Healthcare professional segments') +
-    lineChart({ title: 'Professional background of diabetes care and education specialists',
+function educationSpecialists() {
+  return '<div id="educator-background">' + lineChart({ title: 'Professional background of diabetes care and education specialists',
       unit: 'Respondents in each ADCES practice survey (%)', format: 'percent', digits: 0,
+      source: ADCES_SERIES[1],
       labels: [2017, 2021, 2025], series: [
         ['Nursing', [48, 42, 46]], ['Dietetics and nutrition', [38, 34, 39]], ['Pharmacy', [7, 6, 8]]
-      ] }) +
+      ] }) + '</div>' +
     pair(card('Where specialists practiced in 2025', barList([
       ['Hospital outpatient department', 34], ['Telehealth or online', 25],
       ['Hospital inpatient department', 22], ['Endocrinology practice', 20],
       ['Primary care practice', 19], ['Community organization', 8], ['Federally qualified health center', 7]
     ], wholePercent)),
-    card('Which populations they served', barList([
+    card('Which populations diabetes educators served', barList([
       ['People with type 2 diabetes', 97], ['People with type 1 diabetes', 88], ['People with prediabetes', 76]
-    ], wholePercent))) +
-    sourcesFooter([ADCES_SURVEY, ADCES_SERIES], [SURVEY_METHOD,
-      'The time series shows the three largest primary disciplines reported in 2025. Other disciplines were also represented. Care settings and patient populations allowed multiple answers. These results cover the surveyed diabetes education workforce.']);
+    ], wholePercent)));
 }
 
 export function hcpJourney() {
@@ -105,33 +107,6 @@ export function hcpRelationship() {
       'The Minnesota trial studied decision aids for glucose-lowering medication or statins. The New Haven trial enrolled 143 adults with type 2 diabetes and an A1C above 8%. The Connecticut portal pilot involved 22 adults across two community health centers.',
       'The diagnosis interviews included 18 recently diagnosed adults and eight clinicians. Interview topics identify concerns in that study and have no population frequency.'
     ]);
-}
-
-const ORGANIZATIONS = [
-  ['American Diabetes Association', 'Rights and navigation', 'People with all types of diabetes, families and school teams',
-    'The information center connects people to diabetes resources. Safe at School helps families resolve barriers to diabetes care during the school day.',
-    [['Information center', 'https://diabetes.org/about-us/center-information'], ['School rights and support', 'https://diabetes.org/advocacy/safe-at-school-state-laws/resolving-challenges']]],
-  ['Breakthrough T1D', 'Type 1 diabetes research and support', 'People with type 1 diabetes and their caregivers',
-    'Newly diagnosed guides and care kits help families get oriented. The clinical trials service connects people interested in participating with type 1 diabetes research.',
-    [['Newly diagnosed resources', 'https://www.breakthrought1d.org/newly-diagnosed/'], ['Clinical trial finder', 'https://www.breakthrought1d.org/clinical-trials/']]],
-  ['Beyond Type 1', 'Peer resources and insulin access', 'People with type 1 or type 2 diabetes, including people who need insulin',
-    'Beyond Type 2 offers newly diagnosed resources and peer support. The GetInsulin.org service helps people in the US identify insulin affordability options.',
-    [['Insulin access', 'https://getinsulin.org/about/'], ['Type 2 resources', 'https://beyondtype1.org/newly-diagnosed-with-type-2/']]],
-  ['The diaTribe Foundation', 'Independent diabetes education', 'People with diabetes or prediabetes and people who support them',
-    'The nonprofit publication explains diabetes research, medications and devices through free articles and a newsletter for people making everyday care decisions.',
-    [['About diaTribe', 'https://diatribe.org/about-diatribe'], ['Foundation programs', 'https://diatribe.org/foundation']]],
-  ['Association of Diabetes Care & Education Specialists', 'Local education programs', 'People seeking education, referring clinicians and diabetes care and education specialists',
-    'The program finder helps people locate accredited diabetes self-management education and support. Clinicians can use the same directory when making a referral.',
-    [['Find an education program', 'https://www.adces.org/program-finder']]]
-];
-
-export function organizations() {
-  const cards = ORGANIZATIONS.map(([name, role, audience, work, links]) =>
-    `<article class="creator-card"><h2>${escapeHTML(name)}</h2><dl><div><dt>${escapeHTML(role)}</dt><dd>${escapeHTML(work)}</dd></div><div><dt>Audience</dt><dd>${escapeHTML(audience)}</dd></div></dl><p>${links.map(([label, url]) =>
-      `<a href="${escapeHTML(url)}" target="_blank" rel="noopener">${escapeHTML(label)}</a>`).join(' · ')}</p></article>`);
-  return heading('Diabetes organizations') + atlasFigure('organizations') + `<div class="creator-grid">${cards.join('')}</div>` +
-    sourcesFooter([educationSiteSource,...ORGANIZATIONS.map(([name, , , , links]) => [name, links[0][1]])],
-      ['Roles and services come from each organization’s own materials. The directory focuses on support, advocacy, education and research available to people in the United States.']);
 }
 
 export function patientQuestions() {

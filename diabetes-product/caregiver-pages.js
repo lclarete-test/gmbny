@@ -32,65 +32,67 @@ function facets(items) {
   ).join('') + '</div>';
 }
 
-export function caregiverProfile() {
-  const demographics = [
-    ["Age", [["18–34 years", 28.0], ["35–49 years", 25.9], ["50–64 years", 23.8], ["65 and older", 22.3]]],
-    ["Education", [["Less than high school", 9.4], ["High school graduate", 28.6], ["Some college or technical school", 36.9], ["College or technical graduate", 25.1]]],
-    ["Annual household income", [["Under $25,000", 17.8], ["$25,000–49,999", 29.9], ["$50,000–99,999", 27.5], ["$100,000 or more", 24.7]]],
-    ["Race and ethnicity", [["White, non-Hispanic", 54.4], ["Black, non-Hispanic", 14.1], ["Hispanic, any race", 22.0], ["Other or multiracial, non-Hispanic", 9.5]]]
-  ];
-  return heading('Caregiver profile') + atlasFigure('caregivers') +
-    '<article class="panel care-count"><div class="care-count-value"><strong>≈2.4M</strong><span>U.S. family caregivers</span></div><div><h2>When diabetes is the main reason for care</h2>' +
-    reading('In the 2025 national report, 4% of the 59 million people who cared for an adult in the past year named diabetes as the main reason that person needed help. Families managing diabetes alongside another primary illness fall outside this estimate.') + '</div></article>' +
-    card('Who provided care in the past month?', unit('31-state BRFSS · 2025 · diabetes was the recipient’s main condition') +
-      measures([['60.7%','of caregivers were female'], ['39.3%','were male'], ['21.6%','reported at least 14 days of poor mental health in the past month'], ['33.3%','had provided care for at least five years']]) +
-      facets(demographics)) +
-    pair(
-      card('Employment among caregivers', unit('31-state BRFSS · 2025 · 1,632 valid employment responses') +
-        bars([["Employee", 49.6], ["Self-employed", 8.6], ["Retired", 20.5], ["Unable to work", 5.0], ["Out of work, student or homemaker", 16.3]]) +
-        reading('Employment describes the caregiver’s own work. This survey did not ask whether they were paid to provide care.')),
-      card('Who lived with an adult with type 2?', unit('U.S. household study · 446 adult relatives · published 2023') +
-        bars([['Partner', 60.3], ['Parent of the person with diabetes', 18.6], ['Adult child', 13.7], ['Sibling', 7.4]]) +
-        reading('Relatives averaged 48.7 years of age. The study included 221 women and 225 men. All shared a home with the person who had type 2 diabetes.'))
-    ) +
-    card('Who received their help?', unit('31-state BRFSS · 2025 · 1,633 valid relationship responses') +
-      bars([["Parent or parent-in-law", 35.3], ["Grandparent", 8.2], ["Spouse or partner", 20.9], ["Child or grandchild", 6.7], ["Sibling or other relative", 18.1], ["Friend or nonrelative", 10.9]])) +
-    card('The financial impact of childhood type 1', unit('U.S. families of children with insulin-treated diabetes · 2005–06') +
-      bars([['Over $1,000 in annual out-of-pocket medical costs', 41], ['Child’s condition caused financial problems', 38], ['A family member reduced hours or stopped working', 35], ['At least 11 hours of care or coordination per week', 24], ['Child missed at least 11 school days in a year', 20]])) +
-    sourcesFooter([['CDC · 2023 U.S. diabetes population','https://www.cdc.gov/diabetes/php/data-research/index.html'], source.national, source.brfss, source.weights, ['2025 BRFSS · Weighted estimates, sample sizes and uncertainty','data/caregiver-profile.json'], ['Reproduce the caregiver analysis','analysis/brfss_caregivers.py'], source.household, source.child], [
-      'The national estimate multiplies the rounded 4% in figure 6 (6,549 survey respondents caring for an adult) by 59.0 million family caregivers of adults in figure 1. The survey was fielded in August–October 2024 and published in 2025. It includes paid and unpaid family caregivers and asks about the main recipient. The survey does not identify diabetes type in this question.',
-      brfssNote + ' The valid sample sizes were 1,643 for sex, 1,627 for age, 1,642 for education, 1,400 for income, 1,618 for race and ethnicity, and 1,578 for care duration and 1,618 for poor mental health days. The grouped race/ethnicity categories are mutually exclusive. Percentages may differ from 100% by rounding.',
-      weightNote,
-      'The separate type 2 household study enrolled U.S. English-speaking adults through an online panel. Relationship shares use 269 partners, 83 parents, 61 adult children and 33 siblings. The study required participants to live with the person with diabetes.',
-      pediatricNote + ' Amounts are dollars of the survey period. The same family can report more than one impact.'
-    ]);
-}
-
-const careHours = [
-  {name:'Under 20 hours', share:72.4, nursing:30.7, personal:18.9, work:60.7, mental:20.7},
-  {name:'20–39 hours', share:12.2, nursing:29.1, personal:39.6, work:55.0, mental:11.4},
-  {name:'40 hours or more', share:15.4, nursing:56.1, personal:61.2, work:52.3, mental:33.6}
+const caregiverGroups = [
+  ['Age', [['18–34 years',28.0],['35–49 years',25.9],['50–64 years',23.8],['65 and older',22.3]]],
+  ['Education', [['Less than high school',9.4],['High school graduate',28.6],['Some college or technical school',36.9],['College or technical graduate',25.1]]],
+  ['Annual household income', [['Under $25,000',17.8],['$25,000–49,999',29.9],['$50,000–99,999',27.5],['$100,000 or more',24.7]]],
+  ['Race and ethnicity', [['White, non-Hispanic',54.4],['Black, non-Hispanic',14.1],['Hispanic, any race',22.0],['Other or multiracial, non-Hispanic',9.5]]],
+  ['Employment', [['Employee',49.6],['Self-employed',8.6],['Retired',20.5],['Unable to work',5.0],['Out of work, student or homemaker',16.3]]],
+  ['Person receiving care', [['Parent or parent-in-law',35.3],['Grandparent',8.2],['Spouse or partner',20.9],['Child or grandchild',6.7],['Sibling or other relative',18.1],['Friend or nonrelative',10.9]]]
 ];
-
-export function caregiverSegments() {
-  const strips = careHours.map((segment, i) => '<i class="care-tone-' + i + '" style="flex:' + segment.share + '"></i>').join('');
-  const segments = careHours.map((s, i) => '<section class="care-segment"><div><i class="care-key care-tone-' + i + '" aria-hidden="true"></i><strong>' + s.share + '%</strong></div><h3>' + s.name + '</h3><p>of care per week</p><dl>' +
-    [['Helped with nursing or medical tasks', s.nursing], ['Helped with personal care', s.personal], ['Employed or self-employed', s.work], ['14+ days of poor mental health', s.mental]].map(([key, value]) => '<div><dt>' + key + '</dt><dd>' + value.toFixed(1) + '%</dd></div>').join('') + '</dl></section>').join('');
-  return heading('Caregiver segments') +
-    card('How much of the week goes to care?', unit('31-state BRFSS · 2025 · 1,588 caregivers who reported hours · percentages inside each group') +
-      '<div class="care-distribution" aria-hidden="true">' + strips + '</div><div class="care-segments care-three">' + segments + '</div>' +
-      reading('Among people giving at least 40 hours of care each week, 61.2% helped with personal care such as bathing or eating, and 52.3% also held a paid job.')) +
-    card('Who carried all the diabetes care?', unit('U.S. survey of 1,002 unpaid caregivers of adults · 2009') +
-      bars([['Diabetes was the main condition, shared care', 51], ['Another condition came first, shared care', 32], ['Diabetes was the main condition, all care', 10], ['Another condition came first, all diabetes care', 7]]) +
-      reading('In the last group, one caregiver handled all diabetes care while another condition was the person’s main health problem. Half of that group reported providing around-the-clock care.')) +
-    card('Involvement and burden in type 2 households', unit('Mean Zarit caregiver burden score, 0–88 · 446 U.S. co-resident relatives · published 2023') +
-      barList([['Least involved and concerned', 14.37], ['Moderately involved, less concerned', 22.27], ['Moderate concern, involvement and distress', 45.14], ['Highest concern, involvement and distress', 67.72]], {max:88, color:'#405783', format:n=>n.toFixed(1)}) +
-      reading('The investigators grouped relatives by how they viewed diabetes, how involved they were and how they felt. Higher scores indicate greater burden.')) +
-    sourcesFooter([source.brfss, source.weights, ['2025 BRFSS · Weighted estimates, sample sizes and uncertainty','data/caregiver-profile.json'], ['Reproduce the caregiver analysis','analysis/brfss_caregivers.py'], source.adult, source.household], [
-      brfssNote + ' The weekly-hour groups contain 1,142, 218 and 228 respondents. Groups are mutually exclusive. Their shares total 100%. The measures within each group use valid responses to the relevant item. Poor mental health refers to the caregiver’s own report for the past 30 days.',
-      weightNote + ' All within-group estimates shown had at least 45 positive respondents and a relative standard error under 23%.',
-      adultNote + ' The 2009 responsibility groups reproduce table 3. Shared care means the caregiver provided most or some of the diabetes care.',
-      'The separate type 2 household study reports mean scores on the 22-item Zarit Burden Interview, table 2. This measures perceived burden. None of these measures provides a national burnout prevalence.'
+const careHours = [
+  {name:'Under 20 hours',share:72.4,nursing:30.7,personal:18.9,work:60.7,mental:20.7},
+  {name:'20–39 hours',share:12.2,nursing:29.1,personal:39.6,work:55.0,mental:11.4},
+  {name:'40 hours or more',share:15.4,nursing:56.1,personal:61.2,work:52.3,mental:33.6}
+];
+const intensityMeasures=[
+  ['Nursing or medical help','nursing'],['Personal care','personal'],
+  ['Employed or self-employed','work'],['14+ days of poor mental health in the past month','mental']
+];
+function weeklyHours(){
+  const strip=careHours.map((s,i)=>`<i class="care-tone-${i}" style="flex:${s.share}"></i>`).join('');
+  const groups=careHours.map((s,i)=>`<section class="care-segment"><div><i class="care-key care-tone-${i}" aria-hidden="true"></i><strong>${s.share}%</strong></div><h3>${s.name}</h3><p>of care per week</p><dl>${intensityMeasures.map(([label,key])=>`<div><dt>${label}</dt><dd>${s[key].toFixed(1)}%</dd></div>`).join('')}</dl></section>`).join('');
+  return `<article class="panel" id="caregiver-hours"><h2>How much of the week goes to care?</h2><p class="axis-unit">Share of caregivers by weekly hours. The measures below each share describe that group.</p><div class="care-distribution" aria-hidden="true">${strip}</div><div class="care-segments care-three">${groups}</div>${reading('Across all caregivers with a valid response, 27.9% helped with personal care such as bathing or eating.')}</article>`;
+}
+export function caregiverProfile(){
+  const routine = `<article class="panel" id="caregiver-daily"><h2>An ordinary week of adult diabetes care</h2>${unit('Unpaid caregivers of adults with diabetes · U.S. survey, 2009')}${bars([['Shopping for groceries',84],['Monitoring diet',77],['Managing household finances',75],['Helping monitor glucose',63],['Supporting exercise',60],['Inspecting hands or feet',54]])}${reading('When the person used insulin, 67% helped make sure the prescribed dose was taken. When the person took oral medication, 55% helped divide the doses.')}</article>`;
+  return heading('Caregiver profile') + atlasFigure('caregivers') +
+    card('Caregiver demographics',facets(caregiverGroups)) + weeklyHours() +
+    pair(routine,card('Who shared responsibility for diabetes care?',unit('Same adult caregiver survey · 2009') +
+      bars([['Diabetes was the main condition, shared care',51],['Another condition came first, shared care',32],['Diabetes was the main condition, one caregiver',10],['Another condition came first, one diabetes caregiver',7]]) +
+      reading('In this survey, 17% of respondents handled all diabetes care for the person they supported.'))) +
+    pair(card('Who lived with a relative with type 2?',unit('446 U.S. adults sharing a home with the patient · published 2023') +
+      bars([['Partner',60.3],['Parent of the person with diabetes',18.6],['Adult child',13.7],['Sibling',7.4]]) +
+      reading('Relatives averaged 48.7 years of age.')),
+      card('How those relatives experienced care',unit('Mean Zarit caregiver burden score, 0–88 · same type 2 household study') +
+      barList([['Least involved and concerned',14.37],['Moderately involved, less concerned',22.27],['Moderate concern, involvement and distress',45.14],['Highest concern, involvement and distress',67.72]],{max:88,color:'#405783',format:n=>n.toFixed(1)}) +
+      reading('Relatives reported how involved they felt and how much caregiving weighed on them. Higher scores indicate greater burden.'))) +
+    pair(card('What adult caregivers gave up',unit('Unpaid caregivers of adults · U.S. survey, 2009') +
+      bars([['Less time with friends or other family',68],['Gave up vacations, hobbies or social activities',61],['Less time to exercise',53],['Worse personal mental health',36],['Worse personal physical health',33]])),
+      card('Time and money in childhood type 1',unit('U.S. families of children with insulin-treated diabetes · 2005–06') +
+      bars([['Over $1,000 in annual out-of-pocket medical costs',41],['Child’s condition caused financial problems',38],['A family member reduced hours or stopped working',35],['At least 11 hours of care or coordination per week',24],['Child missed at least 11 school days in a year',20]]))) +
+    card('When care continues after bedtime',unit('Parents of children ages 2–12 with type 1 · 50 U.S. clinics, 2015') +
+      measures([['69%','reported frequent overnight glucose checks by a caregiver'],['53%','met the study threshold for poor sleep quality']])) +
+    lineChart({
+      title:'How parents’ daily management distress changed',unit:'Mean parental distress score · children ages 5–9 with a recent type 1 diagnosis · U.S. study, 2019',
+      labels:['Study entry','6 months','12 months'],digits:1,source:source.newOnset[1],
+      series:[['Elevated depressive symptoms at entry',[27.70,20.96,21.47]],['Below the screening threshold at entry',[31.76,15.71,16.77]]],
+      note:'Daily management distress eased most in the first six months. Worries about future complications peaked at six months among parents with elevated depressive symptoms.'
+    }) +
+    sourcesFooter([
+      ['CDC · U.S. diabetes population in 2023','https://www.cdc.gov/diabetes/php/data-research/index.html'],source.national,source.brfss,source.weights,
+      ['BRFSS · Caregiver estimates, sample sizes and confidence intervals','data/caregiver-profile.json'],
+      ['Reproduce the caregiver analysis','analysis/brfss_caregivers.py'],source.adult,source.household,source.child,source.sleep,source.newOnset
+    ],[
+      'The opening rings show a care relationship. The CDC counted people of all ages with diagnosed or undiagnosed diabetes in 2023. In its 2025 report, AARP and the National Alliance for Caregiving estimated 59.0 million family caregivers of adults. Four percent named diabetes as the main reason for care. Multiplying these rounded figures gives about 2.4 million caregivers. The survey included paid and unpaid family caregivers and was fielded in August–October 2024. These studies count different people and cannot establish a caregiver-to-patient ratio.',
+      brfssNote+' The five caregiver measures beside the rings, the demographic charts and the weekly-hours groups come from this survey. Mental health refers to 14 or more days of poor mental health in the previous 30 days. Care duration of five years or more refers to regular help for the same person.',
+      weightNote+' Valid responses numbered 1,643 for sex (60.7% female and 39.3% male), 1,627 for age, 1,642 for education, 1,400 for income, 1,618 for race and ethnicity, 1,632 for employment and 1,633 for relationship. There were 1,620 for household tasks, 1,636 for nursing or medical tasks, 1,628 for personal care, 1,578 for duration and 1,618 for mental health. Each task was asked separately and could overlap. Employment describes the caregiver’s own work.',
+      'The weekly-hour groups include 1,588 respondents, with 1,142 under 20 hours, 218 at 20–39 hours and 228 at 40 hours or more. The three shares describe all respondents who reported hours. The four measures under each group use valid responses within that group. All published within-group measures had at least 45 positive respondents and relative standard errors under 23%.',
+      adultNote+' Responsibilities use table 3. Shared care combines providing most or some of the care. Half of respondents who provided all diabetes care when another condition came first reported around-the-clock care. Medication assistance in figure 10 uses 547 caregivers of insulin users and 657 caregivers of people taking oral medication. People could select multiple activities or impacts.',
+      'The type 2 household study used a U.S. English-speaking online panel of 446 co-resident adult relatives (221 women, 225 men). Relationships include 269 partners, 83 parents, 61 adult children and 33 siblings. The four groups by concern and involvement are study-derived clusters. The 22-item Zarit Burden Interview measures perceived burden.',
+      pediatricNote+' Dollar amounts refer to the survey period. Several financial or time impacts can affect the same family.',
+      'The 2015 T1D Exchange survey had a 22% response rate. Of 515 families, 355 reported that a caregiver often or always checked glucose overnight. Of 501 parents completing the Pittsburgh Sleep Quality Index, 266 scored above 5.',
+      'Noser and colleagues enrolled 126 families. Study entry averaged 4.6 months after diagnosis. The table 2 subgroups included 32 and 92 parents at entry, 26 and 74 at six months, and 23 and 64 at one year. Depressive symptoms were screened at entry. The separate future-worries scores for parents with elevated symptoms were 31.0, 35.7 and 33.1 across visits.'
     ]);
 }
 
@@ -119,41 +121,6 @@ export function caregiverJourney() {
       'The adult route organizes care decisions. Its percentages come from different questions in one 2009 survey and do not estimate transitions from one stage to the next. The crisis question asks whether a caregiver had ever taken the person to hospital or called an ambulance. People can enter at diagnosis, skip crisis care and return to earlier decisions.',
       adultNote + ' Interview findings about wanted and unwanted involvement refer specifically to adults with type 2 diabetes in a U.S. family intervention. The wording of care decisions is editorial.',
       'The separate pediatric study followed 132 parent–child pairs. Parents completed the PAID-PR distress questionnaire at baseline and six months. Change groups use the study’s minimum clinically important difference. The measure assesses diabetes-related distress.'
-    ]);
-}
-
-export function caregiverRoutine() {
-  return heading('Caregiver routines') +
-    '<p class="journey-context">Care can start with a ride to an appointment or shopping for shared meals. In households where a child uses insulin, it can continue overnight. The surveys below trace the work families do and how it affects their own sleep, time and health.</p>' +
-    card('What regular care involved', unit('31-state BRFSS · 2025 · caregivers helping someone whose main condition was diabetes') +
-      bars([['Household tasks such as rides, shopping or money management', 79.1], ['Nursing or medical tasks such as injections or wound care', 34.2], ['Personal care such as bathing, eating or using the bathroom', 27.9]]) +
-      reading('Household help was the most common task. The same caregiver could manage the household and also provide medical or personal care.')) +
-    pair(
-      card('An ordinary week of adult diabetes care', unit('Unpaid caregivers who reported each task · 2009') +
-        bars([['Shopping for groceries', 84], ['Monitoring diet', 77], ['Managing household finances', 75], ['Helping monitor glucose', 63], ['Supporting exercise', 60], ['Inspecting hands or feet', 54]]) +
-        reading('Among 547 caregivers whose recipient used insulin, 67% helped make sure the prescribed dose was taken. Among 657 whose recipient took oral medication, 55% helped divide the doses.')),
-      card('What the caregiver gave up', unit('Share of the same 1,002 unpaid caregivers · 2009') +
-        bars([['Less time with friends or other family', 68], ['Gave up vacations, hobbies or social activities', 61], ['Less time to exercise', 53], ['Worse personal mental health', 36], ['Worse personal physical health', 33]]))
-    ) +
-    card('What happens after a child goes to bed?', unit('Parents of children aged 2–12 with type 1 diabetes · 50 U.S. clinics · 2015') +
-      measures([['69%','reported a caregiver often or always checked glucose after bedtime'], ['53%','met the study threshold for poor sleep quality']]) +
-      reading('Of 515 families, 355 reported frequent overnight checks. Of 501 parents who completed the sleep questionnaire, 266 scored above its poor-sleep threshold.')) +
-    lineChart({
-      title:'How daily management distress changed over one year',
-      unit:'Mean parental distress score · children aged 5–9 with a recent type 1 diagnosis · U.S. study, 2019',
-      labels:['Study entry', '6 months', '12 months'],
-      digits:1,
-      series:[
-        ['Elevated depressive symptoms at entry', [27.70, 20.96, 21.47]],
-        ['Below the screening threshold at entry', [31.76, 15.71, 16.77]]
-      ],
-      note:'Daily distress eased most in the first six months. In a separate measure, worries about future complications peaked at six months among parents with elevated depressive symptoms (31.0 at entry, 35.7 at six months, 33.1 at one year).'
-    }) +
-    sourcesFooter([source.brfss, source.weights, ['2025 BRFSS · Weighted estimates, sample sizes and uncertainty','data/caregiver-profile.json'], ['Reproduce the caregiver analysis','analysis/brfss_caregivers.py'], source.adult, source.sleep, source.newOnset], [
-      brfssNote + ' The household, medical and personal care questions had 1,620, 1,636 and 1,628 valid responses. Each question refers to the prior 30 days.', weightNote,
-      adultNote + ' Respondents could report several activities or impacts. Dosing and oral-medication percentages come from figure 10 and use the medication-specific bases.',
-      'The 2015 T1D Exchange survey had a 22% response rate. Poor sleep was defined as a Pittsburgh Sleep Quality Index score above 5. The survey measured sleep quality and monitoring frequency.',
-      'Noser and colleagues followed 126 enrolled families. There were 125 participants at entry, 102 at six months and 89 at twelve months. The subgroup analyses in the study’s table 2 had 32 and 92 at entry, 26 and 74 at six months, and 23 and 64 at twelve months. Study entry averaged 4.6 months after diagnosis. Daily distress and long-term worries are separate scales. Read each row across time. Elevated depressive symptoms were identified using a screening questionnaire.'
     ]);
 }
 

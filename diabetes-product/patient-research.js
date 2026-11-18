@@ -16,19 +16,20 @@ export function populationHistory(nhis,scope,dimension,interactive=false){
     controls:interactive?`<label class="picker">Measure <select id="profile-dimension">${Object.keys(history).map(k=>`<option ${k===dimension?'selected':''}>${k}</option>`).join('')}</select></label>`:'',
     format:population?'millions':'percent',digits:1,labels:nhis.trend.map(row=>row[0]),series:history[dimension],source:links.nhis};
 }
-export function patientProfile(nhis,view){
+export function patientProfile(nhis,coverage,view){
   const scope=view.patientScope,p=nhis.profiles[scope];
   const d=Object.entries(p.groups).map(([key,list])=>`<section><h3>${escapeHTML(key)}</h3><div class="profile-bars">${list.map(([label,v])=>`<div><span>${escapeHTML(label)}</span><i aria-hidden="true">${v==null?'':`<em style="width:${v}%"></em>`}</i><b>${v==null?'—':v.toFixed(1)+'%'}</b></div>`).join('')}</div></section>`).join('');
   return heading('Patient profile')+atlasFigure('patients')+
     `<article class="panel profile-panel"><div class="section-top"><h2>Who makes up this population?</h2>${controls(scope,'patientScope')}</div>
-    <p class="population-summary"><b>${(p.weightedAdults/1e6).toFixed(1)} million</b> U.S. adults reported ${conditionLabel(scope)} in 2025. Percentages show the makeup of this group.</p>
+    <p class="population-summary"><b>${(p.weightedAdults/1e6).toFixed(1)} million</b> U.S. adults reported ${conditionLabel(scope)} in 2025. The profiles, coverage groups and trends below follow this population.</p>
     <div class="profile-grid">${d}</div></article>`+
+    coverageProfile(coverage,scope)+
     lineChart(populationHistory(nhis,scope,view.profileMetric,true))+
-    `<nav class="reading-links" aria-label="Related patient research"><a href="#patients/segments">Compare coverage segments →</a><a href="#patients/treatment">Compare treatment and technology use →</a></nav>`+
-    sourcesFooter([...surveySources,['NIDDK · Tests and diagnosis','https://www.niddk.nih.gov/health-information/diabetes/overview/tests-diagnosis']],[
-      'NHIS surveys U.S. civilian, noninstitutionalized adults 18+. Counts use annual Sample Adult weights. Respondents reporting prediabetes only reported a professional diagnosis of prediabetes and no diagnosis of diabetes. They are a subset of all adults with laboratory-defined prediabetes. All diagnosed includes other and unknown types.',
-      'Percentages use valid responses within each characteristic and may differ slightly from 100% after rounding. Categories with fewer than ten respondents are suppressed. Family income is relative to the federal poverty threshold and uses the adult file’s first imputed value. Functional disability is the Washington Group indicator of serious difficulty in at least one of six domains. Work refers to the prior week.',
-      'Each year is a new national sample. Changes describe populations and do not track individual transitions. Interview procedures changed in 2020. The 2025 annual file excludes the December sample.'
+    lineChart(segmentHistory(coverage,scope))+
+    sourcesFooter([...surveySources,...coverage.sources,['NIDDK · Tests and diagnosis','https://www.niddk.nih.gov/health-information/diabetes/overview/tests-diagnosis']],[
+      'The profile counts U.S. civilian, noninstitutionalized adults who reported the selected diagnosis. The prediabetes group includes adults told they had prediabetes who reported no diabetes diagnosis. Laboratory-defined prediabetes includes additional adults who have never been told.',
+      'Demographic percentages use valid responses for the characteristic. Categories with fewer than ten respondents are suppressed. Family income uses the first imputed value relative to the federal poverty threshold. Functional disability uses the Washington Group indicator of serious difficulty in at least one of six domains. Work refers to the prior week.',
+      ...coverage.notes
     ]);
 }
 export function treatmentPage(nhis,scope){
@@ -51,15 +52,14 @@ export function segmentHistory(data,scope){
   const s=data.scopes[scope];
   return {title:'Coverage mix over time',unit:`% of U.S. adults with ${conditionLabel(scope)} · mutually exclusive groups`,format:'percent',labels:data.years,series:s.order.map((k,i)=>[displaySegment[k],s.trend.map(r=>r[i])]),source:links.nhis};
 }
-export function patientSegments(data,scope){
+function coverageProfile(data,scope){
   const s=data.scopes[scope],rows=s.order.map(key=>[key,s.segments[key]]).sort((a,b)=>b[1].share-a[1].share);
   const text=v=>v==null?'—':v.toFixed(1)+'%';
-  const composition=`<article class="panel"><div class="section-top"><h2>Patients by insurance coverage</h2>${controls(scope,'segmentScope')}</div><p class="population-summary"><b>${(s.weightedAdults/1e6).toFixed(1)} million</b> U.S. adults with ${conditionLabel(scope)} and classifiable coverage · 2025</p><div class="segment-strip" aria-hidden="true">${rows.map(([k,r])=>`<i style="width:${r.share}%;background:${segmentColors[k]}"></i>`).join('')}</div>
-    ${dataTable(['Coverage segment','Share of patients','95% interval','Survey respondents'],rows.map(([k,r])=>[displaySegment[k],text(r.share),r.ci?r.ci.map(v=>v.toFixed(1)+'%').join(' to '):'—',r.n.toLocaleString('en-US')]))}</article>`;
+  const composition=`<article class="panel" id="patient-coverage"><h2>How this population is insured</h2><p class="population-summary">Coverage was classifiable for <b>${(s.weightedAdults/1e6).toFixed(1)} million</b> U.S. adults with ${conditionLabel(scope)} in 2025. Each person appears in one group.</p><div class="segment-strip" aria-hidden="true">${rows.map(([k,r])=>`<i style="width:${r.share}%;background:${segmentColors[k]}"></i>`).join('')}</div>
+    ${dataTable(['Coverage group','Share of population','95% interval','Survey respondents'],rows.map(([k,r])=>[displaySegment[k],text(r.share),r.ci?r.ci.map(v=>v.toFixed(1)+'%').join(' to '):'—',r.n.toLocaleString('en-US')]))}</article>`;
   const characteristics=rows.map(([k,r])=>[displaySegment[k],...['age65','women','belowPoverty','college','white'].map(i=>text(r.traits[i]))]);
   const access=rows.map(([k,r])=>[displaySegment[k],...['insulin','oral','injectables','usualPlace','unfilledRx'].map(i=>text(r.traits[i]))]);
-  return heading('Patient segments')+composition+
-    card('Who is in each segment?',`<p class="axis-unit">% within each coverage group · 2025</p>${dataTable(['Segment','Age 65+','Women','Below poverty threshold','Bachelor’s degree or higher','Non-Hispanic White'],characteristics)}`)+
-    card('Where treatment and access differ',`<p class="axis-unit">% within each coverage group · 2025</p>${dataTable(['Segment','Uses insulin','Takes glucose-lowering pills','Other injections¹','Usual place for care','Went without a prescription due to cost'],access)}`)+
-    lineChart(segmentHistory(data,scope))+sourcesFooter(data.sources,[...data.notes,'¹Other injections include medicines for lowering blood sugar or losing weight.']);
+  return composition+
+    card('Who is in each coverage group?',`<p class="axis-unit">% within group · 2025</p>${dataTable(['Coverage group','Age 65+','Women','Below poverty threshold','Bachelor’s degree or higher','Non-Hispanic White'],characteristics)}`)+
+    card('Treatment and access in the same groups',`<p class="axis-unit">% within group · 2025</p>${dataTable(['Coverage group','Uses insulin','Takes glucose-lowering pills','Other injections for glucose or weight','Usual place for care','Went without a prescription due to cost'],access)}`);
 }

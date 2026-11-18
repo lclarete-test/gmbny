@@ -250,9 +250,10 @@ export function marketAccounts() {
       financialTable('Underlying cause of death and the value of lost productivity, U.S. 2022', ['Underlying cause', 'Deaths', 'Loss'], data) +
       '</details></li>';
   }).join('');
-  return '<article class="panel market-accounts"><div class="ma-intro"><div><h2>The U.S. cost of diagnosed diabetes</h2>' +
-    '<p>Additional medical care and lost productivity across the United States in 2022.</p></div><strong class="ma-total">$412.9B</strong></div>' +
+  return '<article class="panel market-accounts"><div class="ma-intro"><div><h2>The economic cost of living with diagnosed diabetes</h2>' +
+    '<p>The ADA estimated the extra medical spending and lost productivity attributable to diabetes in the United States in 2022.</p></div><strong class="ma-total">$412.9B</strong></div>' +
     '<div class="ma-ruler" role="img" aria-label="Direct medical costs, 74%. Lost productivity, 26%."><i></i><i></i></div>' +
+    '<p class="ma-overlap">AHRQ measured <a href="#industry/market/treatment">$153.2B in annual treatment payments</a> in 2021–22. Some care appears in both estimates. The studies do not report how much of that $153.2B is included in the economic cost.</p>' +
     '<div class="ma-columns"><section class="ma-direct"><div class="ma-account-head"><span>Direct medical costs <small>74%</small></span><strong>$306.6B</strong></div>' +
     accounts.map(costBranch).join('') + '</section>' +
     '<section class="ma-indirect"><div class="ma-account-head"><span>Lost productivity <small>26%</small></span><strong>$106.3B</strong></div>' +

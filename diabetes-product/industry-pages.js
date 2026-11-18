@@ -1,5 +1,6 @@
 import {fdaTimeline,fdaSources,fdaNotes,fdaExportRows} from './fda-timeline.js';
 import {marketAccounts,marketAccountSources,marketAccountNotes,marketAccountRows} from './market-accounts.js';
+import {treatmentAccounts,treatmentAccountSources,treatmentAccountNotes,treatmentAccountRows} from './treatment-accounts.js';
 import {glucosePrices,glucosePriceSources,glucosePriceNotes,glucosePriceRows} from './glucose-prices.js';
 import {barList, dataTable, escapeHTML, lineChart, measures, sourcesFooter} from './charts.js';
 import {histories, links, milestones} from './evidence.js';
@@ -41,10 +42,6 @@ const ref = {
   nc: 'https://medicaid.ncdhhs.gov/5a-3-nursing-equipment-and-supplies/open'
 };
 
-const services = [
-  ['Prescribed medicines', 80.3], ['Office visits', 10.3], ['Home health', 5.0],
-  ['Inpatient stays', 2.4], ['Hospital outpatient visits', 1.7], ['Emergency visits', 0.3]
-];
 const firstDrugs = [
   ['Metformin', '76%', '64%'], ['GLP-1 therapies', '6%', '18%'],
   ['SGLT2 inhibitors', '4%', '7%'], ['Sulfonylureas', '4%', '2%'], ['DPP-4 inhibitors', '2%', '1%']
@@ -74,8 +71,6 @@ function explanatoryTable(headers, rows, label, format=escapeHTML) {
 }
 
 export function marketOverview() {
-  const spending = card('Where the treatment dollar goes',
-    `<div class="measure-call"><b>$153.2B</b><p>U.S. annual payments for care linked to diabetes, averaged across 2021–22. Of this, about <strong>$123.0 billion</strong> paid for prescribed medicines.</p></div>${barList(services)}<p class="reading">The $153.2 billion excludes care for complications and separately purchased medical equipment. The national economic estimate above also captures excess care for complications and productivity losses. Subtracting these two studies would mix years, populations and methods.</p>`);
   const prescribing = card('Which medicines people started',
     '<p class="industry-caption">Share of first glucose-lowering prescriptions in a U.S. claims study of adults with type 2 diabetes.</p>'+
     dataTable(['Drug family','Jan 2022','May 2023'],firstDrugs,'First-line use in adults with type 2 diabetes')+
@@ -83,8 +78,8 @@ export function marketOverview() {
   const drugSpending = card('Which medicines captured spending',
     '<p class="industry-caption">Share of U.S. glucose-lowering medication spending among adults with diabetes, 2022.</p>'+barList(drugDollars)+
     '<p class="reading">Newer noninsulin drugs include GLP-1, SGLT2 and DPP-4 therapies. Average annual drug spending per adult rose from $856 in 2000 to $3,725 in 2022, in constant 2022 dollars.</p>');
-  const brands = card('Prescriptions and spending in the same market',
-    '<p class="industry-caption">Selected drugs billed to Medicare Part D in 2023. Both columns cover the same payer and calendar year.</p>'+
+  const brands = card('Selected Medicare prescriptions in 2023',
+    '<p class="industry-caption">Medicare Part D fills and gross payments before rebates.</p>'+
     dataTable(['Drug','Prescription fills','Gross spending'],partDBrands.map(([name,fills,gross])=>[name,fills.toFixed(2)+'M','$'+gross.toFixed(2)+'B']))+
     '<p class="reading">Metformin filled about 31.2 million prescriptions for $628 million. Ozempic filled 6.93 million for $9.20 billion. People can fill more than one prescription in a year.</p>');
   const allowance = card('What Medicare allowed for CGM',
@@ -107,10 +102,9 @@ export function marketOverview() {
     '<p class="reading">These 2024 industry estimates count people using both technologies in each product total.</p>');
   const revenue = lineChart({...histories.devices, annual:true, title:'U.S. device sales at Dexcom and Insulet',
     note:'Dexcom then reported $969.8 million in U.S. revenue in Q3 2026, up from $851.9 million in Q3 2025.'});
-  return heading('U.S. diabetes market')+marketAccounts()+spending+pair(prescribing,drugSpending)+brands+glucosePrices()+
+  return heading('U.S. diabetes market')+marketAccounts()+treatmentAccounts()+pair(prescribing,drugSpending)+brands+glucosePrices()+
     pair(allowance,outOfPocket)+delivery+adoption+revenue+
-    sourcesFooter([...marketAccountSources, ...glucosePriceSources,
-      ['AHRQ · Diabetes treatment expenditure, 2021–22',ref.meps],
+    sourcesFooter([...marketAccountSources, ...treatmentAccountSources, ...glucosePriceSources,
       ['HHS · Hospital costs for lower-extremity amputation, table 6-3',ref.amputation],
       ['First-line glucose-lowering prescriptions in type 2 diabetes · Komodo claims, 2019–23',ref.first],
       ['Diabetes Care · U.S. glucose-lowering medication expenditure, 2000–22',ref.drugSpend],
@@ -124,8 +118,7 @@ export function marketOverview() {
       ['Dexcom · 2022 annual filing',links.dex22],['Dexcom · 2025 annual filing',links.dex25],
       ['Insulet · 2022 annual filing',links.omni22],['Insulet · 2024 annual filing',links.omni24],['Insulet · 2025 annual filing',links.omni25],
       ['Dexcom · U.S. Q3 2026 results',sources.dexrev.url]
-    ],[...marketAccountNotes, ...glucosePriceNotes,
-      'MEPS covers U.S. civilian noninstitutionalized adults age 18+. AHRQ averaged 26.3 million adults treated per year. It counted six categories of actual payments where diabetes was recorded as the reason for care or identified during care. AHRQ excluded care for diabetes complications, nursing home residents and the separate equipment and services category. The HHS hospital estimate uses 87,270 adult non-maternal discharges meeting the 2019 PQI 16 definition. The cost covers the hospital stay and uses a different year and population. The prescribed-medicine dollar estimate is 80.3% of $153.2 billion, rounded.',
+    ],[...marketAccountNotes, ...treatmentAccountNotes, ...glucosePriceNotes,
       'The first-prescription study followed 964,914 adults with type 2 diabetes across the full study period. Its GLP-1 category includes dual GIP/GLP-1 agonist tirzepatide. The five displayed classes are selected examples. The separate national spending study includes all diabetes types. Its newer group includes amylin analogs and certain combinations, and its older group includes metformin and sulfonylureas. Spending shares round to 99.9%.',
       'The Medicare Part D audit counted dispensing by selected drug, across covered indications. Gross spending includes ingredient cost and dispensing fees before rebates and other price concessions. These figures quantify Medicare Part D rather than the full U.S. drug market.',
       'Manufacturer prices were checked November 17, 2026. The Roche coupon has eligibility exclusions. Medicare figures cover fee-for-service claims for two FDA device classes. Household figures are actual patient payments for supplies in a separate commercially insured type 1 cohort in 2018. The three price sources cover different products, populations and periods.',
@@ -299,10 +292,7 @@ export function compareCatalog(ids) {
 
 export function industryExportRows() {
   const rows = [
-    ...marketAccountRows(), ...glucosePriceRows(), ...fdaExportRows(),
-    ...services.map(([name,v])=>['Industry','Diabetes-linked service payments',name,v,'% of annual treatment expenditure, 2021–22',ref.meps]),
-    ['Industry','Diabetes-linked treatment','All included services',153.2,'estimated annual USD billions, 2021–22',ref.meps],
-    ['Industry','Diabetes-linked treatment','Prescribed medicines',123.0,'calculated annual USD billions, 2021–22',ref.meps],
+    ...marketAccountRows(), ...treatmentAccountRows(), ...glucosePriceRows(), ...fdaExportRows(),
     ...firstDrugs.flatMap(([drug,first,last])=>[['Jan 2022',first],['May 2023',last]].map(([date,v])=>
       ['Industry','First glucose-lowering medicine, type 2',drug+' / '+date,parseFloat(v),'% of first prescriptions in claims cohort',ref.first])),
     ...drugDollars.map(([name,v])=>['Industry','Glucose-lowering expenditure',name,v,'% of medication spending, U.S. adults with diabetes, 2022',ref.drugSpend]),

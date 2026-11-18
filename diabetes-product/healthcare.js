@@ -11,7 +11,7 @@ const billions=v=>'$'+v.toFixed(1)+'B';
 function costAccounts(){
   const direct=[['Outpatient medicines and supplies',137.0],['Institutional care',105.8],['Outpatient care',63.7]];
   const lost=[['Reduced performance at work',35.8],['Premature mortality',32.4],['Disability-related loss of employment',28.3],['Work absences',5.4],['Productivity lost outside paid work',4.4]];
-  return `<article class="panel cost-accounts"><div class="section-top"><h2>The economic cost of diagnosed diabetes</h2><span class="axis-unit">United States · 2022</span></div><div class="cost-total"><strong>$412.9B</strong><span>medical costs and lost productivity</span></div>
+  return `<article class="panel cost-accounts"><div class="section-top"><h2>The economic cost of living with diagnosed diabetes</h2><span class="axis-unit">United States · 2022</span></div><div class="cost-total"><strong>$412.9B</strong><span>medical costs and lost productivity</span></div>
     <div class="cost-split" aria-hidden="true"><i></i><i></i></div>
     <div class="account-grid"><section><h3><b>$306.6B</b> Direct medical costs</h3>${barList(direct,{max:140,format:billions})}</section>
     <section><h3><b>$106.3B</b> Lost productivity</h3>${barList(lost,{max:140,format:billions,color:'#13796f'})}</section></div>
@@ -22,8 +22,8 @@ const servicesPaid=[
 ];
 function treatmentSpending(){
   const payers=[['Medicare',41],['Private insurance',32],['Medicaid',17.2],['Out of pocket',6.2],['Other payers',3.5]];
-  return card('Who paid for diabetes treatment?',`<div class="measure-call"><b>$153.2B</b><p>in average annual U.S. payments for care and prescriptions tied to treating diabetes in 2021–22. AHRQ followed 26.3 million community-dwelling adults treated per year. This survey excludes care for complications and separately purchased medical equipment. The ADA total also includes excess medical costs linked to complications and lost productivity.</p></div>
-    ${dataTable(['Source of payment','Share of treatment payments','Approx. paid per year'],payers.map(([k,v])=>[k,v.toFixed(1)+'%',billions(153.2*v/100)]))}`);
+  return card('Who paid for diabetes treatment?',`<div class="measure-call"><b>$153.2B</b><p>in average annual U.S. payments for care and prescriptions tied to treating diabetes in 2021–22. AHRQ followed 26.3 million community-dwelling adults treated per year. Pharmacy payments include some diabetes supplies. Spending on complications and purchases recorded solely as medical equipment fall outside this estimate.</p></div>
+    ${dataTable(['Source of payment','Share of treatment payments','Approx. paid per year'],payers.map(([k,v])=>[k,v.toFixed(1)+'%',billions(153.2*v/100)]))}<a class="chapter-next" href="#industry/market/treatment">Explore the six treatment services and their costs →</a>`);
 }
 function servicePayments(){
   return card('What people used specifically to treat diabetes',`<p class="axis-unit">U.S. adults treated for diabetes, all types · average year, 2021–22</p>${dataTable(['Service','Share of treated adults using it','Mean paid per service user in a year'],servicesPaid.map(([k,v,c])=>[k,v.toFixed(1)+'%','$'+c.toLocaleString('en-US')]))}<p class="reading">Across all treated adults, annual payments averaged $5,810. The median was $1,770.</p>`);

@@ -7,11 +7,13 @@ import {epidemiology,comparisonHistory} from './epidemiology.js';
 import {introduction,biology,clinicalProfile,amputationHistory,crisisHistory} from './clinical.js';
 import {healthcare,medicaidTrend} from './healthcare.js';
 import {cgmHistory,cgmMedicare} from './audience.js';
-import {patientProfile,patientSegments,treatmentPage,populationHistory,segmentHistory} from './patient-research.js';
+import {patientProfile,treatmentPage,populationHistory,segmentHistory} from './patient-research.js';
 import {patientJourney} from './patient-journey.js';
 import {patientRoutines} from './patient-routines.js';
-import {caregiverProfile,caregiverSegments,caregiverJourney,caregiverRoutine,caregiverQuestions} from './caregiver-pages.js';
-import {hcpProfile,hcpSegments,hcpJourney,hcpRelationship,organizations,patientQuestions} from './professionals.js';
+import {caregiverProfile,caregiverJourney,caregiverQuestions} from './caregiver-pages.js';
+import {hcpProfile,hcpJourney,hcpRelationship,patientQuestions} from './professionals.js';
+import {physicianRows} from './physician-workforce.js';
+import {organizationsPage,orgExportRows} from './organizations.js';
 import {publicOverview,searchInterest,voices,publicSearchHistories} from './public-discussion.js';
 import {marketOverview,productEvolution,policyPage,catalogPage,compareCatalog,catalogProducts,industryExportRows} from './industry-pages.js';
 import {searchHistory} from './market-signals.js';
@@ -19,21 +21,32 @@ import {stateNames} from './map-data.js';
 import {painProfile} from './patient-pain.js';
 
 const $=id=>document.getElementById(id);
-const view={state:null,period:2000,costMode:0,costState:null,patientScope:'Type 2',profileMetric:'Population',segmentScope:'All diagnosed',treatmentScope:'Type 2',painScope:'Type 2',search:'',deviceType:'all',category:'all',selected:new Set(),theme:'types',voiceRole:'all'};
+const view={state:null,period:2000,costMode:0,costState:null,patientScope:'Type 2',profileMetric:'Population',treatmentScope:'Type 2',painScope:'Type 2',search:'',deviceType:'all',category:'all',selected:new Set(),theme:'types',voiceRole:'all'};
 const science=[['intro','Introduction'],['biology','Diabetes biology'],['epidemiology','Epidemiology'],['clinical','Clinical profile']];
 const system=[['healthcare','Costs and care use'],['healthcare/public','Public coverage'],['healthcare/private','Private insurance'],['healthcare/policy','Public policy']];
 const audiences=[['patients/profile','Patients'],['caregivers/profile','Caregivers'],['hcp/profile','Healthcare professionals'],['organizations','Organizations']];
 const discussion=[['discussion','Public discussion'],['discussion/search','Search interest'],['discussion/voices','Public voices']];
 const industry=[['industry/market','Market overview'],['industry/companies','Treatment evolution'],['industry/products','Devices and products']];
 const sections={
-  patients:[['profile','Profile'],['segments','Segments'],['journey','Journey'],['routine','Care routine'],['treatment','Treatment and technology'],['pain','Pain map'],['questions','Questions']],
-  caregivers:[['profile','Profile'],['segments','Segments'],['journey','Journey'],['routine','Care routine'],['questions','Questions']],
-  hcp:[['profile','Profile'],['segments','Segments'],['journey','Journey'],['relationship','Patient relationship']]
+  patients:[['profile','Profile'],['journey','Journey'],['routine','Care routine'],['treatment','Treatment and technology'],['pain','Pain map'],['questions','Questions']],
+  caregivers:[['profile','Profile'],['journey','Journey'],['questions','Questions']],
+  hcp:[['profile','Profile'],['journey','Journey'],['relationship','Patient relationship']]
 };
-const aliases={overview:'epidemiology',people:'patients/profile',family:'caregivers/profile',journey:'patients/journey',personas:'patients/segments','patients/personas':'patients/segments','caregivers/personas':'caregivers/segments',life:'patients/routine',products:'industry/products',industry:'industry/market',market:'industry/market',online:'discussion/search',influencers:'discussion/voices','signals/search':'discussion/search','signals/pain':'patients/pain','signals/voices':'discussion/voices','public/online':'discussion/search','public/influencers':'discussion/voices','public/profile':'discussion','public/questions':'discussion/search',introduction:'intro',patients:'patients/profile',caregivers:'caregivers/profile',hcp:'hcp/profile',public:'discussion',policy:'healthcare/policy','epidemiology/clinical':'clinical'};
+const mergedSections={
+  'patients/segments':['patients/profile','patient-coverage'],
+  'patients/personas':['patients/profile','patient-coverage'],
+  personas:['patients/profile','patient-coverage'],
+  'caregivers/segments':['caregivers/profile','caregiver-hours'],
+  'caregivers/personas':['caregivers/profile','caregiver-hours'],
+  'caregivers/routine':['caregivers/profile','caregiver-daily'],
+  'hcp/segments':['hcp/profile','educator-background'],
+  'industry/market/treatment':['industry/market','treatment-payments'],
+  'industry/market/labs':['industry/market','glucose-prices']
+};
+const aliases={overview:'epidemiology',people:'patients/profile',family:'caregivers/profile',journey:'patients/journey',life:'patients/routine',products:'industry/products',industry:'industry/market',market:'industry/market',online:'discussion/search',influencers:'discussion/voices','signals/search':'discussion/search','signals/pain':'patients/pain','signals/voices':'discussion/voices','public/online':'discussion/search','public/influencers':'discussion/voices','public/profile':'discussion','public/questions':'discussion/search',introduction:'intro',patients:'patients/profile',caregivers:'caregivers/profile',hcp:'hcp/profile',public:'discussion',policy:'healthcare/policy','epidemiology/clinical':'clinical'};
 const main=$('main-content'),data={},requests=new Map();
 let route='',generation=0;
-const assetPaths={svg:'us-map.svg',states:'data/state-series.json',profiles:'data/state-profile.json',nhis:'data/nhis.json',coverage:'data/coverage.json',segments:'data/coverage-segments.json'};
+const assetPaths={svg:'us-map.svg',states:'data/state-series.json',profiles:'data/state-profile.json',nhis:'data/nhis.json',coverage:'data/coverage.json',segments:'data/coverage-segments.json',caregivers:'data/caregiver-profile.json'};
 async function loadData(keys=Object.keys(assetPaths)){
   await Promise.all(keys.map(key=>{
     if(data[key])return;
@@ -51,11 +64,11 @@ async function loadData(keys=Object.keys(assetPaths)){
 const pages={
   intro:[introduction],biology:[biology],epidemiology:[()=>epidemiology(data,view),'svg','states','profiles','nhis'],clinical:[()=>clinicalProfile(data.nhis),'nhis'],
   healthcare:[()=>healthcare(data,view),'svg','coverage'],'healthcare/public':[publicCoverage],'healthcare/private':[privateCoverage],'healthcare/policy':[policyPage],audience:[ecosystemPage],
-  'patients/profile':[()=>patientProfile(data.nhis,view),'nhis'],'patients/segments':[()=>patientSegments(data.segments,view.segmentScope),'segments'],
+  'patients/profile':[()=>patientProfile(data.nhis,data.segments,view),'nhis','segments'],
   'patients/journey':[()=>patientJourney(data.nhis),'nhis'],'patients/routine':[()=>patientRoutines(data.nhis),'nhis'],
   'patients/treatment':[()=>treatmentPage(data.nhis,view.treatmentScope),'nhis'],'patients/pain':[()=>painProfile(view.painScope)],'patients/questions':[patientQuestions],
-  'caregivers/profile':[caregiverProfile],'caregivers/segments':[caregiverSegments],'caregivers/journey':[caregiverJourney],'caregivers/routine':[caregiverRoutine],'caregivers/questions':[caregiverQuestions],
-  'hcp/profile':[hcpProfile],'hcp/segments':[hcpSegments],'hcp/journey':[hcpJourney],'hcp/relationship':[hcpRelationship],organizations:[organizations],
+  'caregivers/profile':[caregiverProfile],'caregivers/journey':[caregiverJourney],'caregivers/questions':[caregiverQuestions],
+  'hcp/profile':[hcpProfile],'hcp/journey':[hcpJourney],'hcp/relationship':[hcpRelationship],organizations:[organizationsPage],
   discussion:[publicOverview],'discussion/search':[()=>searchInterest(view.theme)],'discussion/voices':[()=>voices(view.voiceRole)],
   'industry/market':[marketOverview],'industry/companies':[productEvolution],'industry/products':[()=>catalogPage(view)]
 };
@@ -69,7 +82,10 @@ function navigation(){
   const childLinks=prefix=>(sections[prefix]||[]).map(([slug,name])=>[prefix+'/'+slug,name]);
   const audienceHtml=audiences.map(([path,name])=>{
     const prefix=path.split('/')[0],active=prefix===family;
-    return navLink(path,name,active)+(active&&sections[prefix]?`<div class="audience-pages">${linksFrom(childLinks(prefix).slice(1))}</div>`:'');
+    if(active&&sections[prefix]){
+      return `<a href="#${path}" class="in-section">${name}</a><div class="audience-pages">${linksFrom(childLinks(prefix))}</div>`;
+    }
+    return navLink(path,name);
   }).join('');
   $('navigation').innerHTML=linksFrom(science)+group('Healthcare system',linksFrom(system))+group('Audience',audienceHtml,'audience')+
     group('Public discussion',linksFrom([['discussion','Knowledge and campaigns'],...discussion.slice(1)]))+
@@ -93,9 +109,10 @@ async function activateRoute(){
   if(location.hash==='#main-content'){main.focus();return;}
   let raw;
   try{raw=decodeURIComponent(location.hash.slice(1))}catch{raw=''}
-  route=aliases[raw]||raw||'intro';
+  const merged=Object.hasOwn(mergedSections,raw)?mergedSections[raw]:null;
+  route=merged?.[0]||aliases[raw]||raw||'intro';
   if(!Object.hasOwn(pages,route))route='intro';
-  if(raw&&raw!==route)history.replaceState(null,'','#'+route);
+  if(raw&&raw!==route&&!(merged&&route==='industry/market'))history.replaceState(null,'','#'+route);
   const request=++generation;
   navigation();
   const needed=pages[route].slice(1);
@@ -103,7 +120,9 @@ async function activateRoute(){
   try{
     await loadData(needed);
     if(request!==generation)return;
-    render();window.scrollTo(0,0);
+    render();
+    const section=merged&&document.getElementById(merged[1]);
+    if(section)section.scrollIntoView({behavior:'instant'});else window.scrollTo(0,0);
   }catch(error){
     if(request!==generation)return;
     main.innerHTML='<h1>Research data could not load</h1><button type="button" data-retry>Retry</button>';
@@ -146,7 +165,7 @@ document.addEventListener('click',e=>{
   if(d.costMode!==undefined){selection(()=>{view.costMode=Number(d.costMode)},t);return;}
   if(d.period){view.period=Number(d.period);render();return;}
   if(d.cohort){
-    if(['patientScope','segmentScope','treatmentScope','painScope'].includes(d.cohort)&&['Type 1','Type 2','All diagnosed','Prediabetes only'].includes(d.value)){
+    if(['patientScope','treatmentScope','painScope'].includes(d.cohort)&&['Type 1','Type 2','All diagnosed','Prediabetes only'].includes(d.value)){
       view[d.cohort]=d.value;render();main.querySelector('[data-cohort="'+d.cohort+'"][aria-pressed="true"]')?.focus({preventScroll:true});
     }
     return;
@@ -202,7 +221,16 @@ async function exportData(){
     for(const key of seg.order)for(const [trait,v] of Object.entries(seg.segments[key].traits))rows.push(['Within coverage segment · '+scope,data.segments.segmentLabels[key],data.segments.traitLabels[trait],v,'% · 2025',links.nhis]);
   }
   for(const [name,...values] of data.nhis.clinical)values.forEach((value,i)=>rows.push(['Clinical profile',name,['All diagnosed','Type 1','Type 2','Prediabetes only','No reported diabetes or prediabetes'][i],value,'% · NHIS 2025',links.nhis]));
-  rows.push(...industryExportRows(), ...payerRows());
+  const caregiverSource='https://www.cdc.gov/brfss/annual_data/annual_2025.html';
+  const caregiverUnit='% of caregivers with valid responses in 31 states, BRFSS 2025';
+  for(const [measure,item] of Object.entries(data.caregivers.rows)){
+    for(const estimate of item.estimates)rows.push(['Caregiver profile',measure,estimate.label,estimate.pct,caregiverUnit,caregiverSource]);
+  }
+  const hourGroups=data.caregivers.rows.hours.estimates;
+  data.caregivers.hoursSubgroups.forEach((group,index)=>{
+    for(const [measure,estimate] of Object.entries(group))rows.push(['Caregiver profile by weekly hours',measure,hourGroups[index].label,estimate.p,caregiverUnit,caregiverSource]);
+  });
+  rows.push(...industryExportRows(),...payerRows(),...physicianRows(),...orgExportRows());
   const pageSource=location.href;
   main.querySelectorAll('article table').forEach(table=>{
     const title=table.closest('article')?.querySelector('h2')?.textContent||document.title;

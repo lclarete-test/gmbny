@@ -1,35 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 986 384" width="986" height="384" role="img" aria-labelledby="fig-title fig-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 986 366" width="986" height="366" role="img" aria-labelledby="fig-title fig-desc">
 <title id="fig-title">People with diabetes and the people caring for them</title>
-<desc id="fig-desc">40.1 million U.S. people had diabetes in 2023. About 2.4 million family caregivers in the 2025 national report supported an adult mainly because of diabetes. In the 2025 caregiver module in 31 states, 60.7% were female, 79.1% did household tasks and 34.2% gave nursing or medical help.</desc>
+<desc id="fig-desc">In 2023, 40.1 million U.S. people lived with diabetes. In the 2025 national caregiving report, 4% of U.S. family caregivers of adults, about 2.4 million people, cited diabetes as the main reason for care. In a separate 2025 survey of caregivers in 31 states, 60.7% were female, 79.1% helped with household tasks, 34.2% helped with nursing or medical tasks, 33.3% had given care for at least five years, and 21.6% reported poor mental health on at least 14 of the past 30 days.</desc>
 <defs><style>text{font-family:Arial,'Liberation Sans',sans-serif;font-variant-numeric:tabular-nums}</style></defs>
-<rect width="986" height="384" fill="#ffffff"/>
-<circle cx="196" cy="183" r="141" fill="#f4f1fb" stroke="#c9c0e2" stroke-width="1.6"/>
-<circle cx="196" cy="183" r="85" fill="#ffffff" stroke="#9e8cc3" stroke-width="1.8"/>
-<g transform="translate(180 141) scale(1.0000)" color="#58469c" stroke="#58469c" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="9" r="4.7"/><path d="M6 28v-3a10 10 0 0 1 20 0v3"/></g>
-<text x="196" y="205" font-size="34" font-weight="700" fill="#242641" text-anchor="middle">40.1M</text>
-<text x="196" y="228" font-size="16" font-weight="550" fill="#515a72" text-anchor="middle">with diabetes¹</text>
-<text x="196" y="82" font-size="17" font-weight="620" fill="#58469c" text-anchor="middle">Family care</text>
-<circle cx="326" cy="126" r="3.4" fill="#58469c" stroke="none" stroke-width="1"/>
-<path d="M326 126 H369 Q378 126 386 118 L401 103 H424" fill="none" stroke="#58469c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="437" y="91" font-size="38" font-weight="700" fill="#58469c" text-anchor="start">≈2.4M</text>
-<text x="437" y="121" font-size="17" font-weight="400" fill="#242641" text-anchor="start">family caregivers whose main</text>
-<text x="437" y="145" font-size="17" font-weight="400" fill="#242641" text-anchor="start">recipient needed help chiefly</text>
-<text x="437" y="169" font-size="17" font-weight="400" fill="#242641" text-anchor="start">because of diabetes.²</text>
-<path d="M751 70 L751 306" fill="none" stroke="#dcdde6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="783" y="91" font-size="16" font-weight="600" fill="#515a72" text-anchor="start">Caregivers in 31 states</text>
-<circle cx="795" cy="132" r="16" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
-<g transform="translate(785.72 122.72) scale(0.5800)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="9" r="4.7"/><path d="M6 28v-3a10 10 0 0 1 20 0v3"/></g>
-<text x="822" y="136" font-size="24" font-weight="700" fill="#242641" text-anchor="start">60.7%</text>
-<text x="783" y="165" font-size="15" font-weight="450" fill="#515a72" text-anchor="start">were female</text>
-<circle cx="795" cy="204" r="16" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
-<g transform="translate(785.72 194.72) scale(0.5800)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 15 16 4l13.5 11M6 13v15h20V13M13 28v-9h6v9"/></g>
-<text x="822" y="208" font-size="24" font-weight="700" fill="#242641" text-anchor="start">79.1%</text>
-<text x="783" y="237" font-size="15" font-weight="450" fill="#515a72" text-anchor="start">gave household help</text>
-<circle cx="795" cy="276" r="16" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
-<g transform="translate(785.72 266.72) scale(0.5800)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="9" width="25" height="19" rx="3"/><path d="M11 9V5h10v4M11 18h10m-5-5v10"/></g>
-<text x="822" y="280" font-size="24" font-weight="700" fill="#242641" text-anchor="start">34.2%</text>
-<text x="783" y="309" font-size="15" font-weight="450" fill="#515a72" text-anchor="start">gave medical help</text>
-<path d="M25 326 L961 326" fill="none" stroke="#dcdde6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="25" y="349" font-size="14.3" font-weight="400" fill="#515a72" text-anchor="start">¹ U.S. people of all ages, diagnosed or undiagnosed diabetes in 2023.     ² U.S. caregivers of adults, 2025 report.</text>
-<text x="25" y="371" font-size="14.3" font-weight="400" fill="#515a72" text-anchor="start">Rings show a care relationship. The two counts describe different populations. Caregiver percentages come from a separate 2025 survey.</text>
+<rect width="986" height="366" fill="#ffffff"/>
+<circle cx="151" cy="177" r="122" fill="#f4f1fb" stroke="#c9c0e2" stroke-width="1.5"/>
+<circle cx="151" cy="177" r="79" fill="#fff" stroke="#9e8cc3" stroke-width="1.65"/>
+<text x="151" y="91" font-size="17" font-weight="650" fill="#58469c" text-anchor="middle" id="label-1">Family care</text>
+<g transform="translate(137 130) scale(0.8750)" color="#58469c" stroke="#58469c" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="9" r="4.7"/><path d="M6 28v-3a10 10 0 0 1 20 0v3"/></g>
+<text x="151" y="181" font-size="33" font-weight="700" fill="#242641" text-anchor="middle" id="label-2">40.1M</text>
+<text x="151" y="205" font-size="16" font-weight="550" fill="#515a72" text-anchor="middle" id="label-3">with diabetes</text>
+<text x="151" y="225" font-size="14" font-weight="450" fill="#515a72" text-anchor="middle" id="label-4">U.S. · 2023</text>
+<path d="M263 129 H279 Q285 129 290 123 L303 110 H317" fill="none" stroke="#58469c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="263" cy="129" r="3.1" fill="#58469c" stroke="none" stroke-width="1"/>
+<text x="327" y="105" font-size="38" font-weight="700" fill="#58469c" text-anchor="start" id="label-5">≈2.4M</text>
+<text x="327" y="135" font-size="17.2" font-weight="480" fill="#242641" text-anchor="start" id="label-6">family caregivers helped</text>
+<text x="327" y="158" font-size="17.2" font-weight="480" fill="#242641" text-anchor="start" id="label-7">an adult mainly because</text>
+<text x="327" y="181" font-size="17.2" font-weight="480" fill="#242641" text-anchor="start" id="label-8">of diabetes.</text>
+<text x="327" y="247" font-size="32" font-weight="700" fill="#58469c" text-anchor="start" id="label-9">4%</text>
+<text x="327" y="272.0" font-size="15.3" font-weight="450" fill="#515a72" text-anchor="start" id="label-10">of U.S. family caregivers of adults</text>
+<text x="327" y="292.5" font-size="15.3" font-weight="450" fill="#515a72" text-anchor="start" id="label-11">in the 2025 national report</text>
+<path d="M575 38 L575 329" fill="none" stroke="#dcdde6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="600" y="56" font-size="19" font-weight="640" fill="#242641" text-anchor="start" id="label-12">Caregivers in 31 states · 2025</text>
+<circle cx="617" cy="101.0" r="14.5" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(608.59 92.59) scale(0.5256)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="9" r="4.7"/><path d="M6 28v-3a10 10 0 0 1 20 0v3"/></g>
+<text x="644" y="108.8" font-size="25" font-weight="675" fill="#242641" text-anchor="start" id="label-13">60.7%</text>
+<text x="738" y="106.056" font-size="15.8" font-weight="450" fill="#515a72" text-anchor="start" id="label-14">were female</text>
+<circle cx="617" cy="153.5" r="14.5" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(608.59 145.09) scale(0.5256)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 15 16 4l13.5 11M6 13v15h20V13M13 28v-9h6v9"/></g>
+<text x="644" y="161.3" font-size="25" font-weight="675" fill="#242641" text-anchor="start" id="label-15">79.1%</text>
+<text x="738" y="158.556" font-size="15.8" font-weight="450" fill="#515a72" text-anchor="start" id="label-16">helped with household tasks</text>
+<circle cx="617" cy="206.0" r="14.5" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(608.59 197.59) scale(0.5256)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="9" width="25" height="19" rx="3"/><path d="M11 9V5h10v4M11 18h10m-5-5v10"/></g>
+<text x="644" y="213.8" font-size="25" font-weight="675" fill="#242641" text-anchor="start" id="label-17">34.2%</text>
+<text x="738" y="201.806" font-size="15.8" font-weight="450" fill="#515a72" text-anchor="start" id="label-18">helped with nursing</text>
+<text x="738" y="220.306" font-size="15.8" font-weight="450" fill="#515a72" text-anchor="start" id="label-19">or medical tasks</text>
+<circle cx="617" cy="258.5" r="14.5" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(608.59 250.09) scale(0.5256)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="26" height="22" rx="2.5"/><path d="M9 3v7m14-7v7M3 13h26m-18 8 3 3 6-7"/></g>
+<text x="644" y="266.3" font-size="25" font-weight="675" fill="#242641" text-anchor="start" id="label-20">33.3%</text>
+<text x="738" y="254.30599999999998" font-size="15.8" font-weight="450" fill="#515a72" text-anchor="start" id="label-21">had given care for</text>
+<text x="738" y="272.806" font-size="15.8" font-weight="450" fill="#515a72" text-anchor="start" id="label-22">at least 5 years</text>
+<circle cx="617" cy="311.0" r="14.5" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(608.59 302.59) scale(0.5256)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M10 28v-6c-4-2-6-5-6-9C4 6 9 3 15 3c7 0 10 4 10 10l3 5h-4v6h-7v4"/><path d="M10 14h3l2-5 2.5 7 1.5-3H21"/></g>
+<text x="644" y="318.8" font-size="25" font-weight="675" fill="#242641" text-anchor="start" id="label-23">21.6%</text>
+<text x="738" y="306.806" font-size="15.8" font-weight="450" fill="#515a72" text-anchor="start" id="label-24">reported poor mental health on</text>
+<text x="738" y="325.306" font-size="15.8" font-weight="450" fill="#515a72" text-anchor="start" id="label-25">at least 14 of the past 30 days</text>
 </svg>

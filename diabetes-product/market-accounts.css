@@ -81,3 +81,6 @@
 @media print {
   .market-accounts .ma-columns { grid-template-columns:1fr; }
 }
+
+.ma-overlap {max-width:84ch;margin:0 0 18px;color:#465267;font-size:14px;line-height:1.5;}
+.ma-overlap a {color:#493b91;text-underline-offset:3px;font-weight:650;}

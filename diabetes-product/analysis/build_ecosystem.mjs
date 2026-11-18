@@ -21,7 +21,7 @@ const symbols={
 const copy={
   caregivers:{short:'Family caregivers',lines:['Adult care mainly for diabetes','2025 national report'],mobile:['adult care mainly','for diabetes · 2025']},
   clinicians:{short:'Clinicians & educators',lines:['U.S. board-certified endocrine','subspecialists · 2026'],mobile:['U.S. endocrine','subspecialists · 2026']},
-  organizations:{short:'Patient organizations',lines:['ADA-recognized education sites','2025 annual report'],mobile:['ADA education sites','recognized · 2025']},
+  organizations:{short:'Diabetes nonprofits',lines:['U.S. nonprofits with diabetes-related names','IRS registry · 2026'],mobile:['diabetes-related names','IRS registry · 2026']},
   media:{short:'Media & peer voices',lines:['Campaign risk tests completed','by March 2026'],mobile:['campaign risk tests','by March 2026']},
   payers:{short:'Insurance plans',lines:['Medicare / private share of diabetes','treatment payments · 2021–22'],mobile:['Medicare / private','treatment $ · 2021–22']},
   fda:{short:'FDA',lines:['Connected devices reviewed','2018 to October 2026'],mobile:['on selected devices','2018 to Oct 2026']},
