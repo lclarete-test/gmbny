@@ -190,3 +190,5 @@ export function treatmentAccountRows() {
   }
   return rows.concat(treatmentDrugRows());
 }
+
+export {services as treatmentServiceProfile};

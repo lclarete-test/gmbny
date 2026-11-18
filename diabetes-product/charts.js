@@ -276,7 +276,7 @@ function draw(el, d, width) {
     let joined = false;
     values.forEach((value,i) => {
       if (!Number.isFinite(value)) { joined = false; return; }
-      path.push((joined && !d.breakAt?.includes(i) ? 'L' : 'M') + x(i).toFixed(2) + ' ' + y(value).toFixed(2));
+      path.push((joined && !d.breakAt?.includes(i) && !d.seriesBreakAt?.[s]?.includes(i) ? 'L' : 'M') + x(i).toFixed(2) + ' ' + y(value).toFixed(2));
       joined = true;
       dots.push(`<circle cx="${x(i)}" cy="${y(value)}" r="${n>15?2.5:3.4}" fill="${color}"/>`);
     });

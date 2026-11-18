@@ -7,6 +7,7 @@ import {links} from './evidence.js';
 const publications = {
   ada:['American Diabetes Association · Diagnosis and classification · Diabetes Care, 2026','https://doi.org/10.2337/dc26-S002'],
   insulin:['Petersen and Shulman · How insulin acts in muscle, liver and fat · Physiological Reviews, 2018','https://doi.org/10.1152/physrev.00063.2017'],
+  tracer:['Meyer and colleagues · Glucose uptake and release after a glucose drink · American Journal of Physiology, 2002','https://pubmed.ncbi.nlm.nih.gov/11788375/'],
   type1:['DiMeglio, Evans-Molina and Oram · Type 1 diabetes · The Lancet, 2018','https://doi.org/10.1016/S0140-6736(18)31320-5'],
   gestational:['Vounzoulaki and colleagues · Type 2 diabetes after gestational diabetes · BMJ, 2020','https://doi.org/10.1136/bmj.m1361'],
   organs:['Forbes and Cooper · Mechanisms of diabetic complications · Physiological Reviews, 2013','https://doi.org/10.1152/physrev.00045.2011'],
@@ -31,7 +32,8 @@ export const amputationHistory={
 export const crisisHistory={
   title:'Emergency care for severe hyperglycemia by diabetes type',unit:'Events per 1,000 person-years · U.S. commercial and Medicare Advantage cohort',format:'rate',digits:2,
   labels:[2014,2015,2016,2017,2018,2019,2020],series:[['Type 1',[43.30,49.07,49.80,53.92,56.77,61.36,46.27]],['Type 2',[4.27,3.77,3.81,3.95,4.02,4.29,4.12]]],
-  source:'https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2783670'
+  source:'https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2783670',
+  note:'Severe insulin deficiency can lead to a buildup of acidic ketones. Very high glucose can also cause profound dehydration. The rates count emergency visits and hospital stays for these acute crises.'
 };
 
 export function introduction(){
@@ -70,6 +72,30 @@ export function introduction(){
     ]);
 }
 
+function glucoseRegulation(){
+  return `<section class="panel cs-regulation" aria-labelledby="cs-regulation-heading">
+    <h2 id="cs-regulation-heading">Why glucose can rise before breakfast</h2>
+    <p class="cs-reg-lead">Even after a night without food, the liver supplies glucose to the blood. Blood glucose rises whenever it enters the bloodstream faster than tissues can use or store it.</p>
+    <div class="cs-reg-grid">
+      <dl class="cs-glucose-cycle">
+        <div><dt>Between meals</dt><dd>As insulin levels fall, another pancreatic hormone, glucagon, signals the liver to release glucose. This keeps fuel available for the brain and other tissues.</dd></div>
+        <div><dt>After eating</dt><dd>Glucose absorbed from food prompts the pancreas to release insulin. Muscle takes up more glucose, and the liver slows its own glucose production.</dd></div>
+      </dl>
+      <figure class="cs-tracer">
+        <figcaption>What changed after a glucose drink?</figcaption>
+        <p>Researchers traced a 75 g dose of glucose for 4.5 hours in 10 adults without diabetes.</p>
+        <dl><div><dt>Glucose taken up by skeletal muscle</dt><dd>19 g</dd></div>
+          <div><dt>Fall in the liver’s glucose output from its fasting level</dt><dd>82%</dd></div></dl>
+      </figure>
+    </div>
+    <dl class="cs-response-types">
+      <div><dt>Type 1 diabetes</dt><dd>The immune system destroys insulin-producing beta cells. As insulin runs short, muscle takes up less glucose and the liver can keep releasing it.</dd></div>
+      <div><dt>Type 2 diabetes</dt><dd>Muscle and liver often respond less to insulin. Glucose rises when the pancreas can no longer make enough insulin to compensate.</dd></div>
+      <div><dt>Prediabetes</dt><dd>Blood tests show an intermediate glucose range. Some people return to a lower range and others develop type 2 diabetes.</dd></div>
+    </dl>
+  </section>`;
+}
+
 function labThresholds(){
   return `<section class="panel cs-labs"><h2>What a blood test can show</h2>
     <p>A fasting glucose test captures one moment. A1C reflects average glucose over about three months. A glucose tolerance test measures the response to a measured glucose drink.</p>
@@ -86,26 +112,31 @@ function diagnosedConditions(nhis) {
   if(!nhis?.clinical?.length)return '';
   const rows=nhis.clinical.map(([condition,...values])=>[condition,...values.map(n=>n==null?'—':n.toFixed(1)+'%')]);
   return `<article class="panel cs-comorbid" id="clinical-findings"><h2>Which conditions occur together?</h2>
-    <p>Blood pressure and cholesterol diagnoses were common across both diabetes types. The survey also captures conditions that can complicate daily care, including arthritis and lung disease.</p>
+    <p>High blood pressure can precede diabetes and raise the risk of heart and kidney disease in its own right. The same person can appear in several rows if they reported more than one condition.</p>
     <p class="axis-unit">U.S. adults, 2025 · percentage within each group who reported a prior diagnosis</p>
     ${dataTable(['Condition','All diagnosed diabetes','Type 1 diabetes','Type 2 diabetes','Prediabetes only','No reported diabetes or prediabetes'],rows,'Co-occurring diagnoses among U.S. adults, 2025')}</article>`;
 }
 
 export function clinicalProfile(nhis){
-  const kidneys=`<article class="panel cs-organ"><h2>Kidney disease across glucose groups</h2><p class="axis-unit">U.S. adults, 2021–23 · stage 1 to 4 chronic kidney disease</p>${barList([['Type 1 diabetes',49],['Type 2 diabetes',41],['Prediabetes',11]],{max:55,format:v=>v+'%',color:'#4f59a3'})}
+  const kidneys=`<article class="panel cs-organ"><h2>Kidney disease across glucose groups</h2><p class="axis-unit">U.S. adults aged 18+ · 2021–23 · share of each group with stage 1 to 4 chronic kidney disease</p>${barList([['Type 1 diabetes',49],['Type 2 diabetes',41],['Prediabetes',11]],{max:55,format:v=>v+'%',color:'#4f59a3',context:'U.S. adults aged 18+ in this glucose group with stage 1 to 4 chronic kidney disease, 2021–23'})}
     <p class="reading">Among adults with diagnosed diabetes and stage 3 or 4 kidney disease, only 33.8% knew they had kidney disease.</p></article>`;
   const eyes=`<article class="panel cs-organ"><h2>When retinal damage threatens sight</h2><div class="cs-trial-result"><strong>1.84 million</strong><span>U.S. people had vision-threatening diabetic retinopathy in 2021. That was 5.06% of everyone with diabetes.</span></div>
     <p class="reading">Severe sight loss can have other causes, too. In 2023, 12.3% of U.S. adults with diagnosed diabetes reported blindness or serious difficulty seeing even with glasses.</p></article>`;
-  return heading('Biology and clinical profile')+
-    `<section class="panel cs-body"><h2>How glucose regulation connects to organ health</h2>
+  return `<header class="pagehead"><h1>Biology and clinical profile</h1><p class="cs-chapter-lead">Diabetes is a group of conditions in which blood glucose stays high because the body has too little insulin, responds poorly to it, or both. Insulin normally helps muscle take up glucose and signals the liver to release less. Understanding that balance helps explain both a high morning reading and the damage that can build up in the eyes, kidneys and nerves over years.</p></header>`+glucoseRegulation()+
+    `<section class="panel cs-body"><h2>How diabetes affects the organs</h2>
+      <p class="cs-organ-lead">Over years, elevated glucose can injure small blood vessels and nerves. The purple labels identify organs that regulate glucose. The red labels show how often selected conditions or hospital events occur in people with diabetes.</p>
       <div class="cs-anatomy-layout">${wholeBodyFigure()}
-      <div class="cs-body-context"><section><h3>Between meals</h3><p>The liver releases stored glucose to keep fuel available. After eating, rising insulin helps switch the body from releasing glucose to storing and using it.</p></section>
-      <section><h3>Over years</h3><p>Persistent high glucose can injure small blood vessels in the eyes and kidneys. Injury to nerves can dull sensation in the feet. An unnoticed wound and poor circulation can make healing harder.</p></section>
-      <section><h3>Risk beyond glucose</h3><p>High blood pressure and cholesterol also strain blood vessels. In 2021–23, 38.0% of U.S. adults with diagnosed diabetes had elevated non-HDL cholesterol.</p></section></div></div>
+      <div class="cs-body-context"><section><h3>Eyes and kidneys</h3><p>Damaged blood vessels in the retina can leak and threaten sight. Damaged kidney filters can let a protein called albumin pass into the urine.</p></section>
+      <section><h3>Feet</h3><p>Loss of sensation can leave a foot wound unnoticed. Poor circulation can slow healing and increase the risk of amputation.</p></section>
+      <section><h3>Heart and blood vessels</h3><p>Blood pressure and cholesterol also affect cardiovascular risk. In 2021–23, 38.0% of U.S. adults with diagnosed diabetes had elevated non-HDL cholesterol.</p></section></div></div>
     </section>`+
     labThresholds()+diagnosedConditions(nhis)+pair(kidneys,eyes)+
     lineChart(amputationHistory)+lineChart(crisisHistory)+
-    sourcesFooter([publications.insulin,publications.organs,publications.ada,publications.exams,publications.cdc,
+    sourcesFooter([publications.insulin,publications.tracer,publications.ada,publications.organs,
+      ['American Diabetes Association · Retinopathy, neuropathy and foot care · Diabetes Care, 2026','https://doi.org/10.2337/dc26-S012'],
+      ['American Diabetes Association · Chronic kidney disease · Diabetes Care, 2026','https://doi.org/10.2337/dc26-S011'],
+      ['Umpierrez and colleagues · Hyperglycemic crises in adults with diabetes · Diabetes Care, 2024','https://doi.org/10.2337/dci24-0032'],
+      publications.exams,publications.cdc,
       ['NCHS · National Health Interview Survey, 2025 Sample Adult file',links.nhis],
       ['CDC · Chronic Kidney Disease in the United States, 2026',kidney],
       ['Lundeen and colleagues · Prevalence of diabetic retinopathy · JAMA Ophthalmology, 2023',retina],
@@ -114,6 +145,7 @@ export function clinicalProfile(nhis){
       ['McCoy and colleagues · Hyperglycemic crises by diabetes type · JAMA Network Open, 2021, supplementary eTable 4',crisisHistory.source],
       ...anatomicalSources
     ],[
+      'Meyer and colleagues used glucose tracers and measurements of blood entering and leaving tissues in 10 volunteers. Over 4.5 hours after 75 g of oral glucose, estimated skeletal muscle uptake averaged 19 g (standard error 3 g), and estimated liver glucose output fell 82% (standard error 6 percentage points) from fasting. These are group means from a controlled physiology study.',
       'The anatomical figure adapts public-domain artwork by Mikael Häggström. Its U.S. estimates come from separate sources and populations. Conditions may coexist. Long-term risk depends on duration of exposure, other illnesses and care.',
       'CDC laboratory and examination findings are crude estimates for adults with diagnosed diabetes, August 2021 to August 2023. Elevated blood pressure is at least 130/80 mmHg or use of blood pressure medication. Elevated non-HDL cholesterol is at least 130 mg/dL. Kidney estimates include stages 1 to 4 and exclude stage 5.',
       'The comparison by kidney disease and diabetes type uses a separate CDC analysis. It classifies type 1 using current insulin use started within one year of diagnosis and identifies prediabetes by laboratory values. Retinopathy estimates cover people of all ages with diabetes. The 2023 survey question on eyesight combines blindness and serious difficulty seeing from any cause.',
