@@ -1,0 +1,1360 @@
+{
+  "AK": {
+    "adjusted": 9.03143,
+    "count": 52900.0,
+    "crude": 9.398765,
+    "groups": {
+      "Age": {
+        "18-44": 2.4,
+        "45-64": 14.6,
+        "65-74": 17.3,
+        "75+": 23.0
+      },
+      "Education": {
+        "< High School": 13.2,
+        "> High School": 9.0,
+        "High School": 8.1
+      },
+      "Race and ethnicity": {
+        "Hispanic": 13.9,
+        "Non-Hispanic Asian or Pacific Islander": 15.2,
+        "Non-Hispanic Black": 15.0,
+        "Non-Hispanic White": 7.7
+      },
+      "Sex": {
+        "Female": 8.6,
+        "Male": 9.6
+      }
+    }
+  },
+  "AL": {
+    "adjusted": 13.19602,
+    "count": 612000.0,
+    "crude": 15.05988,
+    "groups": {
+      "Age": {
+        "18-44": 4.1,
+        "45-64": 21.4,
+        "65-74": 26.1,
+        "75+": 28.0
+      },
+      "Education": {
+        "< High School": 16.1,
+        "> High School": 11.6,
+        "High School": 14.8
+      },
+      "Race and ethnicity": {
+        "Non-Hispanic Black": 18.6,
+        "Non-Hispanic White": 11.5
+      },
+      "Sex": {
+        "Female": 13.9,
+        "Male": 12.5
+      }
+    }
+  },
+  "AR": {
+    "adjusted": 13.77564,
+    "count": 369000.0,
+    "crude": 15.33626,
+    "groups": {
+      "Age": {
+        "18-44": 6.0,
+        "45-64": 20.6,
+        "65-74": 28.0,
+        "75+": 24.1
+      },
+      "Education": {
+        "< High School": 18.9,
+        "> High School": 12.0,
+        "High School": 14.7
+      },
+      "Race and ethnicity": {
+        "Hispanic": 19.2,
+        "Non-Hispanic Black": 17.3,
+        "Non-Hispanic White": 12.3
+      },
+      "Sex": {
+        "Female": 12.7,
+        "Male": 15.0
+      }
+    }
+  },
+  "AZ": {
+    "adjusted": 10.24744,
+    "count": 689000.0,
+    "crude": 11.54297,
+    "groups": {
+      "Age": {
+        "18-44": 3.2,
+        "45-64": 16.8,
+        "65-74": 20.6,
+        "75+": 20.6
+      },
+      "Education": {
+        "< High School": 18.1,
+        "> High School": 8.7,
+        "High School": 11.2
+      },
+      "Race and ethnicity": {
+        "Hispanic": 14.0,
+        "Non-Hispanic Black": 12.4,
+        "Non-Hispanic White": 8.1
+      },
+      "Sex": {
+        "Female": 9.5,
+        "Male": 11.1
+      }
+    }
+  },
+  "CA": {
+    "adjusted": 11.45312,
+    "count": 3840000.0,
+    "crude": 12.56303,
+    "groups": {
+      "Age": {
+        "18-44": 3.6,
+        "45-64": 18.0,
+        "65-74": 26.7,
+        "75+": 22.3
+      },
+      "Education": {
+        "< High School": 17.4,
+        "> High School": 9.9,
+        "High School": 11.7
+      },
+      "Race and ethnicity": {
+        "Hispanic": 15.1,
+        "Non-Hispanic Asian or Pacific Islander": 15.3,
+        "Non-Hispanic Black": 13.3,
+        "Non-Hispanic White": 7.1
+      },
+      "Sex": {
+        "Female": 10.4,
+        "Male": 12.6
+      }
+    }
+  },
+  "CO": {
+    "adjusted": 7.775106,
+    "count": 397000.0,
+    "crude": 8.385488,
+    "groups": {
+      "Age": {
+        "18-44": 2.4,
+        "45-64": 11.4,
+        "65-74": 17.4,
+        "75+": 18.7
+      },
+      "Education": {
+        "< High School": 15.6,
+        "> High School": 6.6,
+        "High School": 9.1
+      },
+      "Race and ethnicity": {
+        "Hispanic": 13.1,
+        "Non-Hispanic Asian or Pacific Islander": 8.3,
+        "Non-Hispanic Black": 10.8,
+        "Non-Hispanic White": 6.3
+      },
+      "Sex": {
+        "Female": 7.1,
+        "Male": 8.6
+      }
+    }
+  },
+  "CT": {
+    "adjusted": 10.12053,
+    "count": 341000.0,
+    "crude": 11.6695,
+    "groups": {
+      "Age": {
+        "18-44": 3.8,
+        "45-64": 15.1,
+        "65-74": 19.9,
+        "75+": 22.7
+      },
+      "Education": {
+        "< High School": 18.0,
+        "> High School": 8.1,
+        "High School": 12.9
+      },
+      "Race and ethnicity": {
+        "Hispanic": 15.3,
+        "Non-Hispanic Asian or Pacific Islander": 19.6,
+        "Non-Hispanic Black": 17.3,
+        "Non-Hispanic White": 7.9
+      },
+      "Sex": {
+        "Female": 9.1,
+        "Male": 11.3
+      }
+    }
+  },
+  "DC": {
+    "adjusted": 9.004415,
+    "count": 47600.0,
+    "crude": 8.427125,
+    "groups": {
+      "Age": {
+        "18-44": 2.2,
+        "45-64": 13.7,
+        "65-74": 22.0,
+        "75+": 21.7
+      },
+      "Education": {
+        "< High School": 19.0,
+        "> High School": 7.2,
+        "High School": 11.9
+      },
+      "Race and ethnicity": {
+        "Non-Hispanic Black": 14.4,
+        "Non-Hispanic White": 2.8
+      },
+      "Sex": {
+        "Female": 8.8,
+        "Male": 9.3
+      }
+    }
+  },
+  "DE": {
+    "adjusted": 10.84675,
+    "count": 112000.0,
+    "crude": 13.24879,
+    "groups": {
+      "Age": {
+        "18-44": 3.8,
+        "45-64": 15.1,
+        "65-74": 25.1,
+        "75+": 25.3
+      },
+      "Education": {
+        "< High School": 18.2,
+        "> High School": 8.8,
+        "High School": 12.7
+      },
+      "Race and ethnicity": {
+        "Hispanic": 14.8,
+        "Non-Hispanic Black": 11.7,
+        "Non-Hispanic White": 11.0
+      },
+      "Sex": {
+        "Female": 9.7,
+        "Male": 12.1
+      }
+    }
+  },
+  "FL": {
+    "adjusted": 9.760245,
+    "count": 2250000.0,
+    "crude": 11.9389,
+    "groups": {
+      "Age": {
+        "18-44": 2.7,
+        "45-64": 15.8,
+        "65-74": 21.2,
+        "75+": 20.8
+      },
+      "Education": {
+        "< High School": 15.8,
+        "> High School": 8.2,
+        "High School": 11.1
+      },
+      "Race and ethnicity": {
+        "Hispanic": 10.8,
+        "Non-Hispanic Asian or Pacific Islander": 13.9,
+        "Non-Hispanic Black": 12.5,
+        "Non-Hispanic White": 8.5
+      },
+      "Sex": {
+        "Female": 9.1,
+        "Male": 10.5
+      }
+    }
+  },
+  "GA": {
+    "adjusted": 11.6497,
+    "count": 1120000.0,
+    "crude": 12.83547,
+    "groups": {
+      "Age": {
+        "18-44": 3.3,
+        "45-64": 17.6,
+        "65-74": 26.1,
+        "75+": 28.3
+      },
+      "Education": {
+        "< High School": 16.5,
+        "> High School": 10.9,
+        "High School": 10.8
+      },
+      "Race and ethnicity": {
+        "Hispanic": 13.7,
+        "Non-Hispanic Black": 14.4,
+        "Non-Hispanic White": 9.9
+      },
+      "Sex": {
+        "Female": 11.3,
+        "Male": 12.1
+      }
+    }
+  },
+  "HI": {
+    "adjusted": 10.04961,
+    "count": 131000.0,
+    "crude": 11.54185,
+    "groups": {
+      "Age": {
+        "18-44": 4.2,
+        "45-64": 15.2,
+        "65-74": 20.7,
+        "75+": 17.5
+      },
+      "Education": {
+        "< High School": 18.0,
+        "> High School": 9.0,
+        "High School": 10.5
+      },
+      "Race and ethnicity": {
+        "Hispanic": 11.2,
+        "Non-Hispanic Asian or Pacific Islander": 11.5,
+        "Non-Hispanic White": 5.7
+      },
+      "Sex": {
+        "Female": 8.9,
+        "Male": 11.3
+      }
+    }
+  },
+  "IA": {
+    "adjusted": 9.948527,
+    "count": 286000.0,
+    "crude": 11.40361,
+    "groups": {
+      "Age": {
+        "18-44": 3.1,
+        "45-64": 15.3,
+        "65-74": 20.7,
+        "75+": 23.4
+      },
+      "Education": {
+        "< High School": 13.4,
+        "> High School": 9.5,
+        "High School": 10.4
+      },
+      "Race and ethnicity": {
+        "Hispanic": 14.0,
+        "Non-Hispanic Black": 13.4,
+        "Non-Hispanic White": 9.7
+      },
+      "Sex": {
+        "Female": 9.3,
+        "Male": 10.8
+      }
+    }
+  },
+  "ID": {
+    "adjusted": 8.458885,
+    "count": 145000.0,
+    "crude": 9.349819,
+    "groups": {
+      "Age": {
+        "18-44": 4.2,
+        "45-64": 10.5,
+        "65-74": 18.2,
+        "75+": 17.9
+      },
+      "Education": {
+        "< High School": 12.8,
+        "> High School": 7.6,
+        "High School": 9.3
+      },
+      "Race and ethnicity": {
+        "Hispanic": 8.5,
+        "Non-Hispanic White": 8.4
+      },
+      "Sex": {
+        "Female": 7.3,
+        "Male": 9.6
+      }
+    }
+  },
+  "IL": {
+    "adjusted": 11.36176,
+    "count": 1260000.0,
+    "crude": 12.79586,
+    "groups": {
+      "Age": {
+        "18-44": 3.6,
+        "45-64": 18.3,
+        "65-74": 22.3,
+        "75+": 24.7
+      },
+      "Education": {
+        "< High School": 17.6,
+        "> High School": 9.8,
+        "High School": 12.9
+      },
+      "Race and ethnicity": {
+        "Hispanic": 17.5,
+        "Non-Hispanic Asian or Pacific Islander": 12.5,
+        "Non-Hispanic Black": 13.9,
+        "Non-Hispanic White": 9.4
+      },
+      "Sex": {
+        "Female": 10.9,
+        "Male": 12.0
+      }
+    }
+  },
+  "IN": {
+    "adjusted": 12.70791,
+    "count": 764000.0,
+    "crude": 14.25472,
+    "groups": {
+      "Age": {
+        "18-44": 4.4,
+        "45-64": 19.2,
+        "65-74": 26.1,
+        "75+": 28.2
+      },
+      "Education": {
+        "< High School": 13.3,
+        "> High School": 11.7,
+        "High School": 14.2
+      },
+      "Race and ethnicity": {
+        "Hispanic": 15.7,
+        "Non-Hispanic Asian or Pacific Islander": 8.9,
+        "Non-Hispanic Black": 18.0,
+        "Non-Hispanic White": 12.0
+      },
+      "Sex": {
+        "Female": 11.6,
+        "Male": 13.9
+      }
+    }
+  },
+  "KS": {
+    "adjusted": 11.09142,
+    "count": 285000.0,
+    "crude": 12.50854,
+    "groups": {
+      "Age": {
+        "18-44": 3.3,
+        "45-64": 16.8,
+        "65-74": 25.0,
+        "75+": 25.6
+      },
+      "Education": {
+        "< High School": 15.1,
+        "> High School": 10.4,
+        "High School": 11.9
+      },
+      "Race and ethnicity": {
+        "Hispanic": 15.2,
+        "Non-Hispanic Black": 12.9,
+        "Non-Hispanic White": 10.3
+      },
+      "Sex": {
+        "Female": 11.4,
+        "Male": 11.0
+      }
+    }
+  },
+  "KY": {
+    "adjusted": 14.32824,
+    "count": 576000.0,
+    "crude": 16.19972,
+    "groups": {
+      "Age": {
+        "18-44": 5.2,
+        "45-64": 23.3,
+        "65-74": 28.0,
+        "75+": 26.0
+      },
+      "Education": {
+        "< High School": 17.7,
+        "> High School": 12.6,
+        "High School": 15.9
+      },
+      "Race and ethnicity": {
+        "Hispanic": 14.3,
+        "Non-Hispanic Black": 18.4,
+        "Non-Hispanic White": 14.0
+      },
+      "Sex": {
+        "Female": 14.1,
+        "Male": 14.7
+      }
+    }
+  },
+  "LA": {
+    "adjusted": 13.8619,
+    "count": 542000.0,
+    "crude": 15.41151,
+    "groups": {
+      "Age": {
+        "18-44": 4.9,
+        "45-64": 21.7,
+        "65-74": 27.7,
+        "75+": 28.5
+      },
+      "Education": {
+        "< High School": 20.0,
+        "> High School": 11.9,
+        "High School": 14.4
+      },
+      "Race and ethnicity": {
+        "Hispanic": 14.6,
+        "Non-Hispanic Black": 19.2,
+        "Non-Hispanic White": 11.4
+      },
+      "Sex": {
+        "Female": 13.6,
+        "Male": 14.2
+      }
+    }
+  },
+  "MA": {
+    "adjusted": 8.442575,
+    "count": 546000.0,
+    "crude": 9.565778,
+    "groups": {
+      "Age": {
+        "18-44": 3.1,
+        "45-64": 12.4,
+        "65-74": 18.6,
+        "75+": 17.6
+      },
+      "Education": {
+        "< High School": 15.3,
+        "> High School": 7.0,
+        "High School": 10.3
+      },
+      "Race and ethnicity": {
+        "Hispanic": 14.2,
+        "Non-Hispanic Asian or Pacific Islander": 11.3,
+        "Non-Hispanic Black": 12.0,
+        "Non-Hispanic White": 7.1
+      },
+      "Sex": {
+        "Female": 7.6,
+        "Male": 9.5
+      }
+    }
+  },
+  "MD": {
+    "adjusted": 10.92117,
+    "count": 607000.0,
+    "crude": 12.43957,
+    "groups": {
+      "Age": {
+        "18-44": 3.8,
+        "45-64": 16.3,
+        "65-74": 23.9,
+        "75+": 23.8
+      },
+      "Education": {
+        "< High School": 17.9,
+        "> High School": 9.6,
+        "High School": 12.4
+      },
+      "Race and ethnicity": {
+        "Hispanic": 12.7,
+        "Non-Hispanic Asian or Pacific Islander": 14.3,
+        "Non-Hispanic Black": 13.0,
+        "Non-Hispanic White": 8.6
+      },
+      "Sex": {
+        "Female": 10.5,
+        "Male": 11.4
+      }
+    }
+  },
+  "ME": {
+    "adjusted": 9.058923,
+    "count": 133000.0,
+    "crude": 11.46511,
+    "groups": {
+      "Age": {
+        "18-44": 2.6,
+        "45-64": 14.0,
+        "65-74": 21.3,
+        "75+": 19.4
+      },
+      "Education": {
+        "< High School": 11.6,
+        "> High School": 8.1,
+        "High School": 10.7
+      },
+      "Race and ethnicity": {
+        "Non-Hispanic White": 9.0
+      },
+      "Sex": {
+        "Female": 8.6,
+        "Male": 9.6
+      }
+    }
+  },
+  "MI": {
+    "adjusted": 11.81011,
+    "count": 1090000.0,
+    "crude": 13.62456,
+    "groups": {
+      "Age": {
+        "18-44": 4.0,
+        "45-64": 19.0,
+        "65-74": 23.9,
+        "75+": 23.3
+      },
+      "Education": {
+        "< High School": 17.3,
+        "> High School": 10.6,
+        "High School": 12.9
+      },
+      "Race and ethnicity": {
+        "Hispanic": 17.2,
+        "Non-Hispanic Asian or Pacific Islander": 15.1,
+        "Non-Hispanic Black": 18.2,
+        "Non-Hispanic White": 10.6
+      },
+      "Sex": {
+        "Female": 11.2,
+        "Male": 12.5
+      }
+    }
+  },
+  "MN": {
+    "adjusted": 8.894266,
+    "count": 453000.0,
+    "crude": 10.08066,
+    "groups": {
+      "Age": {
+        "18-44": 3.3,
+        "45-64": 12.7,
+        "65-74": 18.5,
+        "75+": 20.9
+      },
+      "Education": {
+        "< High School": 13.8,
+        "> High School": 8.2,
+        "High School": 9.8
+      },
+      "Race and ethnicity": {
+        "Hispanic": 16.2,
+        "Non-Hispanic Asian or Pacific Islander": 15.6,
+        "Non-Hispanic Black": 15.0,
+        "Non-Hispanic White": 7.8
+      },
+      "Sex": {
+        "Female": 8.4,
+        "Male": 9.4
+      }
+    }
+  },
+  "MO": {
+    "adjusted": 9.707271,
+    "count": 549000.0,
+    "crude": 11.23141,
+    "groups": {
+      "Age": {
+        "18-44": 3.2,
+        "45-64": 14.1,
+        "65-74": 22.8,
+        "75+": 21.8
+      },
+      "Education": {
+        "< High School": 14.2,
+        "> High School": 9.2,
+        "High School": 9.6
+      },
+      "Race and ethnicity": {
+        "Hispanic": 13.8,
+        "Non-Hispanic Black": 12.2,
+        "Non-Hispanic White": 9.2
+      },
+      "Sex": {
+        "Female": 9.0,
+        "Male": 10.5
+      }
+    }
+  },
+  "MS": {
+    "adjusted": 13.21594,
+    "count": 348000.0,
+    "crude": 15.21298,
+    "groups": {
+      "Age": {
+        "18-44": 3.3,
+        "45-64": 22.4,
+        "65-74": 34.2,
+        "75+": 21.0
+      },
+      "Education": {
+        "< High School": 17.3,
+        "> High School": 12.6,
+        "High School": 12.8
+      },
+      "Race and ethnicity": {
+        "Non-Hispanic Black": 16.2,
+        "Non-Hispanic White": 11.5
+      },
+      "Sex": {
+        "Female": 12.4,
+        "Male": 14.2
+      }
+    }
+  },
+  "MT": {
+    "adjusted": 7.428629,
+    "count": 80200.0,
+    "crude": 8.707639,
+    "groups": {
+      "Age": {
+        "18-44": 2.8,
+        "45-64": 10.4,
+        "65-74": 16.5,
+        "75+": 16.4
+      },
+      "Education": {
+        "< High School": 12.9,
+        "> High School": 7.0,
+        "High School": 7.6
+      },
+      "Race and ethnicity": {
+        "Hispanic": 9.5,
+        "Non-Hispanic White": 7.0
+      },
+      "Sex": {
+        "Female": 7.1,
+        "Male": 7.8
+      }
+    }
+  },
+  "NC": {
+    "adjusted": 11.48035,
+    "count": 1150000.0,
+    "crude": 13.18126,
+    "groups": {
+      "Age": {
+        "18-44": 3.2,
+        "45-64": 17.8,
+        "65-74": 25.4,
+        "75+": 26.9
+      },
+      "Education": {
+        "< High School": 14.6,
+        "> High School": 9.9,
+        "High School": 14.2
+      },
+      "Race and ethnicity": {
+        "Hispanic": 14.2,
+        "Non-Hispanic Black": 15.4,
+        "Non-Hispanic White": 10.4
+      },
+      "Sex": {
+        "Female": 11.3,
+        "Male": 11.8
+      }
+    }
+  },
+  "ND": {
+    "adjusted": 9.873188,
+    "count": 64600.0,
+    "crude": 10.62848,
+    "groups": {
+      "Age": {
+        "18-44": 3.4,
+        "45-64": 14.8,
+        "65-74": 21.0,
+        "75+": 21.8
+      },
+      "Education": {
+        "< High School": 13.7,
+        "> High School": 9.6,
+        "High School": 9.6
+      },
+      "Race and ethnicity": {
+        "Non-Hispanic White": 8.7
+      },
+      "Sex": {
+        "Female": 8.5,
+        "Male": 11.3
+      }
+    }
+  },
+  "NE": {
+    "adjusted": 9.376144,
+    "count": 160000.0,
+    "crude": 10.50371,
+    "groups": {
+      "Age": {
+        "18-44": 2.9,
+        "45-64": 14.4,
+        "65-74": 21.1,
+        "75+": 20.2
+      },
+      "Education": {
+        "< High School": 14.3,
+        "> High School": 8.5,
+        "High School": 10.5
+      },
+      "Race and ethnicity": {
+        "Hispanic": 16.9,
+        "Non-Hispanic Black": 12.9,
+        "Non-Hispanic White": 8.4
+      },
+      "Sex": {
+        "Female": 8.8,
+        "Male": 10.0
+      }
+    }
+  },
+  "NH": {
+    "adjusted": 8.3147,
+    "count": 118000.0,
+    "crude": 10.09641,
+    "groups": {
+      "Age": {
+        "18-44": 2.8,
+        "45-64": 11.6,
+        "65-74": 18.2,
+        "75+": 21.2
+      },
+      "Education": {
+        "< High School": 12.4,
+        "> High School": 7.1,
+        "High School": 10.2
+      },
+      "Race and ethnicity": {
+        "Non-Hispanic White": 8.4
+      },
+      "Sex": {
+        "Female": 6.8,
+        "Male": 9.9
+      }
+    }
+  },
+  "NJ": {
+    "adjusted": 9.199021,
+    "count": 792000.0,
+    "crude": 10.76246,
+    "groups": {
+      "Age": {
+        "18-44": 2.6,
+        "45-64": 14.2,
+        "65-74": 22.0,
+        "75+": 20.1
+      },
+      "Education": {
+        "< High School": 12.9,
+        "> High School": 8.4,
+        "High School": 10.5
+      },
+      "Race and ethnicity": {
+        "Hispanic": 11.8,
+        "Non-Hispanic Asian or Pacific Islander": 10.2,
+        "Non-Hispanic Black": 14.2,
+        "Non-Hispanic White": 7.4
+      },
+      "Sex": {
+        "Female": 8.3,
+        "Male": 10.3
+      }
+    }
+  },
+  "NM": {
+    "adjusted": 10.89693,
+    "count": 205000.0,
+    "crude": 12.27865,
+    "groups": {
+      "Age": {
+        "18-44": 3.0,
+        "45-64": 19.4,
+        "65-74": 21.5,
+        "75+": 19.1
+      },
+      "Education": {
+        "< High School": 15.7,
+        "> High School": 9.0,
+        "High School": 12.6
+      },
+      "Race and ethnicity": {
+        "Hispanic": 13.8,
+        "Non-Hispanic White": 6.3
+      },
+      "Sex": {
+        "Female": 10.9,
+        "Male": 11.1
+      }
+    }
+  },
+  "NV": {
+    "adjusted": 12.20365,
+    "count": 346000.0,
+    "crude": 13.57567,
+    "groups": {
+      "Age": {
+        "18-44": 4.8,
+        "45-64": 16.6,
+        "65-74": 24.5,
+        "75+": 31.1
+      },
+      "Education": {
+        "< High School": 11.3,
+        "> High School": 12.0,
+        "High School": 12.5
+      },
+      "Race and ethnicity": {
+        "Hispanic": 12.7,
+        "Non-Hispanic Asian or Pacific Islander": 25.2,
+        "Non-Hispanic Black": 10.3,
+        "Non-Hispanic White": 9.4
+      },
+      "Sex": {
+        "Female": 10.8,
+        "Male": 13.8
+      }
+    }
+  },
+  "NY": {
+    "adjusted": 10.75914,
+    "count": 1910000.0,
+    "crude": 12.30257,
+    "groups": {
+      "Age": {
+        "18-44": 3.6,
+        "45-64": 16.4,
+        "65-74": 22.8,
+        "75+": 23.5
+      },
+      "Education": {
+        "< High School": 16.9,
+        "> High School": 8.9,
+        "High School": 12.7
+      },
+      "Race and ethnicity": {
+        "Hispanic": 15.0,
+        "Non-Hispanic Asian or Pacific Islander": 11.9,
+        "Non-Hispanic Black": 14.4,
+        "Non-Hispanic White": 8.2
+      },
+      "Sex": {
+        "Female": 9.7,
+        "Male": 11.9
+      }
+    }
+  },
+  "OH": {
+    "adjusted": 11.32625,
+    "count": 1220000.0,
+    "crude": 13.10706,
+    "groups": {
+      "Age": {
+        "18-44": 3.7,
+        "45-64": 17.3,
+        "65-74": 23.9,
+        "75+": 25.9
+      },
+      "Education": {
+        "< High School": 13.2,
+        "> High School": 10.6,
+        "High School": 12.2
+      },
+      "Race and ethnicity": {
+        "Hispanic": 10.7,
+        "Non-Hispanic Black": 16.7,
+        "Non-Hispanic White": 10.5
+      },
+      "Sex": {
+        "Female": 11.0,
+        "Male": 11.9
+      }
+    }
+  },
+  "OK": {
+    "adjusted": 12.03817,
+    "count": 417000.0,
+    "crude": 13.24091,
+    "groups": {
+      "Age": {
+        "18-44": 3.6,
+        "45-64": 19.5,
+        "65-74": 24.8,
+        "75+": 25.7
+      },
+      "Education": {
+        "< High School": 16.9,
+        "> High School": 10.4,
+        "High School": 13.4
+      },
+      "Race and ethnicity": {
+        "Hispanic": 12.1,
+        "Non-Hispanic Asian or Pacific Islander": 16.3,
+        "Non-Hispanic Black": 16.2,
+        "Non-Hispanic White": 11.1
+      },
+      "Sex": {
+        "Female": 11.7,
+        "Male": 12.5
+      }
+    }
+  },
+  "OR": {
+    "adjusted": 10.76292,
+    "count": 411000.0,
+    "crude": 12.03786,
+    "groups": {
+      "Age": {
+        "18-44": 5.2,
+        "45-64": 15.0,
+        "65-74": 20.7,
+        "75+": 20.7
+      },
+      "Education": {
+        "< High School": 16.9,
+        "> High School": 9.9,
+        "High School": 11.3
+      },
+      "Race and ethnicity": {
+        "Hispanic": 16.9,
+        "Non-Hispanic Asian or Pacific Islander": 13.7,
+        "Non-Hispanic Black": 20.9,
+        "Non-Hispanic White": 9.3
+      },
+      "Sex": {
+        "Female": 10.6,
+        "Male": 11.0
+      }
+    }
+  },
+  "PA": {
+    "adjusted": 11.60746,
+    "count": 1390000.0,
+    "crude": 13.32235,
+    "groups": {
+      "Age": {
+        "18-44": 4.6,
+        "45-64": 17.9,
+        "65-74": 22.1,
+        "75+": 22.8
+      },
+      "Education": {
+        "< High School": 15.9,
+        "> High School": 10.8,
+        "High School": 11.7
+      },
+      "Race and ethnicity": {
+        "Hispanic": 17.0,
+        "Non-Hispanic Black": 20.2,
+        "Non-Hispanic White": 9.8
+      },
+      "Sex": {
+        "Female": 10.4,
+        "Male": 12.9
+      }
+    }
+  },
+  "RI": {
+    "adjusted": 10.06624,
+    "count": 104000.0,
+    "crude": 11.55024,
+    "groups": {
+      "Age": {
+        "18-44": 3.5,
+        "45-64": 14.8,
+        "65-74": 20.2,
+        "75+": 24.1
+      },
+      "Education": {
+        "< High School": 15.8,
+        "> High School": 8.4,
+        "High School": 11.9
+      },
+      "Race and ethnicity": {
+        "Hispanic": 15.2,
+        "Non-Hispanic Black": 11.9,
+        "Non-Hispanic White": 9.1
+      },
+      "Sex": {
+        "Female": 8.9,
+        "Male": 11.4
+      }
+    }
+  },
+  "SC": {
+    "adjusted": 11.6734,
+    "count": 608000.0,
+    "crude": 13.90349,
+    "groups": {
+      "Age": {
+        "18-44": 3.4,
+        "45-64": 17.3,
+        "65-74": 27.9,
+        "75+": 27.2
+      },
+      "Education": {
+        "< High School": 19.5,
+        "> High School": 10.1,
+        "High School": 12.3
+      },
+      "Race and ethnicity": {
+        "Hispanic": 17.5,
+        "Non-Hispanic Black": 17.2,
+        "Non-Hispanic White": 9.1
+      },
+      "Sex": {
+        "Female": 11.5,
+        "Male": 12.0
+      }
+    }
+  },
+  "SD": {
+    "adjusted": 10.08667,
+    "count": 85000.0,
+    "crude": 11.84303,
+    "groups": {
+      "Age": {
+        "18-44": 2.2,
+        "45-64": 15.8,
+        "65-74": 24.2,
+        "75+": 25.3
+      },
+      "Education": {
+        "> High School": 8.9,
+        "High School": 12.0
+      },
+      "Race and ethnicity": {
+        "Non-Hispanic White": 8.9
+      },
+      "Sex": {
+        "Female": 9.2,
+        "Male": 11.0
+      }
+    }
+  },
+  "TN": {
+    "adjusted": null,
+    "count": null,
+    "crude": null,
+    "groups": {}
+  },
+  "TX": {
+    "adjusted": 12.91275,
+    "count": 3210000.0,
+    "crude": 13.53785,
+    "groups": {
+      "Age": {
+        "18-44": 4.3,
+        "45-64": 19.2,
+        "65-74": 30.2,
+        "75+": 27.2
+      },
+      "Education": {
+        "< High School": 19.7,
+        "> High School": 10.2,
+        "High School": 15.1
+      },
+      "Race and ethnicity": {
+        "Hispanic": 18.1,
+        "Non-Hispanic Asian or Pacific Islander": 9.1,
+        "Non-Hispanic Black": 16.3,
+        "Non-Hispanic White": 9.2
+      },
+      "Sex": {
+        "Female": 12.6,
+        "Male": 13.4
+      }
+    }
+  },
+  "UT": {
+    "adjusted": 8.809462,
+    "count": 223000.0,
+    "crude": 8.693785,
+    "groups": {
+      "Age": {
+        "18-44": 2.9,
+        "45-64": 12.8,
+        "65-74": 21.2,
+        "75+": 19.1
+      },
+      "Education": {
+        "< High School": 12.5,
+        "> High School": 8.2,
+        "High School": 9.4
+      },
+      "Race and ethnicity": {
+        "Hispanic": 12.1,
+        "Non-Hispanic Asian or Pacific Islander": 12.1,
+        "Non-Hispanic Black": 15.2,
+        "Non-Hispanic White": 8.0
+      },
+      "Sex": {
+        "Female": 7.8,
+        "Male": 9.9
+      }
+    }
+  },
+  "VA": {
+    "adjusted": 11.38863,
+    "count": 892000.0,
+    "crude": 12.87867,
+    "groups": {
+      "Age": {
+        "18-44": 3.4,
+        "45-64": 17.4,
+        "65-74": 25.5,
+        "75+": 26.0
+      },
+      "Education": {
+        "< High School": 17.3,
+        "> High School": 9.8,
+        "High School": 13.7
+      },
+      "Race and ethnicity": {
+        "Hispanic": 9.1,
+        "Non-Hispanic Asian or Pacific Islander": 8.5,
+        "Non-Hispanic Black": 16.3,
+        "Non-Hispanic White": 10.5
+      },
+      "Sex": {
+        "Female": 11.4,
+        "Male": 11.4
+      }
+    }
+  },
+  "VT": {
+    "adjusted": 7.203551,
+    "count": 48100.0,
+    "crude": 8.946247,
+    "groups": {
+      "Age": {
+        "18-44": 1.9,
+        "45-64": 11.0,
+        "65-74": 17.6,
+        "75+": 16.0
+      },
+      "Education": {
+        "< High School": 13.8,
+        "> High School": 6.2,
+        "High School": 8.7
+      },
+      "Race and ethnicity": {
+        "Non-Hispanic White": 7.0
+      },
+      "Sex": {
+        "Female": 6.0,
+        "Male": 8.5
+      }
+    }
+  },
+  "WA": {
+    "adjusted": 8.960487,
+    "count": 621000.0,
+    "crude": 9.953254,
+    "groups": {
+      "Age": {
+        "18-44": 2.7,
+        "45-64": 13.7,
+        "65-74": 20.5,
+        "75+": 19.8
+      },
+      "Education": {
+        "< High School": 15.3,
+        "> High School": 8.3,
+        "High School": 8.9
+      },
+      "Race and ethnicity": {
+        "Hispanic": 14.6,
+        "Non-Hispanic Asian or Pacific Islander": 10.5,
+        "Non-Hispanic Black": 11.6,
+        "Non-Hispanic White": 7.6
+      },
+      "Sex": {
+        "Female": 8.1,
+        "Male": 9.9
+      }
+    }
+  },
+  "WI": {
+    "adjusted": 10.20985,
+    "count": 563000.0,
+    "crude": 11.92924,
+    "groups": {
+      "Age": {
+        "18-44": 3.2,
+        "45-64": 16.1,
+        "65-74": 22.2,
+        "75+": 21.4
+      },
+      "Education": {
+        "< High School": 15.5,
+        "> High School": 9.3,
+        "High School": 10.8
+      },
+      "Race and ethnicity": {
+        "Hispanic": 15.4,
+        "Non-Hispanic Asian or Pacific Islander": 15.4,
+        "Non-Hispanic Black": 14.4,
+        "Non-Hispanic White": 9.3
+      },
+      "Sex": {
+        "Female": 8.9,
+        "Male": 11.6
+      }
+    }
+  },
+  "WV": {
+    "adjusted": 15.6382,
+    "count": 261000.0,
+    "crude": 18.35816,
+    "groups": {
+      "Age": {
+        "18-44": 6.3,
+        "45-64": 24.6,
+        "65-74": 29.4,
+        "75+": 28.4
+      },
+      "Education": {
+        "< High School": 23.6,
+        "> High School": 13.6,
+        "High School": 16.1
+      },
+      "Race and ethnicity": {
+        "Non-Hispanic Black": 17.9,
+        "Non-Hispanic White": 15.7
+      },
+      "Sex": {
+        "Female": 16.3,
+        "Male": 15.1
+      }
+    }
+  },
+  "WY": {
+    "adjusted": 8.727067,
+    "count": 46600.0,
+    "crude": 10.0937,
+    "groups": {
+      "Age": {
+        "18-44": 2.9,
+        "45-64": 12.0,
+        "65-74": 17.7,
+        "75+": 25.1
+      },
+      "Education": {
+        "< High School": 15.7,
+        "> High School": 8.0,
+        "High School": 8.8
+      },
+      "Race and ethnicity": {
+        "Hispanic": 12.6,
+        "Non-Hispanic White": 8.2
+      },
+      "Sex": {
+        "Female": 8.4,
+        "Male": 9.1
+      }
+    }
+  }
+}
