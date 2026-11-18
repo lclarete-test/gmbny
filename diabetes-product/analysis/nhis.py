@@ -22,15 +22,27 @@ GROUPS = {
             (7, 7, "Other single or multiple races")]),
     "Census region": ("REGION", [(1, 1, "Northeast"), (2, 2, "Midwest"), (3, 3, "South"), (4, 4, "West")])
 }
+PROFILE_GROUPS = {
+    **GROUPS,
+    "Work in the past week": ("EMPWRKLSW1_A", [(1, 1, "Worked"), (2, 2, "Did not work")]),
+    "Functional disability": ("DISAB3_A", [(1, 1, "With disability"), (2, 2, "Without disability")]),
+    "Self-rated health": ("PHSTAT_A", [(1, 2, "Excellent or very good"), (3, 3, "Good"), (4, 5, "Fair or poor")])
+}
+CONDITIONS = {
+    "High blood pressure": "HYPEV_A", "High cholesterol": "CHLEV_A", "Arthritis": "ARTHEV_A",
+    "Coronary heart disease": "CHDEV_A", "Heart attack": "MIEV_A", "Stroke": "STREV_A",
+    "Chronic obstructive pulmonary disease": "COPDEV_A"
+}
 
 def weight(rows):
     return sum(float(row["WTFA_A"]) for row in rows)
 
 def treated(rows, variable):
     valid = [r for r in rows if r[variable] in ("1", "2")]
-    if len(valid) < 30:
+    positive = [r for r in valid if r[variable] == "1"]
+    if len(valid) < 30 or min(len(positive), len(valid) - len(positive)) < 10:
         return None
-    return round(100 * weight(r for r in valid if r[variable] == "1") / weight(valid), 1)
+    return round(100 * weight(positive) / weight(valid), 1)
 
 def code(row):
     if row["DIBEV_A"] == "1":
@@ -49,17 +61,44 @@ def share(rows, labels, suppress=False):
 
 def profile(rows):
     result = {"sample":len(rows), "weightedAdults":round(weight(rows)), "groups":{}}
-    for group, (var, levels) in GROUPS.items():
+    for group, (var, levels) in PROFILE_GROUPS.items():
         groups=bins(rows,var,levels)
         denom=sum(weight(b) for b in groups)
         result["groups"][group]=[[label, round(100*weight(b)/denom,1) if len(b)>=10 else None, *(treated(b,v) for v in ("DIBINS_A","DIBPILL_A","DIBGLP_A"))] for (_,_,label),b in zip(levels,groups)]
     return result
 
+def selected_populations(rows):
+    return {
+        "Type 2": [r for r in rows if r["group"] == "Type 2"],
+        "Type 1": [r for r in rows if r["group"] == "Type 1"],
+        "Prediabetes only": [r for r in rows if r["group"] == "Prediabetes only"],
+        "All diagnosed": [r for r in rows if r["DIBEV_A"] == "1"]
+    }
+
+def composition_history(years, populations):
+    for scope, members in populations.items():
+        trend = years.setdefault(scope, {"Population": [["Adults, millions", []]]})
+        trend["Population"][0][1].append(round(weight(members) / 1e6, 3))
+        for group in ("Sex", "Age", "Education", "Family income", "Census region"):
+            variable, levels = GROUPS[group]
+            groups = bins(members, variable, levels)
+            valid = sum(weight(cell) for cell in groups)
+            series = trend.setdefault(group, [[label, []] for _, _, label in levels])
+            for (_, points), cell in zip(series, groups):
+                points.append(round(100 * weight(cell) / valid, 1) if len(cell) >= 10 else None)
+
+def told_condition(rows, variable):
+    valid = [r for r in rows if r[variable] in ("1", "2")]
+    positive = [r for r in valid if r[variable] == "1"]
+    if len(valid) < 30 or min(len(positive), len(valid) - len(positive)) < 10:
+        return None
+    return round(100 * weight(positive) / weight(valid), 1)
+
 def build(directory):
-    result={"trend":[], "labels":["Type 1","Type 2","Prediabetes only"]}
+    result={"trend":[], "labels":["Type 1","Type 2","Prediabetes only"], "profileTrends":{}}
     for year in range(2019,2026):
         with zipfile.ZipFile(directory / f"{year}.zip") as z, z.open(next(n for n in z.namelist() if n.lower().endswith(".csv"))) as f:
-            variables={"DIBEV_A","DIBTYPE_A","PREDIB_A","WTFA_A","DIBINS_A","DIBPILL_A","DIBGLP_A","DIBSTRESS_A","DIBA1CLAST_A",*(v for v,_ in GROUPS.values())}
+            variables={"DIBEV_A","DIBTYPE_A","PREDIB_A","WTFA_A","DIBINS_A","DIBPILL_A","DIBGLP_A","DIBSTRESS_A","DIBA1CLAST_A",*CONDITIONS.values(),*(v for v,_ in PROFILE_GROUPS.values())}
             rows=[]
             for raw in csv.DictReader(io.TextIOWrapper(f)):
                 group=code(raw)
@@ -67,13 +106,17 @@ def build(directory):
                     row={k:raw.get(k,"") for k in variables}
                     rows.append(dict(row,group=group))
         result["trend"].append([year,*share(rows,result["labels"])])
+        populations = selected_populations(rows)
+        composition_history(result["profileTrends"], populations)
     result["sample"]=len(rows)
     result["comparison"]={}
     for group,(var,levels) in GROUPS.items():
         result["comparison"][group]=[[label,*share(b,result["labels"],True)] for (_,_,label),b in zip(levels,bins(rows,var,levels))]
-    result["profiles"]={"Type 2":profile([r for r in rows if r["group"]=="Type 2"]),
-                        "Type 1":profile([r for r in rows if r["group"]=="Type 1"]),
-                        "All diagnosed":profile([r for r in rows if r["DIBEV_A"]=="1"])}
+    result["profiles"] = {scope: profile(group) for scope, group in populations.items()}
+    clinical_groups = [populations[k] for k in ("All diagnosed", "Type 1", "Type 2", "Prediabetes only")]
+    clinical_groups.append([r for r in rows if r["group"] == "None reported"])
+    result["clinical"] = [[label, *[told_condition(group, variable) for group in clinical_groups]]
+                          for label, variable in CONDITIONS.items()]
     type2 = [r for r in rows if r["group"] == "Type 2"]
     routine = {
         "distress": ("DIBSTRESS_A", [["Always or usually", "12"], ["Sometimes", "3"], ["Rarely", "4"], ["Never", "5"]]),

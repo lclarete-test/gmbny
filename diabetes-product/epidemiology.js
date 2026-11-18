@@ -5,26 +5,6 @@ import {prevalenceMap,stateBreakdown,stateTrend} from './geography.js';
 export const heading=title=>`<div class="pagehead"><h1>${title}</h1></div>`;
 export const card=(title,body)=>`<article class="panel"><h2>${title}</h2>${body}</article>`;
 export const pair=(a,b)=>`<div class="chapter-pair">${a}${b}</div>`;
-export function introduction(){
-  const organs=[
-    ['Eyes','Damage to small vessels in the retina can affect vision.'],
-    ['Heart and brain','Blood vessel damage increases the risk of heart attack and stroke.'],
-    ['Kidneys','Damage to the kidneys’ filters can reduce their ability to remove waste from the blood.'],
-    ['Nerves and feet','Loss of sensation can hide an injury. Poor circulation can slow the healing of a foot wound.']
-  ];
-  return heading('Understanding diabetes')+`<article class="panel intro-lead"><h2>What happens to blood glucose?</h2><p>Glucose travels in the blood after a meal. Insulin, made by the pancreas, helps it enter cells for energy. When the body makes too little insulin or cells respond poorly to it, more glucose stays in the blood.</p>
-    <div class="glucose-flow"><span>Food releases glucose</span><i>→</i><span>The pancreas releases insulin</span><i>→</i><span>Cells take up glucose</span></div></article>`+
-    card('Conditions compared in this dashboard',dataTable(['Condition','What changes'],[
-      ['Type 1 diabetes','The immune system destroys cells that make insulin. The body produces little or no insulin.'],
-      ['Type 2 diabetes','Cells respond less effectively to insulin. Over time, the pancreas may struggle to keep up. Type 2 accounts for about 90–95% of people with diabetes.'],
-      ['Prediabetes','Blood glucose is above the normal range and below the diabetes threshold. It raises the chance of developing type 2 diabetes.'],
-      ['Gestational diabetes','Diabetes that develops during pregnancy. It can affect the pregnancy and increases future type 2 risk.']
-    ]))+
-    card('How diabetes affects the body',`<div class="organ-list">${organs.map(([o,what])=>`<section><h3>${o}</h3><p>${what}</p></section>`).join('')}</div>`)+
-    card('How people notice it',`<p>Thirst, frequent urination, fatigue or blurred vision can bring someone to care. Type 2 diabetes can also develop for years with few noticeable symptoms. In those cases, screening may be the first time someone learns their blood glucose is high.</p>`)+
-    `<a class="chapter-next" href="#epidemiology">See who has diabetes in the United States <span>→</span></a>`+
-    sourcesFooter([['CDC · Diabetes basics','https://www.cdc.gov/diabetes/about/'],['CDC · Type 2 diabetes','https://www.cdc.gov/diabetes/about/about-type-2-diabetes.html'],['CDC · Symptoms','https://www.cdc.gov/diabetes/signs-symptoms/'],['CDC · Effects on the body','https://www.cdc.gov/diabetes/communication-resources/how-diabetes-can-affect-your-body.html'],['CDC · Gestational diabetes','https://www.cdc.gov/diabetes/about/gestational-diabetes.html']]);
-}
 function spectrum(){
   const rows=[['Diagnosed diabetes',10.9,'28.8M','#5147b5'],['Undiagnosed diabetes',4,'11.0M','#928cd0'],['Prediabetes',43.5,'115.2M','#198274'],['Below both thresholds',41.6,'','#dae0e4']];
   return `<article class="panel spectrum"><div class="section-top"><h2>Blood glucose status among U.S. adults</h2><span class="axis-unit">2021–23 · ages 18+</span></div>
@@ -55,8 +35,8 @@ export function epidemiology(resources,view) {
   const geo=prevalenceMap(svg,profiles,states,view.state)+stateTrend(states,view.state,view.period);
   const geoText='The map ranks available jurisdictions (including D.C.) using the unrounded 2024 age-adjusted rates. The state average gives each of the 49 reporting states equal weight and excludes D.C. CDC publishes the state median separately. Tennessee has no 2024 estimate. The time series uses reported values and breaks at missing years and the 2011 BRFSS redesign.';
   if(view.state) return heading('Epidemiology')+geo+stateBreakdown(view.state,profiles)+sourcesFooter(geoNotes,[geoText,'State subgroup rates use age adjustment except for the individual age bands. Reported diagnosed diabetes includes multiple diabetes types. National comparisons return when United States is selected.']);
-  const incidence=card('New adult diagnoses by age',`<p class="axis-unit">2023 · new diagnoses per 1,000 adults at risk</p>${barList([['18–44',3.3],['45–64',10.5],['65+',7.6]],{max:12,format:v=>v.toFixed(1)})}<p class="reading">Of 1.51 million new diagnoses, 721,000 occurred at ages 45–64.</p>`);
-  const bmi=card('Diabetes prevalence by BMI',`<p class="axis-unit">2021–23 · adults 20+ · diagnosed and undiagnosed</p>${barList([['BMI below 25',6.8],['25 to below 30',12.3],['30 or above',24.2]],{max:30})}<p class="reading">Among adults with BMI of 30 or above, 7.9% had diabetes that had gone undiagnosed.</p>`);
+  const incidence=card('New diabetes diagnoses by age, all types',`<p class="axis-unit">2023 · new diagnoses per 1,000 U.S. adults at risk in each age group</p>${barList([['18–44',3.3],['45–64',10.5],['65+',7.6]],{max:12,format:v=>v.toFixed(1)})}<p class="reading">Adults aged 45–64 had the highest rate. The CDC estimated 1.51 million new adult diagnoses across all types in 2023.</p>`);
+  const bmi=card('Diabetes prevalence by BMI, all types',`<p class="axis-unit">2021–23 · adults 20+ · diagnosed and undiagnosed</p>${barList([['BMI below 25',6.8],['25 to below 30',12.3],['30 or above',24.2]],{max:30})}<p class="reading">Among adults with BMI of 30 or above, 7.9% had diabetes that had gone undiagnosed.</p>`);
   const preDetails=card('Who knows they have prediabetes?',`<p class="reading">Among adults with prediabetes, 21.4% knew their status. Adults 65 and older had the highest prevalence, while ages 18–44 accounted for the most people.</p><div class="matrix-grid">${preProfile.map(([g,rows])=>`<section><h3>${g}</h3>${dataTable(['Group','Had prediabetes','Adults, millions','Knew their status¹'],rows.map(([n,p,m,a])=>[n,p.toFixed(1)+'%',m.toFixed(1),a.toFixed(1)+'%']),g)}</section>`).join('')}</div>`);
   return heading('Epidemiology')+spectrum()+lineChart(comparisonHistory(nhis))+geo+
     matrix('Who reports each condition?','NHIS 2025 · % of all adults within each group',Object.entries(nhis.comparison),nhis.labels,['#5147b5','#13796f','#985524'])+

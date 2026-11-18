@@ -1,0 +1,858 @@
+{
+  "year": 2025,
+  "years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "segmentLabels": {
+    "medicare": "Medicare without Medicaid",
+    "private": "Private insurance, no public plan",
+    "dual": "Medicare and Medicaid",
+    "medicaid": "Medicaid without Medicare",
+    "uninsured": "Uninsured",
+    "other": "Other or mixed coverage",
+    "otherUninsured": "Other coverage or uninsured"
+  },
+  "traitLabels": {
+    "age65": "Age 65 or older",
+    "women": "Women",
+    "white": "Non-Hispanic White, single race",
+    "black": "Non-Hispanic Black, single race",
+    "hispanic": "Hispanic, any race",
+    "belowPoverty": "Family income below the poverty threshold",
+    "college": "Bachelor’s degree or higher",
+    "insulin": "Currently uses insulin",
+    "oral": "Currently takes pills to lower blood sugar",
+    "injectables": "Other injections for blood sugar or weight loss",
+    "usualPlace": "Has a usual place for care",
+    "unfilledRx": "Went without a prescription due to cost"
+  },
+  "scopes": {
+    "All diagnosed": {
+      "order": [
+        "medicare",
+        "private",
+        "dual",
+        "medicaid",
+        "uninsured",
+        "other"
+      ],
+      "trend": [
+        [
+          42.6,
+          29.2,
+          9.4,
+          9.8,
+          6.6,
+          2.4
+        ],
+        [
+          46.2,
+          26.6,
+          8.5,
+          9.5,
+          6.8,
+          2.5
+        ],
+        [
+          42.5,
+          32.2,
+          7.7,
+          8.8,
+          5.8,
+          3.0
+        ],
+        [
+          43.0,
+          30.2,
+          8.8,
+          10.6,
+          4.6,
+          2.8
+        ],
+        [
+          42.7,
+          29.0,
+          9.6,
+          11.6,
+          4.1,
+          2.9
+        ],
+        [
+          43.4,
+          31.9,
+          8.6,
+          9.4,
+          4.2,
+          2.4
+        ],
+        [
+          42.8,
+          32.5,
+          7.7,
+          8.9,
+          4.9,
+          3.2
+        ]
+      ],
+      "sample": 2700,
+      "coverageSample": 2686,
+      "excludedCoverage": 14,
+      "weightedAdults": 25711396,
+      "segments": {
+        "medicare": {
+          "share": 42.8,
+          "ci": [
+            40.6,
+            45.0
+          ],
+          "n": 1425,
+          "traits": {
+            "age65": 89.7,
+            "women": 47.1,
+            "white": 64.9,
+            "black": 13.6,
+            "hispanic": 12.6,
+            "belowPoverty": 8.3,
+            "college": 24.4,
+            "insulin": 29.9,
+            "oral": 75.1,
+            "injectables": 22.8,
+            "usualPlace": 97.9,
+            "unfilledRx": 10.2
+          }
+        },
+        "private": {
+          "share": 32.5,
+          "ci": [
+            30.2,
+            34.8
+          ],
+          "n": 679,
+          "traits": {
+            "age65": 3.5,
+            "women": 50.1,
+            "white": 56.1,
+            "black": 16.8,
+            "hispanic": 17.5,
+            "belowPoverty": 5.6,
+            "college": 32.3,
+            "insulin": 26.7,
+            "oral": 68.3,
+            "injectables": 40.0,
+            "usualPlace": 97.1,
+            "unfilledRx": 11.7
+          }
+        },
+        "dual": {
+          "share": 7.7,
+          "ci": [
+            6.6,
+            9.1
+          ],
+          "n": 225,
+          "traits": {
+            "age65": 70.5,
+            "women": 66.4,
+            "white": 40.6,
+            "black": 21.8,
+            "hispanic": 22.8,
+            "belowPoverty": 35.9,
+            "college": 7.4,
+            "insulin": 36.4,
+            "oral": 74.7,
+            "injectables": 25.3,
+            "usualPlace": null,
+            "unfilledRx": 4.9
+          }
+        },
+        "medicaid": {
+          "share": 8.9,
+          "ci": [
+            7.4,
+            10.8
+          ],
+          "n": 194,
+          "traits": {
+            "age65": 7.6,
+            "women": 58.2,
+            "white": 36.1,
+            "black": 18.2,
+            "hispanic": 30.9,
+            "belowPoverty": 43.8,
+            "college": 10.9,
+            "insulin": 38.2,
+            "oral": 73.7,
+            "injectables": 27.5,
+            "usualPlace": null,
+            "unfilledRx": 10.6
+          }
+        },
+        "uninsured": {
+          "share": 4.9,
+          "ci": [
+            3.8,
+            6.2
+          ],
+          "n": 86,
+          "traits": {
+            "age65": null,
+            "women": 48.9,
+            "white": 29.8,
+            "black": 11.4,
+            "hispanic": 51.7,
+            "belowPoverty": 23.3,
+            "college": 11.7,
+            "insulin": 29.7,
+            "oral": 73.6,
+            "injectables": 27.8,
+            "usualPlace": 78.7,
+            "unfilledRx": 33.2
+          }
+        },
+        "other": {
+          "share": 3.2,
+          "ci": [
+            2.5,
+            4.1
+          ],
+          "n": 77,
+          "traits": {
+            "age65": 8.9,
+            "women": 29.6,
+            "white": 59.1,
+            "black": 24.0,
+            "hispanic": null,
+            "belowPoverty": null,
+            "college": 25.5,
+            "insulin": 23.3,
+            "oral": 80.3,
+            "injectables": 40.4,
+            "usualPlace": null,
+            "unfilledRx": null
+          }
+        }
+      }
+    },
+    "Type 2": {
+      "order": [
+        "medicare",
+        "private",
+        "dual",
+        "medicaid",
+        "uninsured",
+        "other"
+      ],
+      "trend": [
+        [
+          44.7,
+          29.6,
+          8.7,
+          8.2,
+          6.5,
+          2.3
+        ],
+        [
+          48.3,
+          25.5,
+          8.7,
+          9.0,
+          6.1,
+          2.4
+        ],
+        [
+          44.3,
+          31.6,
+          7.6,
+          7.9,
+          5.5,
+          3.3
+        ],
+        [
+          44.6,
+          30.1,
+          8.6,
+          9.1,
+          4.6,
+          2.9
+        ],
+        [
+          45.1,
+          27.9,
+          9.3,
+          10.7,
+          3.9,
+          3.1
+        ],
+        [
+          45.9,
+          31.0,
+          8.3,
+          8.9,
+          3.6,
+          2.4
+        ],
+        [
+          43.6,
+          32.6,
+          7.3,
+          8.7,
+          4.5,
+          3.2
+        ]
+      ],
+      "sample": 2310,
+      "coverageSample": 2301,
+      "excludedCoverage": 9,
+      "weightedAdults": 21970048,
+      "segments": {
+        "medicare": {
+          "share": 43.6,
+          "ci": [
+            41.3,
+            46.0
+          ],
+          "n": 1236,
+          "traits": {
+            "age65": 89.9,
+            "women": 47.0,
+            "white": 65.3,
+            "black": 14.0,
+            "hispanic": 11.7,
+            "belowPoverty": 8.5,
+            "college": 24.9,
+            "insulin": 28.5,
+            "oral": 77.7,
+            "injectables": 24.3,
+            "usualPlace": 98.3,
+            "unfilledRx": 9.8
+          }
+        },
+        "private": {
+          "share": 32.6,
+          "ci": [
+            30.2,
+            35.2
+          ],
+          "n": 588,
+          "traits": {
+            "age65": 3.4,
+            "women": 52.0,
+            "white": 54.9,
+            "black": 17.2,
+            "hispanic": 17.7,
+            "belowPoverty": 5.9,
+            "college": 32.1,
+            "insulin": 21.8,
+            "oral": 72.8,
+            "injectables": 43.1,
+            "usualPlace": 97.7,
+            "unfilledRx": 12.6
+          }
+        },
+        "dual": {
+          "share": 7.3,
+          "ci": [
+            6.1,
+            8.7
+          ],
+          "n": 185,
+          "traits": {
+            "age65": 71.9,
+            "women": 68.2,
+            "white": 43.1,
+            "black": 20.5,
+            "hispanic": 22.4,
+            "belowPoverty": 34.4,
+            "college": 6.4,
+            "insulin": 40.2,
+            "oral": 72.2,
+            "injectables": 27.2,
+            "usualPlace": null,
+            "unfilledRx": null
+          }
+        },
+        "medicaid": {
+          "share": 8.7,
+          "ci": [
+            7.1,
+            10.5
+          ],
+          "n": 160,
+          "traits": {
+            "age65": null,
+            "women": 57.4,
+            "white": 37.3,
+            "black": 15.7,
+            "hispanic": 34.0,
+            "belowPoverty": 44.8,
+            "college": 11.8,
+            "insulin": 36.3,
+            "oral": 75.9,
+            "injectables": 28.5,
+            "usualPlace": null,
+            "unfilledRx": 11.7
+          }
+        },
+        "uninsured": {
+          "share": 4.5,
+          "ci": [
+            3.4,
+            6.0
+          ],
+          "n": 67,
+          "traits": {
+            "age65": null,
+            "women": 55.3,
+            "white": 31.5,
+            "black": null,
+            "hispanic": 48.5,
+            "belowPoverty": 22.7,
+            "college": 13.2,
+            "insulin": 27.5,
+            "oral": 79.9,
+            "injectables": 28.1,
+            "usualPlace": 77.8,
+            "unfilledRx": 30.3
+          }
+        },
+        "other": {
+          "share": 3.2,
+          "ci": [
+            2.4,
+            4.3
+          ],
+          "n": 65,
+          "traits": {
+            "age65": null,
+            "women": 30.0,
+            "white": 60.9,
+            "black": 23.1,
+            "hispanic": null,
+            "belowPoverty": null,
+            "college": 23.3,
+            "insulin": 25.0,
+            "oral": 81.5,
+            "injectables": 41.5,
+            "usualPlace": null,
+            "unfilledRx": null
+          }
+        }
+      }
+    },
+    "Type 1": {
+      "order": [
+        "medicare",
+        "private",
+        "dual",
+        "medicaid",
+        "otherUninsured"
+      ],
+      "trend": [
+        [
+          32.8,
+          34.2,
+          10.4,
+          14.2,
+          8.5
+        ],
+        [
+          32.5,
+          40.5,
+          6.3,
+          10.2,
+          10.6
+        ],
+        [
+          27.2,
+          44.9,
+          6.8,
+          15.9,
+          5.3
+        ],
+        [
+          29.1,
+          36.8,
+          6.9,
+          21.3,
+          5.9
+        ],
+        [
+          28.5,
+          39.9,
+          10.1,
+          15.2,
+          6.4
+        ],
+        [
+          31.1,
+          42.9,
+          6.8,
+          11.4,
+          7.7
+        ],
+        [
+          33.7,
+          39.6,
+          8.7,
+          8.4,
+          9.6
+        ]
+      ],
+      "sample": 222,
+      "coverageSample": 222,
+      "excludedCoverage": 0,
+      "weightedAdults": 2260497,
+      "segments": {
+        "medicare": {
+          "share": 33.7,
+          "ci": [
+            27.3,
+            40.7
+          ],
+          "n": 100,
+          "traits": {
+            "age65": null,
+            "women": 44.6,
+            "white": 68.6,
+            "black": 10.7,
+            "hispanic": 14.6,
+            "belowPoverty": null,
+            "college": 22.1,
+            "insulin": 54.3,
+            "oral": 48.5,
+            "injectables": 14.8,
+            "usualPlace": null,
+            "unfilledRx": null
+          }
+        },
+        "private": {
+          "share": 39.6,
+          "ci": [
+            31.2,
+            48.7
+          ],
+          "n": 69,
+          "traits": {
+            "age65": null,
+            "women": 38.2,
+            "white": 66.3,
+            "black": null,
+            "hispanic": null,
+            "belowPoverty": null,
+            "college": 35.5,
+            "insulin": 71.2,
+            "oral": 34.6,
+            "injectables": 14.2,
+            "usualPlace": null,
+            "unfilledRx": null
+          }
+        },
+        "dual": {
+          "share": 8.7,
+          "ci": [
+            5.4,
+            13.8
+          ],
+          "n": 20,
+          "traits": {
+            "age65": null,
+            "women": null,
+            "white": null,
+            "black": null,
+            "hispanic": null,
+            "belowPoverty": null,
+            "college": null,
+            "insulin": null,
+            "oral": null,
+            "injectables": null,
+            "usualPlace": null,
+            "unfilledRx": null
+          }
+        },
+        "medicaid": {
+          "share": 8.4,
+          "ci": [
+            4.8,
+            14.5
+          ],
+          "n": 15,
+          "traits": {
+            "age65": null,
+            "women": null,
+            "white": null,
+            "black": null,
+            "hispanic": null,
+            "belowPoverty": null,
+            "college": null,
+            "insulin": null,
+            "oral": null,
+            "injectables": null,
+            "usualPlace": null,
+            "unfilledRx": null
+          }
+        },
+        "otherUninsured": {
+          "share": 9.6,
+          "ci": [
+            5.6,
+            15.9
+          ],
+          "n": 18,
+          "traits": {
+            "age65": null,
+            "women": null,
+            "white": null,
+            "black": null,
+            "hispanic": null,
+            "belowPoverty": null,
+            "college": null,
+            "insulin": null,
+            "oral": null,
+            "injectables": null,
+            "usualPlace": null,
+            "unfilledRx": null
+          }
+        }
+      }
+    },
+    "Prediabetes only": {
+      "order": [
+        "medicare",
+        "private",
+        "dual",
+        "medicaid",
+        "uninsured",
+        "other"
+      ],
+      "trend": [
+        [
+          31.8,
+          43.4,
+          4.1,
+          9.8,
+          7.2,
+          3.6
+        ],
+        [
+          32.3,
+          41.8,
+          4.7,
+          8.4,
+          8.6,
+          4.1
+        ],
+        [
+          33.6,
+          43.6,
+          4.2,
+          8.8,
+          6.5,
+          3.3
+        ],
+        [
+          31.7,
+          42.3,
+          4.2,
+          10.8,
+          7.0,
+          4.0
+        ],
+        [
+          31.3,
+          43.1,
+          4.5,
+          12.2,
+          5.3,
+          3.5
+        ],
+        [
+          32.7,
+          43.9,
+          4.0,
+          9.6,
+          6.4,
+          3.4
+        ],
+        [
+          32.8,
+          44.1,
+          4.3,
+          9.8,
+          5.1,
+          4.1
+        ]
+      ],
+      "sample": 2899,
+      "coverageSample": 2893,
+      "excludedCoverage": 6,
+      "weightedAdults": 28118803,
+      "segments": {
+        "medicare": {
+          "share": 32.8,
+          "ci": [
+            30.9,
+            34.7
+          ],
+          "n": 1278,
+          "traits": {
+            "age65": 92.7,
+            "women": 51.8,
+            "white": 70.3,
+            "black": 12.2,
+            "hispanic": 9.7,
+            "belowPoverty": 5.6,
+            "college": 32.9,
+            "insulin": null,
+            "oral": 20.2,
+            "injectables": 6.1,
+            "usualPlace": 97.4,
+            "unfilledRx": 5.4
+          }
+        },
+        "private": {
+          "share": 44.1,
+          "ci": [
+            41.9,
+            46.3
+          ],
+          "n": 1045,
+          "traits": {
+            "age65": 2.4,
+            "women": 55.5,
+            "white": 50.2,
+            "black": 14.4,
+            "hispanic": 18.9,
+            "belowPoverty": 2.4,
+            "college": 42.3,
+            "insulin": null,
+            "oral": 14.8,
+            "injectables": 12.2,
+            "usualPlace": 94.7,
+            "unfilledRx": 7.4
+          }
+        },
+        "dual": {
+          "share": 4.3,
+          "ci": [
+            3.5,
+            5.2
+          ],
+          "n": 136,
+          "traits": {
+            "age65": 60.7,
+            "women": 66.8,
+            "white": 40.9,
+            "black": 25.2,
+            "hispanic": 24.4,
+            "belowPoverty": 31.8,
+            "college": 12.4,
+            "insulin": null,
+            "oral": 21.1,
+            "injectables": 9.3,
+            "usualPlace": null,
+            "unfilledRx": 6.8
+          }
+        },
+        "medicaid": {
+          "share": 9.8,
+          "ci": [
+            8.3,
+            11.5
+          ],
+          "n": 210,
+          "traits": {
+            "age65": null,
+            "women": 63.1,
+            "white": 36.7,
+            "black": 19.2,
+            "hispanic": 36.2,
+            "belowPoverty": 34.1,
+            "college": 10.9,
+            "insulin": null,
+            "oral": 13.3,
+            "injectables": 7.6,
+            "usualPlace": null,
+            "unfilledRx": 11.7
+          }
+        },
+        "uninsured": {
+          "share": 5.1,
+          "ci": [
+            4.1,
+            6.2
+          ],
+          "n": 116,
+          "traits": {
+            "age65": null,
+            "women": 58.4,
+            "white": 33.9,
+            "black": 13.1,
+            "hispanic": 42.7,
+            "belowPoverty": 11.1,
+            "college": 11.6,
+            "insulin": null,
+            "oral": null,
+            "injectables": null,
+            "usualPlace": 72.0,
+            "unfilledRx": 24.9
+          }
+        },
+        "other": {
+          "share": 4.1,
+          "ci": [
+            3.3,
+            5.1
+          ],
+          "n": 108,
+          "traits": {
+            "age65": 8.5,
+            "women": 33.8,
+            "white": 49.7,
+            "black": 22.3,
+            "hispanic": 16.3,
+            "belowPoverty": null,
+            "college": 33.8,
+            "insulin": null,
+            "oral": 19.1,
+            "injectables": null,
+            "usualPlace": null,
+            "unfilledRx": null
+          }
+        }
+      }
+    }
+  },
+  "notes": [
+    "Percentages are survey-weighted for the U.S. civilian noninstitutionalized population aged 18 or older. Coverage describes the interview date. A respondent appears in one coverage segment per year.",
+    "All diagnosed includes other or unknown diabetes type. The prediabetes group reported having been told they had prediabetes and reported no diagnosed diabetes. Counts labeled n are unweighted respondents.",
+    "Medicare and Medicaid are identified first, including people with supplemental coverage. Medicare without Medicaid and Medicaid without Medicare can each include other plans. The private segment has no Medicare, Medicaid, CHIP, military, state-sponsored or other government coverage. Other or mixed coverage includes the remaining insured people, including military/state coverage with or without private insurance. Uninsured uses the NHIS NOTCOV_A recode. Undetermined coverage is excluded from the segment denominator.",
+    "For type 1, other coverage and uninsured are combined in every year to avoid reporting very small individual cells. Components may differ from 100% by 0.1 or 0.2 percentage points due to rounding.",
+    "Shares use WTFA_A. The 95% confidence intervals are logit-transformed, using design-based Taylor variance, full-file PSTRAT and PPSU, and a t critical value with survey-design degrees of freedom. Estimates with a denominator below 30, fewer than 10 observed events or fewer than 10 nonevents are withheld. These are dashboard precision rules.",
+    "The years represent national cross-sections. In 2020 the pandemic changed interview procedures. NCHS's 2020 annual Sample Adult file and final annual weight support separate annual estimates. The 2025 annual file excludes the December sample because of a lapse in federal funding.",
+    "Within-segment characteristics use valid responses to each item. Medicine questions include people with diabetes and people with reported prediabetes. The non-insulin injectable question includes use for weight loss or lowering blood sugar. Medication affordability refers to any needed prescription in the prior year. Race composition describes the coverage segment and does not measure access to a device. Family poverty status uses the public adult file’s first imputation."
+  ],
+  "sources": [
+    [
+      "CDC NHIS · 2025 public files and questionnaire",
+      "https://www.cdc.gov/nchs/nhis/documentation/2025-nhis.html"
+    ],
+    [
+      "NCHS · 2025 adult codebook",
+      "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/NHIS/2025/adult-codebook.pdf"
+    ],
+    [
+      "NCHS · 2025 survey design and weights",
+      "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/NHIS/2025/srvydesc-508.pdf"
+    ],
+    [
+      "CDC NHIS · 2020 cross-sectional analytic guidance",
+      "https://www.cdc.gov/nchs/nhis/documentation/2020-nhis.html"
+    ]
+  ]
+}

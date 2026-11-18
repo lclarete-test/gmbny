@@ -1,4 +1,4 @@
-const palette = ['#5147b5','#13796f','#985524','#475a78'];
+const palette = ['#5147b5','#15796f','#a35c25','#566b9d','#9d557d','#657234','#4e5360'];
 export const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c =>
   ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const charts = new Map();
@@ -10,25 +10,26 @@ export function resetCharts() {
 function formatted(value, d) {
   if (value == null) return '—';
   const n = value.toLocaleString('en-US',{minimumFractionDigits:d.digits ?? 1,maximumFractionDigits:d.digits ?? 1});
-  return d.format === 'percent' ? n+'%' : d.format === 'billions' ? '$'+n+'B' : n;
+  return d.format === 'percent' ? n+'%' : d.format === 'billions' ? '$'+n+'B' : d.format === 'millions' ? n+'M' : n;
 }
 export function dataTable(headers, rows, label = '') {
-  return `<div class="value-table"><table aria-label="${escapeHTML(label || headers.join(', '))}"><thead><tr>${headers.map(h=>`<th scope="col">${escapeHTML(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr><th scope="row">${escapeHTML(row[0])}</th>${row.slice(1).map(cell=>`<td>${escapeHTML(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  return `<div class="value-table${headers.length>4?' large-table':''}"><table aria-label="${escapeHTML(label || headers.join(', '))}"><thead><tr>${headers.map(h=>`<th scope="col">${escapeHTML(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr><th scope="row">${escapeHTML(row[0])}</th>${row.slice(1).map((cell,i)=>`<td data-column="${escapeHTML(headers[i+1])}">${escapeHTML(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
+export function currentSeries() { return Array.from(charts.values()); }
 export function lineChart(d) {
   const id = 'history-'+charts.size;
   charts.set(id,d);
   const rows = d.labels.map((p,i)=>[p,...d.series.map(([,v])=>formatted(v[i],d))]);
   return `<article class="panel history-panel"><div class="section-top"><h2>${escapeHTML(d.title)}</h2>${d.controls||''}</div><div class="axis-unit">${escapeHTML(d.unit)}</div>
     <div class="history-canvas" id="${id}" role="img" aria-label="${escapeHTML(d.title+'. '+d.unit+'. Exact values follow the chart.')}"></div>
-    <div class="line-key">${d.series.map(([name,arr],i)=>`<span><i style="--series:${palette[i%4]}"></i>${escapeHTML(name)} <b>${formatted(arr.at(-1),d)}</b></span>`).join('')}</div>
+    <div class="chart-inspect"><label class="period-read">Period <select data-chart-period="${id}" aria-label="${escapeHTML('Period for '+d.title)}">${d.labels.map((year,i)=>`<option value="${i}" ${i===d.labels.length-1?'selected':''}>${escapeHTML(year)}</option>`).join('')}</select></label><div class="line-key">${d.series.map(([name,arr],i)=>`<span><i style="--series:${palette[i%palette.length]}"></i>${escapeHTML(name)} <b>${formatted(arr.at(-1),d)}</b></span>`).join('')}</div></div>
     ${d.note?`<p class="reading">${escapeHTML(d.note)}</p>`:''}
     ${d.annual?`<div class="annual-values">${d.labels.map((year,i)=>`<div><span>${year}</span><b>${formatted(d.series[0][1][i],d)}</b></div>`).join('')}</div>`:''}
     <details class="chart-values"><summary>Chart data</summary>${dataTable(['Period',...d.series.map(s=>s[0])],rows,d.title)}</details></article>`;
 }
 function draw(el,d,width) {
   if(width < 60) return;
-  const w = Math.round(width), h = w < 430 ? 174 : 204;
+  const w = Math.round(width), h = w < 430 ? 184 : 225;
   const left = d.format === 'billions' ? 56 : 43, right = 13, top = 14, bottom = h-31;
   const n=d.labels.length, xs=d.x || d.labels.map((_,i)=>i);
   const x=i=>left+(xs[i]-xs[0])/(xs.at(-1)-xs[0]||1)*(w-left-right);
@@ -36,9 +37,10 @@ function draw(el,d,width) {
   const rawStep = Math.max(...actual,0.01)/4;
   const power = 10**Math.floor(Math.log10(rawStep));
   const step = ([1,2,2.5,4,5,10].find(v=>v*power>=rawStep)||10)*power;
-  const max = Math.ceil(Math.max(...actual)/step)*step || step;
+  const max = Math.ceil(Math.max(...actual, 0.01)/step)*step;
   const y=v=>bottom-v/max*(bottom-top);
-  const axis=v=>d.format==='billions'?'$'+Number(v.toFixed(2))+'B':Number(v.toFixed(2))+(d.format==='percent'?'%':'');
+  const axisDigits=Math.min(8,Math.max(2,-Math.floor(Math.log10(step))+1));
+  const axis=v=>d.format==='billions'?'$'+Number(v.toFixed(axisDigits))+'B':Number(v.toFixed(axisDigits))+(d.format==='percent'?'%':d.format==='millions'?'M':'');
   let svg='';
   for(let i=0;i<=Math.round(max/step);i++){
     const v=i*step;
@@ -55,11 +57,28 @@ function draw(el,d,width) {
       if(!Number.isFinite(value)){previous=false;return;}
       path+=(previous && !d.breakAt?.includes(i)?' L':' M')+x(i).toFixed(2)+' '+y(value).toFixed(2);
       previous=true;
-      dots+=`<circle cx="${x(i)}" cy="${y(value)}" r="${n>15?2.4:3.6}" fill="${palette[s%4]}"><title>${escapeHTML(d.labels[i]+' · '+name+' · '+formatted(value,d))}</title></circle>`;
+      dots+=`<circle cx="${x(i)}" cy="${y(value)}" r="${n>15?2.4:3.6}" fill="${palette[s%palette.length]}"><title>${escapeHTML(d.labels[i]+' · '+name+' · '+formatted(value,d))}</title></circle>`;
     });
-    svg+=`<path d="${path}" fill="none" stroke="${palette[s%4]}" stroke-width="2.4" stroke-linejoin="round"/>${dots}`;
+    svg+=`<path d="${path}" fill="none" stroke="${palette[s%palette.length]}" stroke-width="2.4" stroke-linejoin="round"/>${dots}`;
   });
-  el.innerHTML=`<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" aria-hidden="true">${svg}</svg>`;
+  const select=el.parentNode.querySelector('[data-chart-period]');
+  const index=Number(select.value);
+  el.innerHTML=`<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" aria-hidden="true"><line class="chart-guide" x1="${x(index)}" x2="${x(index)}" y1="${top}" y2="${bottom}"/>${svg}</svg>`;
+  const inspect=next=>{
+    select.value=String(next);
+    const guide=el.querySelector('.chart-guide');
+    guide.setAttribute('x1',x(next));guide.setAttribute('x2',x(next));
+    el.parentNode.querySelectorAll('.line-key b').forEach((b,i)=>{b.textContent=formatted(d.series[i][1][next],d)});
+  };
+  select.onchange=()=>inspect(Number(select.value));
+  const inspectPointer=e=>{
+    const px=e.clientX-el.getBoundingClientRect().left;
+    let nearest=0;
+    for(let i=1;i<n;i++)if(Math.abs(x(i)-px)<Math.abs(x(nearest)-px))nearest=i;
+    inspect(nearest);
+  };
+  el.onpointermove=e=>{if(e.pointerType==='mouse')inspectPointer(e)};
+  el.onpointerdown=inspectPointer;
 }
 export function mountCharts(main) {
   const update=(el,width)=>{const d=charts.get(el.id);if(d)draw(el,d,width)};

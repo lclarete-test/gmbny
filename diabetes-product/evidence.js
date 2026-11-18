@@ -26,7 +26,7 @@ export const links = {
 };
 export const histories = {
   diabetes: {
-    title:'Diabetes prevalence over two decades', unit:'Adults 18+ · age-adjusted %', format:'percent',
+    title:'Diabetes prevalence over two decades, all types', unit:'U.S. adults 18+ · diagnosed and undiagnosed diabetes · age-adjusted %', format:'percent',
     labels:['2001–04','2003–06','2005–08','2007–10','2009–12','2011–14','2013–16','2015–18','2017–Mar 2020','Aug 2021–Aug 2023'],
     x:[2002.5,2004.5,2006.5,2008.5,2010.5,2012.5,2014.5,2016.5,2018.6,2022.6],
     series:[['All diabetes',[11.2,11.2,11.8,12.3,12.1,12.4,13.5,14.1,14.1,13.5]],['Diagnosed',[7.1,7.4,7.6,7.9,8.1,8.7,9.4,9.8,10.1,9.8]],['Undiagnosed',[4.1,3.8,4.2,4.4,4.0,3.7,4.1,4.3,4.0,3.7]]],
