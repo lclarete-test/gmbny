@@ -12,7 +12,7 @@ function costAccounts(){
   const direct=[['Outpatient medicines and supplies',137.0],['Institutional care',105.8],['Outpatient care',63.7]];
   const lost=[['Reduced performance at work',35.8],['Premature mortality',32.4],['Disability-related loss of employment',28.3],['Work absences',5.4],['Productivity lost outside paid work',4.4]];
   return `<article class="panel cost-accounts"><div class="section-top"><h2>The economic cost of living with diagnosed diabetes</h2><span class="axis-unit">United States · 2022</span></div><div class="cost-total"><strong>$412.9B</strong><span>medical costs and lost productivity</span></div>
-    <div class="cost-split" aria-hidden="true"><i></i><i></i></div>
+    <div class="cost-split" role="group" aria-label="Economic cost in 2022"><i role="button" tabindex="0" data-chart-label="Direct medical costs" data-chart-value="$306.6B · 74.3%" aria-label="Direct medical costs, $306.6 billion, 74.3%"></i><i role="button" tabindex="0" data-chart-label="Lost productivity" data-chart-value="$106.3B · 25.7%" aria-label="Lost productivity, $106.3 billion, 25.7%"></i></div>
     <div class="account-grid"><section><h3><b>$306.6B</b> Direct medical costs</h3>${barList(direct,{max:140,format:billions})}</section>
     <section><h3><b>$106.3B</b> Lost productivity</h3>${barList(lost,{max:140,format:billions,color:'#13796f'})}</section></div>
     <p class="reading">Hospital stays and treatment for complications count toward medical costs. Disability, time away from work and early deaths account for the productivity loss.</p></article>`;

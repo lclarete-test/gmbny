@@ -1,5 +1,5 @@
 import {atlasFigure} from './atlas-figures.js';
-import {barList, dataTable, escapeHTML, lineChart, matrix, sourcesFooter} from './charts.js';
+import {chartMark, barList, dataTable, escapeHTML, lineChart, matrix, sourcesFooter} from './charts.js';
 import {heading, card, pair} from './epidemiology.js';
 import {links} from './evidence.js';
 import {monitor, cgmSources, cgmMedicare} from './audience.js';
@@ -18,7 +18,7 @@ export function populationHistory(nhis,scope,dimension,interactive=false){
 }
 export function patientProfile(nhis,coverage,view){
   const scope=view.patientScope,p=nhis.profiles[scope];
-  const d=Object.entries(p.groups).map(([key,list])=>`<section><h3>${escapeHTML(key)}</h3><div class="profile-bars">${list.map(([label,v])=>`<div><span>${escapeHTML(label)}</span><i aria-hidden="true">${v==null?'':`<em style="width:${v}%"></em>`}</i><b>${v==null?'—':v.toFixed(1)+'%'}</b></div>`).join('')}</div></section>`).join('');
+  const d=Object.entries(p.groups).map(([key,list])=>`<section><h3>${escapeHTML(key)}</h3><div class="profile-bars">${list.map(([label,v])=>`<div ${v==null?'':`role="button" tabindex="0" ${chartMark(label,v.toFixed(1)+'%',key+' · '+conditionLabel(scope))}`}><span>${escapeHTML(label)}</span><i aria-hidden="true">${v==null?'':`<em style="width:${v}%"></em>`}</i><b>${v==null?'—':v.toFixed(1)+'%'}</b></div>`).join('')}</div></section>`).join('');
   return heading('Patient profile')+atlasFigure('patients')+
     `<article class="panel profile-panel"><div class="section-top"><h2>Who makes up this population?</h2>${controls(scope,'patientScope')}</div>
     <p class="population-summary"><b>${(p.weightedAdults/1e6).toFixed(1)} million</b> U.S. adults reported ${conditionLabel(scope)} in 2025. The profiles, coverage groups and trends below follow this population.</p>
@@ -55,7 +55,7 @@ export function segmentHistory(data,scope){
 function coverageProfile(data,scope){
   const s=data.scopes[scope],rows=s.order.map(key=>[key,s.segments[key]]).sort((a,b)=>b[1].share-a[1].share);
   const text=v=>v==null?'—':v.toFixed(1)+'%';
-  const composition=`<article class="panel" id="patient-coverage"><h2>How this population is insured</h2><p class="population-summary">Coverage was classifiable for <b>${(s.weightedAdults/1e6).toFixed(1)} million</b> U.S. adults with ${conditionLabel(scope)} in 2025. Each person appears in one group.</p><div class="segment-strip" aria-hidden="true">${rows.map(([k,r])=>`<i style="width:${r.share}%;background:${segmentColors[k]}"></i>`).join('')}</div>
+  const composition=`<article class="panel" id="patient-coverage"><h2>How this population is insured</h2><p class="population-summary">Coverage was classifiable for <b>${(s.weightedAdults/1e6).toFixed(1)} million</b> U.S. adults with ${conditionLabel(scope)} in 2025. Each person appears in one group.</p><div class="segment-strip" role="group" aria-label="Share of the selected population by insurance">${rows.map(([k,r])=>`<i role="button" tabindex="0" ${chartMark(displaySegment[k],text(r.share),'Insurance among adults with '+conditionLabel(scope))} style="width:${r.share}%;background:${segmentColors[k]}"></i>`).join('')}</div>
     ${dataTable(['Coverage group','Share of population','95% interval','Survey respondents'],rows.map(([k,r])=>[displaySegment[k],text(r.share),r.ci?r.ci.map(v=>v.toFixed(1)+'%').join(' to '):'—',r.n.toLocaleString('en-US')]))}</article>`;
   const characteristics=rows.map(([k,r])=>[displaySegment[k],...['age65','women','belowPoverty','college','white'].map(i=>text(r.traits[i]))]);
   const access=rows.map(([k,r])=>[displaySegment[k],...['insulin','oral','injectables','usualPlace','unfilledRx'].map(i=>text(r.traits[i]))]);

@@ -1,4 +1,4 @@
-import {escapeHTML} from './charts.js';
+import {chartMark, escapeHTML} from './charts.js';
 import {serviceData} from './treatment-service-data.js';
 import {
   treatmentDrugGroups, treatmentDrugNotes, treatmentDrugRows, treatmentDrugSources, treatmentDrugTotal
@@ -132,7 +132,8 @@ function serviceRow(service) {
   } else {
     breakdown = providersTable(service) + labActivity(service);
   }
-  return '<details class="ma-branch tr-service"><summary>' +
+  return '<details class="ma-branch tr-service"><summary ' +
+    chartMark(service.name,percent(service.share)+' of treatment payments',amount+' per year')+'>' +
     '<span class="ma-branch-name">' + escapeHTML(service.name) + '<small>' + escapeHTML(service.short) + '</small></span>' +
     '<span class="tr-share">' + percent(service.share) + '<span class="tr-sr"> of all annual treatment payments</span>' +
     '<i class="tr-track" aria-hidden="true"><i style="width:' + service.share + '%"></i></i></span>' +

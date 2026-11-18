@@ -1,4 +1,4 @@
-import { escapeHTML, sourcesFooter } from './charts.js';
+import {chartMark,  escapeHTML, sourcesFooter } from './charts.js';
 import { heading } from './epidemiology.js';
 import { nonprofitSnapshot as snapshot } from './nonprofit-data.js';
 
@@ -48,7 +48,7 @@ function scopeAndRoles() {
   const largestGroup = Math.max(...snapshot.roles.map(([, count]) => count));
   const bars = snapshot.roles.map(([label, count]) => {
     const secondary = label === 'Other fields' || label === 'No classification listed';
-    return `<li class="${secondary ? 'np-residual' : ''}"><span>${escapeHTML(label)}</span>
+    return `<li role="button" tabindex="0" ${chartMark(label,count+" nonprofits")} class="${secondary ? 'np-residual' : ''}"><span>${escapeHTML(label)}</span>
       <i aria-hidden="true"><em style="width:${count / largestGroup * 100}%"></em></i><b>${count}</b></li>`;
   }).join('');
   return `<section class="panel np-scan" aria-label="Scope and fields of work">
@@ -62,13 +62,13 @@ function scopeAndRoles() {
 function sizes() {
   const small = snapshot.sizeBands[0][1] + snapshot.sizeBands[1][1];
   const total = snapshot.financialCount;
-  const segments = snapshot.sizeBands.map(([, count], i) =>
-    `<i class="np-band-${i}" style="width:${100 * count / total}%"></i>`).join('');
+  const segments = snapshot.sizeBands.map(([band, count], i) =>
+    `<i role="button" tabindex="0" ${chartMark(band,count+' of '+total+' organizations',String((100*count/total).toFixed(1))+'% of comparable returns')} class="np-band-${i}" style="width:${100 * count / total}%"></i>`).join('');
   const legend = snapshot.sizeBands.map(([band, count], i) =>
     `<li><i class="np-band-${i}" aria-hidden="true"></i><span>${escapeHTML(band)}</span><b>${count}</b></li>`).join('');
   return `<section class="panel np-size"><h2>How large are these nonprofits?</h2>
     <p>Among ${total} organizations with comparable FY${snapshot.fiscalYear} returns, ${small} reported less than $1 million in annual revenue.</p>
-    <div class="np-band" aria-hidden="true">${segments}</div><ul class="np-size-key" aria-label="Number of organizations by annual revenue">${legend}</ul></section>`;
+    <div class="np-band" role="group" aria-label="Organization revenue bands">${segments}</div><ul class="np-size-key" aria-label="Number of organizations by annual revenue">${legend}</ul></section>`;
 }
 
 function largest() {

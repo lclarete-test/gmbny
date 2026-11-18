@@ -1,0 +1,69 @@
+.cs-introduction,.cs-intro-copy,.cs-tissue,.cs-trial-pair>section,.cs-body-context,.cs-organ,.cs-body-figure{min-width:0}
+.cs-introduction{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);align-items:center;gap:clamp(24px,3.5vw,64px);border-top:3px solid #6e5b93}
+.cs-intro-copy p{line-height:1.55;color:#3d495c;font-size:clamp(15px,.92vw,19px);max-width:none}
+.cs-intro-copy p+p{margin-top:11px}
+.cs-intro-copy .cs-definition{color:#29283f;font-weight:590;line-height:1.28;letter-spacing:-.025em;font-size:clamp(21px,1.68vw,34px)}
+.cs-tissue{margin:0;align-self:stretch;display:grid;align-content:center;gap:7px}
+.cs-tissue img{width:100%;height:auto;display:block;border-radius:9px}
+.cs-tissue figcaption,.cs-unit{color:#526076;font-size:13px;line-height:1.35}
+.cs-impact{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2.2vw,38px)}
+.cs-impact>div{display:grid;align-content:start;gap:4px;border-left:2px solid #c8c1df;padding-left:clamp(10px,1.2vw,20px)}
+.cs-impact strong,.cs-trial-result strong{color:#56458e;font-weight:640;font-variant-numeric:tabular-nums;letter-spacing:-.045em;line-height:1.04}
+.cs-impact strong{font-size:clamp(25px,2.4vw,48px)}.cs-impact p,.cs-trial-result span{color:#3c495d;font-size:clamp(14px,.9vw,18px);line-height:1.44}
+.cs-differences dl,.cs-trial-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(22px,3vw,58px);margin:10px 0 0}
+.cs-differences dl>div{display:grid;grid-template-columns:minmax(7rem,.52fr) minmax(0,1.48fr);gap:13px;align-items:baseline;border-top:1px solid #e0e3ec;padding:14px 0}
+.cs-differences dt{font-size:clamp(16px,1.02vw,21px);line-height:1.22;color:#393455;font-weight:650}
+.cs-differences dd,.cs-trials p,.cs-body-context p,.cs-comorbid>p:first-of-type,.cs-labs>p:first-of-type{font-size:clamp(14px,.93vw,18px);line-height:1.52;color:#414c60}
+.cs-differences dd{margin:0}
+.cs-trials h3,.cs-body-context h3{font-size:clamp(16px,1.1vw,22px);color:#31384a;line-height:1.25;margin:0 0 6px}
+.cs-trial-pair>section{border-top:1px solid #d8dce7;padding-top:13px}
+.cs-trials .cs-unit{font-size:13px;margin:14px 0 8px}
+.cs-trial-result{display:flex;align-items:center;gap:clamp(12px,1.4vw,26px);margin-top:15px}
+.cs-trial-result strong{font-size:clamp(25px,2.4vw,46px);flex:none}
+.cs-next{display:flex;align-items:center;gap:9px clamp(18px,3vw,50px);flex-wrap:wrap}
+.cs-next a{font-size:14px;font-weight:600;text-underline-offset:3px}
+.cs-body{container-type:inline-size}
+.cs-anatomy-layout{display:grid;grid-template-columns:minmax(0,2.7fr) minmax(0,1fr);gap:clamp(18px,2.8vw,54px);align-items:center;margin-top:15px}
+.cs-body-figure{display:block;container-type:inline-size;margin:0}
+.cs-body-figure svg{width:100%;height:auto;display:block;font-family:inherit}
+.cs-body-figure .cs-body-narrow{display:none}
+.cs-site,.cs-value,.cs-bio-key,.cs-finding-key{font-weight:680}
+.cs-site{fill:#262c40}.cs-description{fill:#3e4a5d}.cs-population{fill:#59657a}
+.cs-bio-key,.cs-bio-point{fill:#65529b}.cs-finding-key,.cs-finding-point,.cs-value{fill:#924362}
+.cs-bio-line,.cs-finding-line{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.25;opacity:.74}
+.cs-bio-line{stroke:#65529b}.cs-finding-line{stroke:#924362}
+.cs-bio-point,.cs-finding-point{stroke:white;stroke-width:1}
+.cs-body-context{display:grid;gap:clamp(12px,1.4vw,25px)}
+.cs-body-context section{border-top:1px solid #d8dce7;padding-top:9px}
+.cs-organ .cs-trial-result{align-items:flex-start}
+@container(max-width:920px){
+  .cs-anatomy-layout{display:block}
+  .cs-body-context{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:14px;gap:15px}
+}
+@container(max-width:610px){
+  .cs-body-figure .cs-body-wide{display:none}
+  .cs-body-figure .cs-body-narrow{display:block}
+  .cs-body-context{grid-template-columns:1fr;margin-top:8px}
+}
+@media(min-width:1800px){
+  .cs-tissue,.cs-intro-copy{width:100%}.cs-introduction{grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr)}
+}
+@media(max-width:1140px){
+  .cs-differences dl>div{grid-template-columns:1fr;gap:5px}
+}
+@media(max-width:860px){
+  .cs-introduction{grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:16px}
+  .cs-trial-result{align-items:flex-start}
+}
+@media(max-width:650px){
+  .cs-introduction{grid-template-columns:1fr;gap:14px}.cs-intro-copy p+p{margin-top:8px}
+  .cs-tissue img{height:auto;max-height:250px;object-fit:cover}
+  .cs-impact{grid-template-columns:1fr;gap:0}
+  .cs-impact>div{grid-template-columns:minmax(78px,.68fr) minmax(0,1.32fr);gap:12px;align-items:center;border:0;border-top:1px solid #dedfea;padding:10px 0}
+  .cs-impact>div:first-child{border:0;padding-top:0}.cs-impact>div:last-child{padding-bottom:0}
+  .cs-impact strong{font-size:clamp(19px,4.8vw,29px)}
+  .cs-differences dl,.cs-trial-pair{grid-template-columns:1fr}
+  .cs-trial-pair{gap:18px}.cs-differences dl>div{padding:10px 0}
+  .cs-differences dt{font-size:16px}
+  .cs-next{gap:7px 20px}
+}

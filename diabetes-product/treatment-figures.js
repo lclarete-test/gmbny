@@ -1,4 +1,4 @@
-import {escapeHTML} from './charts.js';
+import {chartMark, escapeHTML} from './charts.js';
 import {collectionImages} from './collection-data.js';
 
 const dotComparisons={
@@ -28,7 +28,7 @@ const processes={
 export function milestoneFigure(active) {
   const dots=dotComparisons[active.id];
   if(dots){
-    const rows=dots.rows.map(([label,value])=>`<div class="ev-unit-row"><div><span>${escapeHTML(label)}</span><b>${value}</b></div><div class="ev-units" aria-hidden="true" style="--units:${dots.max}">${Array.from({length:dots.max},(_,i)=>'<i'+(i<value?' class="filled"':'')+'></i>').join('')}</div></div>`).join('');
+    const rows=dots.rows.map(([label,value])=>`<div role="button" tabindex="0" ${chartMark(label,String(value),dots.axis)} class="ev-unit-row"><div><span>${escapeHTML(label)}</span><b>${value}</b></div><div class="ev-units" aria-hidden="true" style="--units:${dots.max}">${Array.from({length:dots.max},(_,i)=>'<i'+(i<value?' class="filled"':'')+'></i>').join('')}</div></div>`).join('');
     return `<figure class="ev-data-figure"><div class="ev-unit-chart"><strong>${escapeHTML(dots.axis)}</strong>${rows}</div><figcaption>${escapeHTML(dots.caption)}</figcaption></figure>`;
   }
   const diagram=processes[active.id];

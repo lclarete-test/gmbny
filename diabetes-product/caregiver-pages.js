@@ -1,5 +1,5 @@
 import {atlasFigure} from './atlas-figures.js';
-import {barList, escapeHTML, lineChart, measures, sourcesFooter} from './charts.js';
+import {chartMark, barList, escapeHTML, lineChart, measures, sourcesFooter} from './charts.js';
 import {card, heading, pair} from './epidemiology.js';
 
 const source = {
@@ -50,9 +50,9 @@ const intensityMeasures=[
   ['Employed or self-employed','work'],['14+ days of poor mental health in the past month','mental']
 ];
 function weeklyHours(){
-  const strip=careHours.map((s,i)=>`<i class="care-tone-${i}" style="flex:${s.share}"></i>`).join('');
+  const strip=careHours.map((s,i)=>`<i role="button" tabindex="0" ${chartMark(s.name,s.share.toFixed(1)+'%','Weekly care hours')} class="care-tone-${i}" style="flex:${s.share}"></i>`).join('');
   const groups=careHours.map((s,i)=>`<section class="care-segment"><div><i class="care-key care-tone-${i}" aria-hidden="true"></i><strong>${s.share}%</strong></div><h3>${s.name}</h3><p>of care per week</p><dl>${intensityMeasures.map(([label,key])=>`<div><dt>${label}</dt><dd>${s[key].toFixed(1)}%</dd></div>`).join('')}</dl></section>`).join('');
-  return `<article class="panel" id="caregiver-hours"><h2>How much of the week goes to care?</h2><p class="axis-unit">Share of caregivers by weekly hours. The measures below each share describe that group.</p><div class="care-distribution" aria-hidden="true">${strip}</div><div class="care-segments care-three">${groups}</div>${reading('Across all caregivers with a valid response, 27.9% helped with personal care such as bathing or eating.')}</article>`;
+  return `<article class="panel" id="caregiver-hours"><h2>How much of the week goes to care?</h2><p class="axis-unit">Share of caregivers by weekly hours. The measures below each share describe that group.</p><div class="care-distribution" role="group" aria-label="Weekly caregiving hours">${strip}</div><div class="care-segments care-three">${groups}</div>${reading('Across all caregivers with a valid response, 27.9% helped with personal care such as bathing or eating.')}</article>`;
 }
 export function caregiverProfile(){
   const routine = `<article class="panel" id="caregiver-daily"><h2>An ordinary week of adult diabetes care</h2>${unit('Unpaid caregivers of adults with diabetes · U.S. survey, 2009')}${bars([['Shopping for groceries',84],['Monitoring diet',77],['Managing household finances',75],['Helping monitor glucose',63],['Supporting exercise',60],['Inspecting hands or feet',54]])}${reading('When the person used insulin, 67% helped make sure the prescribed dose was taken. When the person took oral medication, 55% helped divide the doses.')}</article>`;

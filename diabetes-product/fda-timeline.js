@@ -1,4 +1,4 @@
-import {dataTable, escapeHTML} from './charts.js';
+import {chartMark, dataTable, escapeHTML} from './charts.js';
 import {decisions, throughDate} from './fda-decisions.js';
 
 const bulkFile = 'https://www.fda.gov/medical-devices/510k-clearances/downloadable-510k-files';
@@ -56,8 +56,8 @@ function annualChart(){
     const values = byYear.get(year), total = sum(values);
     const bars = values.map((value,i)=>{
       if(!value)return '';
-      const description = `${families[i].name}: ${value}`;
-      return `<span title="${escapeHTML(description)}" style="width:${100*value/scale}%;--fda-color:${families[i].color}">${value>1?value:''}</span>`;
+      const amount = value+' '+(value===1?'decision':'decisions');
+      return `<span role="button" tabindex="0" ${chartMark(families[i].name,amount,periodLabel(year))} style="width:${100*value/scale}%;--fda-color:${families[i].color}">${value>1?value:''}</span>`;
     }).join('');
     const isPartial = year===lastYear && partial;
     const label = isPartial?`${year}<small>Jan–${lastMonthName}</small>`:year;
@@ -65,7 +65,7 @@ function annualChart(){
   }).join('');
   const axes=[0,1,2,3,4].map(i=>`<span>${i*step}</span>`).join('');
   return `<ul class="fda-key" aria-label="Decisions across the entire period">${keys}</ul>
-    <div class="fda-plot" aria-hidden="true"><ol>${rows}</ol><div class="fda-axis"><div>${axes}</div></div></div>
+    <div class="fda-plot" role="group" aria-label="Annual FDA authorizations by device family"><ol>${rows}</ol><div class="fda-axis"><div>${axes}</div></div></div>
     <details class="chart-values"><summary>Decisions by year and device family</summary>${dataTable(
       ['Period',...families.map(f=>f.name),'All four families'],
       years.map(year=>[periodLabel(year),...byYear.get(year),sum(byYear.get(year))]),

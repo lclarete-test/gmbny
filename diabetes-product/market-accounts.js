@@ -252,7 +252,7 @@ export function marketAccounts() {
   }).join('');
   return '<article class="panel market-accounts"><div class="ma-intro"><div><h2>The economic cost of living with diagnosed diabetes</h2>' +
     '<p>The ADA estimated the extra medical spending and lost productivity attributable to diabetes in the United States in 2022.</p></div><strong class="ma-total">$412.9B</strong></div>' +
-    '<div class="ma-ruler" role="img" aria-label="Direct medical costs, 74%. Lost productivity, 26%."><i></i><i></i></div>' +
+    '<div class="ma-ruler" role="group" aria-label="Economic cost in 2022"><i role="button" tabindex="0" data-chart-label="Direct medical costs" data-chart-value="$306.6B · 74.3%" aria-label="Direct medical costs, $306.6 billion, 74.3%"></i><i role="button" tabindex="0" data-chart-label="Lost productivity" data-chart-value="$106.3B · 25.7%" aria-label="Lost productivity, $106.3 billion, 25.7%"></i></div>' +
     '<p class="ma-overlap">AHRQ measured <a href="#industry/market/treatment">$153.2B in annual treatment payments</a> in 2021–22. Some care appears in both estimates. The studies do not report how much of that $153.2B is included in the economic cost.</p>' +
     '<div class="ma-columns"><section class="ma-direct"><div class="ma-account-head"><span>Direct medical costs <small>74%</small></span><strong>$306.6B</strong></div>' +
     accounts.map(costBranch).join('') + '</section>' +

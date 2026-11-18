@@ -1,0 +1,219 @@
+/* Base geometry is shared by the report, including its method notes and export footer. */
+@media screen {
+  .shell {
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+  }
+
+  .shell > main {
+    max-width: none;
+    min-inline-size: 0;
+  }
+
+  main > *,
+  .chapter-pair > * {
+    min-inline-size: 0;
+  }
+
+  .report-footer { flex-wrap: wrap; }
+
+  .market-accounts .ma-table {
+    max-inline-size: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+  }
+}
+
+@media screen and (min-width: 901px) {
+  .shell {
+    grid-template-columns: clamp(12rem, 14vw, 16.5rem) minmax(0, 1fr);
+  }
+
+  .sidebar {
+    padding-inline: clamp(.8rem, 1vw, 1.5rem);
+    overscroll-behavior-y: contain;
+  }
+
+  .shell > main {
+    padding-inline: clamp(1.4rem, 2.25vw, 4rem);
+    padding-block: clamp(1.5rem, 2vw, 3.25rem);
+    gap: clamp(1.125rem, 1.15vw, 2rem);
+  }
+
+  .chapter-pair {
+    gap: clamp(1.125rem, 1.15vw, 2rem);
+  }
+}
+
+/* The compact chapter navigation gives portrait tablets the full reading area. */
+@media screen and (min-width: 731px) and (max-width: 900px) {
+  .shell { display: block; }
+  .sidebar {
+    position: static;
+    height: auto;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: .5rem 1rem;
+  }
+  #navigation, .side-bottom { display: none; }
+  #mobile-navigation { display: block; }
+  .mobile-chapters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5.4rem, 1fr));
+    align-items: stretch;
+    gap: .2rem;
+  }
+  #mobile-navigation a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 2.2rem;
+    border-radius: .3rem;
+    padding: .25rem .35rem;
+    color: #465167;
+    text-decoration: none;
+    font-size: .825rem;
+    line-height: 1.25;
+  }
+  #mobile-navigation .active {
+    color: #433887;
+    font-weight: 650;
+    background: #eeecf8;
+  }
+  .mobile-sub, .mobile-topics {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0 .5rem;
+    margin-top: .25rem;
+    padding-top: .2rem;
+    border-top: 1px solid var(--line);
+  }
+}
+
+.matrix-grid.matrix-facets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 27rem), 1fr));
+  gap: 1.35rem clamp(1.2rem, 1.8vw, 2.25rem);
+}
+.matrix-facets > section { min-width: 0; }
+
+@media screen and (min-width: 1280px) {
+  body { font-size: clamp(.9375rem, .832rem + .14vw, 1.065rem); }
+
+  .profile-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  }
+
+  .care-question-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+  }
+
+  .journey-path { max-width: none; }
+  .explore-head p, .industry-lead, .journey-context,
+  .measure-call p, .np-size > p, .np-org p, .ma-overlap,
+  .market-accounts .ma-intro p, .dv-system > p,
+  .atlas-reading p, .eco-stories p, .ev-change {
+    max-width: none;
+  }
+  .panel > .reading, .population-summary, .journey-context, .care-intro,
+  .eco-stories p, .atlas-reading p, .np-geography, .dv-system > p {
+    font-size: clamp(.9rem, .8rem + .14vw, 1.05rem);
+  }
+
+  /* The drawings and their touch targets share bounds, including when space is wide but short. */
+  .atlas-figure { --drawing-ratio: 1.85; }
+  .atlas-patients, .atlas-caregivers { --drawing-ratio: 2.62; }
+  .atlas-hcp { --drawing-ratio: 2.2; }
+  .atlas-organizations { --drawing-ratio: 2.38; }
+  .atlas-figure:not(.ecosystem) picture,
+  .ecosystem-canvas {
+    max-width: min(100%, max(70rem, calc(80vh * var(--drawing-ratio, 1.76))));
+  }
+  .ecosystem { --drawing-ratio: 1.76; }
+}
+
+@media screen and (min-width: 1600px) {
+  .explore-head {
+    display: grid;
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+    gap: 1rem 2.5rem;
+    align-items: end;
+  }
+  .explore-head > p { margin: 0; }
+
+  .journey-stage dl, .care-step-body dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+    gap: .6rem 2rem;
+  }
+  .care-step-body dl > div { margin: 0; }
+}
+
+.source-foot {
+  container: report-sources / inline-size;
+  padding-block-start: clamp(1.05rem, 1.4vw, 2rem);
+  font-size: clamp(.8125rem, .75rem + .12vw, .95rem);
+  line-height: 1.55;
+}
+.source-foot h2 {
+  margin: 0 0 .85rem;
+  font-size: clamp(1rem, .94rem + .14vw, 1.2rem);
+}
+.source-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+.source-body > * { min-inline-size: 0; }
+.source-foot .source-notes p {
+  margin: 0;
+  max-width: none;
+  break-inside: avoid;
+  overflow-wrap: anywhere;
+}
+.source-notes p + p { padding-block-start: .6rem; }
+.source-foot .source-links {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  columns: 17rem auto;
+  column-gap: clamp(1.25rem, 1.8vw, 2.5rem);
+}
+.source-links li {
+  padding: .22rem 0;
+  break-inside: avoid;
+  line-height: 1.45;
+}
+.source-foot a {
+  font-size: inherit;
+  overflow-wrap: anywhere;
+  text-decoration-thickness: 1px;
+}
+@container report-sources (min-width: 62rem) {
+  .source-body:has(> .source-notes + .source-links) {
+    grid-template-columns: minmax(0, .88fr) minmax(0, 1.18fr);
+    gap: clamp(1.6rem, 2.2vw, 3.25rem);
+  }
+}
+@container report-sources (min-width: 110rem) {
+  .source-notes:has(> p:nth-child(3)) {
+    columns: 2;
+    column-gap: 2rem;
+  }
+}
+@media screen and (max-width: 730px) {
+  .source-foot .source-links { columns: 1; }
+  .source-links li { padding-block: .3rem; }
+}
+@media print {
+  .source-foot { container-type: normal; break-inside: auto; }
+  .source-foot .source-body { display: block; }
+  .source-foot .source-links { columns: 2; margin-top: .6rem; }
+  .source-notes { columns: 1; }
+}

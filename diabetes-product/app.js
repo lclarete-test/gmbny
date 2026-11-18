@@ -2,9 +2,12 @@ import {ecosystemPage} from './ecosystem.js';
 import {publicCoverage,privateCoverage,payerRows} from './system-pages.js';
 import {sources,demographics} from './data.js';
 import {histories,links,complications} from './evidence.js';
-import {resetCharts,mountCharts,currentSeries} from './charts.js';
-import {epidemiology,comparisonHistory} from './epidemiology.js';
-import {introduction,biology,clinicalProfile,amputationHistory,crisisHistory} from './clinical.js';
+import {resetCharts,mountCharts,currentSeries,refreshChartRegion} from './charts.js';
+import {epidemiology} from './epidemiology.js';
+import {stateGeography,hasStateLayer} from './geography.js';
+import {comparisonHistory,nationalHistory,statusDetails,glucoseExportRows} from './glucose-overview.js';
+import {glucoseStatus,labTrend} from './national-glucose.js';
+import {introduction,biology,amputationHistory,crisisHistory} from './clinical.js';
 import {healthcare,medicaidTrend} from './healthcare.js';
 import {cgmHistory,cgmMedicare} from './audience.js';
 import {patientProfile,treatmentPage,populationHistory,segmentHistory} from './patient-research.js';
@@ -23,8 +26,8 @@ import {stateNames} from './map-data.js';
 import {painProfile} from './patient-pain.js';
 
 const $=id=>document.getElementById(id);
-const view={state:null,period:2000,costMode:0,costState:null,patientScope:'Type 2',profileMetric:'Population',treatmentScope:'Type 2',painScope:'Type 2',search:'',deviceType:'all',category:'all',deviceAccess:'all',openProduct:null,systemExample:'omni',sensorExample:null,selected:new Set(),milestone:null,explored:readExploredStops(),timelineQuiz:{index:0,answer:null},theme:'types',voiceRole:'all'};
-const science=[['intro','Introduction'],['biology','Diabetes biology'],['epidemiology','Epidemiology'],['clinical','Clinical profile']];
+const view={state:null,period:2000,geoYear:2024,geoMetric:'all',geoMeasure:'rate',glucoseStatus:'undiagnosed',nationalSeries:'reported',costMode:0,costState:null,patientScope:'Type 2',profileMetric:'Population',treatmentScope:'Type 2',painScope:'Type 2',search:'',deviceType:'all',category:'all',deviceAccess:'all',openProduct:null,systemExample:'omni',sensorExample:null,selected:new Set(),milestone:null,explored:readExploredStops(),timelineQuiz:{index:0,answer:null},theme:'types',voiceRole:'all'};
+const science=[['intro','Introduction'],['biology','Biology and clinical profile'],['epidemiology','Epidemiology']];
 const system=[['healthcare','Costs and care use'],['healthcare/public','Public coverage'],['healthcare/private','Private insurance'],['healthcare/policy','Public policy']];
 const audiences=[['patients/profile','Patients'],['caregivers/profile','Caregivers'],['hcp/profile','Healthcare professionals'],['organizations','Organizations']];
 const discussion=[['discussion','Public discussion'],['discussion/search','Search interest'],['discussion/voices','Public voices']];
@@ -35,6 +38,9 @@ const sections={
   hcp:[['profile','Profile'],['journey','Journey'],['relationship','Patient relationship']]
 };
 const mergedSections={
+  clinical:['biology','clinical-findings'],
+  'epidemiology/clinical':['biology','clinical-findings'],
+  'biology/clinical':['biology','clinical-findings'],
   'patients/segments':['patients/profile','patient-coverage'],
   'patients/personas':['patients/profile','patient-coverage'],
   personas:['patients/profile','patient-coverage'],
@@ -45,10 +51,10 @@ const mergedSections={
   'industry/market/treatment':['industry/market','treatment-payments'],
   'industry/market/labs':['industry/market','glucose-prices']
 };
-const aliases={overview:'epidemiology',people:'patients/profile',family:'caregivers/profile',journey:'patients/journey',life:'patients/routine',products:'industry/products',industry:'industry/market',market:'industry/market',online:'discussion/search',influencers:'discussion/voices','signals/search':'discussion/search','signals/pain':'patients/pain','signals/voices':'discussion/voices','public/online':'discussion/search','public/influencers':'discussion/voices','public/profile':'discussion','public/questions':'discussion/search',introduction:'intro',patients:'patients/profile',caregivers:'caregivers/profile',hcp:'hcp/profile',public:'discussion',policy:'healthcare/policy','epidemiology/clinical':'clinical'};
+const aliases={overview:'epidemiology',people:'patients/profile',family:'caregivers/profile',journey:'patients/journey',life:'patients/routine',products:'industry/products',industry:'industry/market',market:'industry/market',online:'discussion/search',influencers:'discussion/voices','signals/search':'discussion/search','signals/pain':'patients/pain','signals/voices':'discussion/voices','public/online':'discussion/search','public/influencers':'discussion/voices','public/profile':'discussion','public/questions':'discussion/search',introduction:'intro',patients:'patients/profile',caregivers:'caregivers/profile',hcp:'hcp/profile',public:'discussion',policy:'healthcare/policy'};
 const main=$('main-content'),data={},requests=new Map();
 let route='',generation=0;
-const assetPaths={svg:'us-map.svg',states:'data/state-series.json',profiles:'data/state-profile.json',nhis:'data/nhis.json',coverage:'data/coverage.json',segments:'data/coverage-segments.json',caregivers:'data/caregiver-profile.json'};
+const assetPaths={conditions:'data/state-conditions.json',type1Counts:'data/type1-cases-2024.json',svg:'us-map.svg',states:'data/state-series.json',profiles:'data/state-profile.json',nhis:'data/nhis.json',coverage:'data/coverage.json',segments:'data/coverage-segments.json',caregivers:'data/caregiver-profile.json'};
 async function loadData(keys=Object.keys(assetPaths)){
   await Promise.all(keys.map(key=>{
     if(data[key])return;
@@ -64,7 +70,7 @@ async function loadData(keys=Object.keys(assetPaths)){
   }));
 }
 const pages={
-  intro:[introduction],biology:[biology],epidemiology:[()=>epidemiology(data,view),'svg','states','profiles','nhis'],clinical:[()=>clinicalProfile(data.nhis),'nhis'],
+  intro:[introduction],biology:[()=>biology(data.nhis),'nhis'],epidemiology:[()=>epidemiology(data,view),'svg','states','profiles','nhis','conditions','type1Counts'],
   healthcare:[()=>healthcare(data,view),'svg','coverage'],'healthcare/public':[publicCoverage],'healthcare/private':[privateCoverage],'healthcare/policy':[policyPage],audience:[ecosystemPage],
   'patients/profile':[()=>patientProfile(data.nhis,data.segments,view),'nhis','segments'],
   'patients/journey':[()=>patientJourney(data.nhis),'nhis'],'patients/routine':[()=>patientRoutines(data.nhis),'nhis'],
@@ -93,7 +99,7 @@ function navigation(){
     group('Public discussion',linksFrom([['discussion','Knowledge and campaigns'],...discussion.slice(1)]))+
     group('Industry & market',linksFrom(industry));
   const isAudience=Object.hasOwn(sections,family)||family==='organizations'||family==='audience';
-  const mobile=[['intro','Introduction'],['biology','Biology'],['epidemiology','Epidemiology'],['clinical','Clinical profile'],['healthcare','Healthcare'],['audience','Audience'],['discussion','Public discussion'],['industry/market','Market']];
+  const mobile=[['intro','Introduction'],['biology','Biology and clinical profile'],['epidemiology','Epidemiology'],['healthcare','Healthcare'],['audience','Audience'],['discussion','Public discussion'],['industry/market','Market']];
   const activeKey=isAudience?'audience':family==='industry'?'industry/market':['discussion','healthcare'].includes(family)?family:route;
   const sub=isAudience?audiences.map(([p,n])=>[p,p.startsWith('hcp/')?'HCPs':n]):family==='industry'?industry:family==='discussion'?[['discussion','Knowledge and campaigns'],...discussion.slice(1)]:family==='healthcare'?system:[];
   $('mobile-navigation').innerHTML=`<div class="mobile-chapters">${mobile.map(([p,n])=>navLink(p,n,p===activeKey)).join('')}</div>`+
@@ -141,7 +147,7 @@ async function activateRoute(){
     detailRoute=!!(product||path);
   }
   if(!Object.hasOwn(pages,route))route='intro';
-  if(raw&&raw!==route&&!detailRoute&&!(merged&&route==='industry/market'))history.replaceState(null,'','#'+route);
+  if(raw&&raw!==route&&!detailRoute&&!(merged&&(route==='industry/market'||route==='biology')))history.replaceState(null,'','#'+route);
   const request=++generation;
   navigation();
   const needed=pages[route].slice(1);
@@ -173,6 +179,13 @@ function selection(action,anchor) {
     if(map){window.scrollBy(0,map.getBoundingClientRect().top-before);if(anchor.matches('select')||anchor.matches(':focus')) map.querySelector('select')?.focus({preventScroll:true});}
   }
 }
+function refreshGeography(focusSelector){
+  const region=$('epi-geography');
+  refreshChartRegion(region,()=>stateGeography(data,view));
+  region.querySelector(focusSelector)?.focus({preventScroll:true});
+  const summary=region.querySelector('.geo-current')||region.querySelector('.geo-coverage');
+  $('geo-announcement').textContent=summary?.innerText||'All states';
+}
 function comparisonBar(){
   const bar=$('compare-bar');
   bar.hidden=route!=='industry/products'||!view.selected.size;
@@ -196,10 +209,33 @@ document.addEventListener('click',e=>{
     $('product-search').value='';$('device-type').value='all';$('device-access').value='all';
     refreshDeviceResults(view);$('product-search').focus();return;
   }
-  if(d.state){selection(()=>{view.state=d.state},t);return;}
+  if(d.glucoseStatus&&glucoseStatus.some(item=>item.id===d.glucoseStatus)){
+    view.glucoseStatus=d.glucoseStatus;
+    main.querySelectorAll('[data-glucose-status]').forEach(button=>button.setAttribute('aria-pressed',String(button===t)));
+    $('glucose-detail').innerHTML=statusDetails(view.glucoseStatus);return;
+  }
+  if(d.nationalSeries&&['reported','labs'].includes(d.nationalSeries)){
+    if(view.nationalSeries===d.nationalSeries)return;
+    view.nationalSeries=d.nationalSeries;
+    refreshChartRegion($('epi-history'),()=>nationalHistory(data.nhis,view.nationalSeries));
+    $('epi-history').querySelector('[aria-pressed="true"]').focus({preventScroll:true});return;
+  }
+  if(d.geoMetric&&hasStateLayer(d.geoMetric)){
+    if(view.geoMetric===d.geoMetric)return;
+    view.geoMetric=d.geoMetric;view.geoMeasure='rate';
+    refreshGeography('[data-geo-metric="'+d.geoMetric+'"]');return;
+  }
+  if(t.hasAttribute('data-geo-reset')){
+    view.state=null;refreshGeography('[data-picker="geo"]');return;
+  }
+  if(d.geoYear){view.geoYear=Number(d.geoYear);refreshGeography('[data-picker="geo-year"]');return;}
+  if(d.state&&Object.hasOwn(stateNames,d.state)){
+    view.state=view.state===d.state?null:d.state;
+    refreshGeography('.atlas-state[data-state="'+d.state+'"]');return;
+  }
   if(d.costState){selection(()=>{view.costState=d.costState},t);return;}
   if(d.costMode!==undefined){selection(()=>{view.costMode=Number(d.costMode)},t);return;}
-  if(d.period){view.period=Number(d.period);render();return;}
+  if(d.period){view.period=Number(d.period);refreshGeography('[data-period="'+d.period+'"]');return;}
   if(d.cohort){
     if(['patientScope','treatmentScope','painScope'].includes(d.cohort)&&['Type 1','Type 2','All diagnosed','Prediabetes only'].includes(d.value)){
       view[d.cohort]=d.value;render();main.querySelector('[data-cohort="'+d.cohort+'"][aria-pressed="true"]')?.focus({preventScroll:true});
@@ -217,7 +253,10 @@ document.addEventListener('keydown',e=>{
 });
 document.addEventListener('change',e=>{
   const t=e.target, d=t.dataset;
-  if(d.picker){selection(()=>{if(d.picker==='geo')view.state=t.value||null;else view.costState=t.value||null},t);return;}
+  if(d.picker==='geo'){view.state=t.value||null;refreshGeography('[data-picker="geo"]');return;}
+  if(d.picker==='geo-year'){view.geoYear=Number(t.value);refreshGeography('[data-picker="geo-year"]');return;}
+  if(d.picker==='geo-measure'){view.geoMeasure=t.value==='count'?'count':'rate';refreshGeography('[data-picker="geo-measure"]');return;}
+  if(d.picker==='cost'){selection(()=>{view.costState=t.value||null},t);return;}
   if(t.id==='profile-dimension'){view.profileMetric=t.value;const top=t.getBoundingClientRect().top;render();const next=$('profile-dimension');window.scrollBy(0,next.getBoundingClientRect().top-top);next.focus({preventScroll:true});return;}
   if(t.id==='device-type'||t.id==='device-access'){
     view[t.id==='device-type'?'deviceType':'deviceAccess']=t.value;view.openProduct=null;
@@ -239,8 +278,8 @@ async function exportData(){
   try{await loadData()}catch{dialog('<h2>Download interrupted</h2><p>Try Export data again when the connection returns.</p>');return;}
   const rows=[['Section','Measure','Group or period','Value','Unit / population','Source']];
   const seriesByTitle=new Map();
-  for(const series of [...Object.values(histories),comparisonHistory(data.nhis),cgmHistory,cgmMedicare,searchHistory,...publicSearchHistories,crisisHistory,amputationHistory,medicaidTrend,...currentSeries()]){
-    seriesByTitle.set(series.title+' / '+series.unit,series);
+  for(const series of [...Object.entries(histories).filter(([id])=>!['pre','diabetes'].includes(id)).map(([,series])=>series),comparisonHistory(data.nhis),labTrend,cgmHistory,cgmMedicare,searchHistory,...publicSearchHistories,crisisHistory,amputationHistory,medicaidTrend,...currentSeries()]){
+    seriesByTitle.set(series.source+' / '+series.unit+' / '+series.series.map(([name])=>name).join(' / '),series);
   }
   for(const series of seriesByTitle.values()){
     for(const [seriesName,values] of series.series)series.labels.forEach((period,i)=>rows.push([series.title,seriesName,period,values[i],series.unit,series.source]));
@@ -249,6 +288,16 @@ async function exportData(){
   for(const [dim,groups] of Object.entries(data.nhis.comparison))for(const [label,...values] of groups)values.forEach((v,i)=>rows.push(['Condition comparison · 2025',data.nhis.labels[i],dim+' / '+label,v,'% of adults in group',links.nhis]));
   for(const [scope,profile] of Object.entries(data.nhis.profiles))for(const [dim,list] of Object.entries(profile.groups))for(const [group,...vs] of list)vs.forEach((v,i)=>rows.push(['Patient profile · '+scope,['Patient share','Insulin','Oral medication','Other injectables'][i],dim+' / '+group,v,i?'% of patient group':'% of selected population',links.nhis]));
   for(const [key,list] of Object.entries(data.nhis.type2Routine))for(const [label,v] of list)rows.push(['Patient care routines',key==='a1c'?'Last A1C check':'Felt overwhelmed in the past month',label,v,'% of adults with type 2 diabetes · 2025',links.nhis]);
+  rows.push(...glucoseExportRows());
+  for(const layer of Object.values(data.conditions)){
+    for(const [abbr,est] of Object.entries(layer.states)){
+      for(const year of layer.years){
+        const value=est.annual[year];
+        if(Number.isFinite(value))rows.push(['State prevalence',layer.label,year+' / '+stateNames[abbr],value,'Age-adjusted % of adults 18+',layer.sourceUrl]);
+      }
+    }
+  }
+  for(const [abbr,est] of Object.entries(data.type1Counts.states))rows.push(['State type 1 model','People living with type 1 diabetes','2024 / '+stateNames[abbr],est.value,'Modeled count, all ages',data.type1Counts.sourceUrl]);
   for(const rec of data.states)rows.push(['Geography','Age-adjusted diagnosed diabetes',rec.year+' / '+(stateNames[rec.state]||'U.S. state median'),rec.estimate,'%',links.states]);
   for(const [id,rec] of Object.entries(data.profiles))for(const [dim,groups] of Object.entries(rec.groups))for(const [group,v] of Object.entries(groups))rows.push(['State profile · 2024',stateNames[id],dim+' / '+group,v,'%',links.states]);
   for(const [condition,a,b] of complications)for(const [year,v] of [[2020,a],[2021,b]])rows.push(['Hospital care',condition,year,v*1000,'Discharges',links.cdc]);
