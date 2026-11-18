@@ -4,6 +4,7 @@ import {card, heading, pair} from './epidemiology.js';
 import {products, sources} from './data.js';
 
 const ref = {
+  amputation: 'https://aspe.hhs.gov/sites/default/files/documents/b60f396f32e29a2a9469276d9ca80e4b/aspe-insulin-affordibility-rtc.pdf',
   meps: 'https://meps.ahrq.gov/data_files/publications/st568/stat568.shtml',
   first: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12039499/',
   drugSpend: 'https://doi.org/10.2337/dc25-2016',
@@ -71,7 +72,7 @@ function explanatoryTable(headers, rows, label, format=escapeHTML) {
 
 export function marketOverview() {
   const spending = card('Where the treatment dollar goes',
-    `<div class="measure-call"><b>$153.2B</b><p>U.S. annual payments for care linked to diabetes, averaged across 2021–22. Of this, about <strong>$123.0 billion</strong> paid for prescribed medicines.</p></div>${barList(services)}<p class="reading">The survey links visits and prescriptions to diabetes, including recorded complications. Separate equipment purchases fall outside this total. It cannot tell us the size of the device market.</p>`);
+    `<div class="measure-call"><b>$153.2B</b><p>U.S. annual payments for care linked to diabetes, averaged across 2021–22. Of this, about <strong>$123.0 billion</strong> paid for prescribed medicines.</p></div>${barList(services)}<p class="reading">The $153.2 billion excludes care for complications and separately purchased medical equipment. Amputation is one example. A separate national hospital study found that an adult stay involving diabetes and a lower-limb amputation cost an average of $30,032 and lasted 11.4 days in 2019.</p>`);
   const prescribing = card('Which medicines people started',
     '<p class="industry-caption">Share of first glucose-lowering prescriptions in a U.S. claims study of adults with type 2 diabetes.</p>'+
     dataTable(['Drug family','Jan 2022','May 2023'],firstDrugs,'First-line use in adults with type 2 diabetes')+
@@ -114,6 +115,7 @@ export function marketOverview() {
     pair(allowance,outOfPocket)+delivery+adoption+revenue+
     sourcesFooter([
       ['AHRQ · Diabetes treatment expenditure, 2021–22',ref.meps],
+      ['HHS · Hospital costs for lower-extremity amputation, table 6-3',ref.amputation],
       ['First-line glucose-lowering prescriptions in type 2 diabetes · Komodo claims, 2019–23',ref.first],
       ['Diabetes Care · U.S. glucose-lowering medication expenditure, 2000–22',ref.drugSpend],
       ['HHS Office of Inspector General · Part D prescriptions and gross spending, tables 2 and 4',ref.partDDrugs],
@@ -127,7 +129,7 @@ export function marketOverview() {
       ['Insulet · 2022 annual filing',links.omni22],['Insulet · 2024 annual filing',links.omni24],['Insulet · 2025 annual filing',links.omni25],
       ['Dexcom · U.S. Q3 2026 results',sources.dexrev.url]
     ],[
-      'MEPS covers U.S. civilian noninstitutionalized adults age 18+. AHRQ averaged 26.3 million adults treated per year. It counted six categories of actual payments where diabetes was recorded as the reason for care or identified during care. It omitted the separate category for other medical equipment and services. The prescribed-medicine dollar estimate is 80.3% of $153.2 billion, rounded.',
+      'MEPS covers U.S. civilian noninstitutionalized adults age 18+. AHRQ averaged 26.3 million adults treated per year. It counted six categories of actual payments where diabetes was recorded as the reason for care or identified during care. AHRQ excluded care for diabetes complications, nursing home residents and the separate equipment and services category. The HHS hospital estimate uses 87,270 adult non-maternal discharges meeting the 2019 PQI 16 definition. The cost covers the hospital stay and uses a different year and population. The prescribed-medicine dollar estimate is 80.3% of $153.2 billion, rounded.',
       'The first-prescription study followed 964,914 adults with type 2 diabetes across the full study period. Its GLP-1 category includes dual GIP/GLP-1 agonist tirzepatide. The five displayed classes are selected examples. The separate national spending study includes all diabetes types. Its newer group includes amylin analogs and certain combinations, and its older group includes metformin and sulfonylureas. Spending shares round to 99.9%.',
       'The Medicare Part D audit counted dispensing by selected drug, across covered indications. Gross spending includes ingredient cost and dispensing fees before rebates and other price concessions. These figures quantify Medicare Part D rather than the full U.S. drug market.',
       'Manufacturer prices were checked November 17, 2026. The Roche coupon has eligibility exclusions. Medicare figures cover fee-for-service claims for two FDA device classes. Household figures are actual patient payments for supplies in a separate commercially insured type 1 cohort in 2018. The three price sources cover different products, populations and periods.',
@@ -320,6 +322,8 @@ export function industryExportRows() {
     ['Industry','Accu-Chek Guide Me','One retail meter',14.99,'example USD, Nov 2026',ref.meter],
     ['Industry','Accu-Chek Guide strips','First 50 with an eligible coupon',19.99,'example USD, Nov 2026',ref.strips],
     ['Industry','Stelo adult retail','Two sensors, one-time purchase',99,'example USD, Nov 2026',ref.steloPrice],
+    ['Hospital care','Lower-limb amputation','Mean cost per eligible stay',30032,'hospital cost in USD, U.S. adults with diabetes, 2019',ref.amputation],
+    ['Hospital care','Lower-limb amputation','Mean length of eligible stay',11.4,'days per stay, U.S. adults with diabetes, 2019',ref.amputation],
     ['Industry','ADA attributed supply spending','Diabetes supplies',4.232,'USD billions, 2022',ref.ada],
     ['Industry','ADA attributed insulin spending','Insulin',22.389,'USD billions, 2022',ref.ada],
     ...[['CGM',3700000],['Insulin pump',891000],['Both',740000]].map(([group,v])=>['Industry','U.S. device users',group,v,'industry estimate of people, 2024',ref.marketEstimate]),

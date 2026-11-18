@@ -36,7 +36,7 @@ async function loadData(keys=Object.keys(assetPaths)){
   await Promise.all(keys.map(key=>{
     if(data[key])return;
     if(!requests.has(key)){
-      const url=assetPaths[key]+'?v=us-health-nov17-r4';
+      const url=assetPaths[key]+'?v=us-health-nov17-r5';
       const task=fetch(url).then(response=>{
         if(!response.ok)throw new Error('Failed to load '+url);
         return key==='svg'?response.text():response.json();
