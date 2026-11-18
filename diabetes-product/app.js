@@ -1,3 +1,5 @@
+import {ecosystemPage} from './ecosystem.js';
+import {publicCoverage,privateCoverage,payerRows} from './system-pages.js';
 import {sources,demographics} from './data.js';
 import {histories,links,complications} from './evidence.js';
 import {resetCharts,mountCharts,currentSeries} from './charts.js';
@@ -19,7 +21,7 @@ import {painProfile} from './patient-pain.js';
 const $=id=>document.getElementById(id);
 const view={state:null,period:2000,costMode:0,costState:null,patientScope:'Type 2',profileMetric:'Population',segmentScope:'All diagnosed',treatmentScope:'Type 2',painScope:'Type 2',search:'',deviceType:'all',category:'all',selected:new Set(),theme:'types',voiceRole:'all'};
 const science=[['intro','Introduction'],['biology','Diabetes biology'],['epidemiology','Epidemiology'],['clinical','Clinical profile']];
-const system=[['healthcare','Healthcare system'],['healthcare/policy','Public policy']];
+const system=[['healthcare','Costs and care use'],['healthcare/public','Public coverage'],['healthcare/private','Private insurance'],['healthcare/policy','Public policy']];
 const audiences=[['patients/profile','Patients'],['caregivers/profile','Caregivers'],['hcp/profile','Healthcare professionals'],['organizations','Organizations']];
 const discussion=[['discussion','Public discussion'],['discussion/search','Search interest'],['discussion/voices','Public voices']];
 const industry=[['industry/market','Market overview'],['industry/companies','Treatment evolution'],['industry/products','Devices and products']];
@@ -36,7 +38,7 @@ async function loadData(keys=Object.keys(assetPaths)){
   await Promise.all(keys.map(key=>{
     if(data[key])return;
     if(!requests.has(key)){
-      const url=assetPaths[key]+'?v=us-health-nov17-r5';
+      const url=assetPaths[key]+'?v=us-health-atlas-v1';
       const task=fetch(url).then(response=>{
         if(!response.ok)throw new Error('Failed to load '+url);
         return key==='svg'?response.text():response.json();
@@ -48,7 +50,7 @@ async function loadData(keys=Object.keys(assetPaths)){
 }
 const pages={
   intro:[introduction],biology:[biology],epidemiology:[()=>epidemiology(data,view),'svg','states','profiles','nhis'],clinical:[()=>clinicalProfile(data.nhis),'nhis'],
-  healthcare:[()=>healthcare(data,view),'svg','coverage'],'healthcare/policy':[policyPage],
+  healthcare:[()=>healthcare(data,view),'svg','coverage'],'healthcare/public':[publicCoverage],'healthcare/private':[privateCoverage],'healthcare/policy':[policyPage],audience:[ecosystemPage],
   'patients/profile':[()=>patientProfile(data.nhis,view),'nhis'],'patients/segments':[()=>patientSegments(data.segments,view.segmentScope),'segments'],
   'patients/journey':[()=>patientJourney(data.nhis),'nhis'],'patients/routine':[()=>patientRoutines(data.nhis),'nhis'],
   'patients/treatment':[()=>treatmentPage(data.nhis,view.treatmentScope),'nhis'],'patients/pain':[()=>painProfile(view.painScope)],'patients/questions':[patientQuestions],
@@ -63,18 +65,18 @@ function navLink(path,name,active=path===route){
 function linksFrom(rows){return rows.map(([path,name])=>navLink(path,name)).join('')}
 function navigation(){
   const family=route.split('/')[0];
-  const group=(name,html)=>`<section class="nav-cluster" aria-label="${name}"><h2>${name}</h2>${html}</section>`;
+  const group=(name,html,path)=>`<section class="nav-cluster" aria-label="${name}"><h2>${path?navLink(path,name):name}</h2>${html}</section>`;
   const childLinks=prefix=>(sections[prefix]||[]).map(([slug,name])=>[prefix+'/'+slug,name]);
   const audienceHtml=audiences.map(([path,name])=>{
     const prefix=path.split('/')[0],active=prefix===family;
     return navLink(path,name,active)+(active&&sections[prefix]?`<div class="audience-pages">${linksFrom(childLinks(prefix).slice(1))}</div>`:'');
   }).join('');
-  $('navigation').innerHTML=linksFrom(science)+linksFrom(system)+group('Audience',audienceHtml)+
+  $('navigation').innerHTML=linksFrom(science)+group('Healthcare system',linksFrom(system))+group('Audience',audienceHtml,'audience')+
     group('Public discussion',linksFrom([['discussion','Knowledge and campaigns'],...discussion.slice(1)]))+
     group('Industry & market',linksFrom(industry));
-  const isAudience=Object.hasOwn(sections,family)||family==='organizations';
-  const mobile=[['intro','Introduction'],['biology','Biology'],['epidemiology','Epidemiology'],['clinical','Clinical profile'],['healthcare','Healthcare'],['patients/profile','Audience'],['discussion','Public discussion'],['industry/market','Market']];
-  const activeKey=isAudience?'patients/profile':family==='industry'?'industry/market':['discussion','healthcare'].includes(family)?family:route;
+  const isAudience=Object.hasOwn(sections,family)||family==='organizations'||family==='audience';
+  const mobile=[['intro','Introduction'],['biology','Biology'],['epidemiology','Epidemiology'],['clinical','Clinical profile'],['healthcare','Healthcare'],['audience','Audience'],['discussion','Public discussion'],['industry/market','Market']];
+  const activeKey=isAudience?'audience':family==='industry'?'industry/market':['discussion','healthcare'].includes(family)?family:route;
   const sub=isAudience?audiences.map(([p,n])=>[p,p.startsWith('hcp/')?'HCPs':n]):family==='industry'?industry:family==='discussion'?[['discussion','Knowledge and campaigns'],...discussion.slice(1)]:family==='healthcare'?system:[];
   $('mobile-navigation').innerHTML=`<div class="mobile-chapters">${mobile.map(([p,n])=>navLink(p,n,p===activeKey)).join('')}</div>`+
     (sub.length?`<div class="mobile-sub">${sub.map(([p,n])=>navLink(p,n,isAudience?p.split('/')[0]===family:p===route)).join('')}</div>`:'')+
@@ -200,7 +202,7 @@ async function exportData(){
     for(const key of seg.order)for(const [trait,v] of Object.entries(seg.segments[key].traits))rows.push(['Within coverage segment · '+scope,data.segments.segmentLabels[key],data.segments.traitLabels[trait],v,'% · 2025',links.nhis]);
   }
   for(const [name,...values] of data.nhis.clinical)values.forEach((value,i)=>rows.push(['Clinical profile',name,['All diagnosed','Type 1','Type 2','Prediabetes only','No reported diabetes or prediabetes'][i],value,'% · NHIS 2025',links.nhis]));
-  rows.push(...industryExportRows());
+  rows.push(...industryExportRows(), ...payerRows());
   const pageSource=location.href;
   main.querySelectorAll('article table').forEach(table=>{
     const title=table.closest('article')?.querySelector('h2')?.textContent||document.title;

@@ -1,3 +1,4 @@
+import {atlasFigure} from './atlas-figures.js';
 import {barList, dataTable, escapeHTML, lineChart, matrix, sourcesFooter} from './charts.js';
 import {heading, card, pair} from './epidemiology.js';
 import {links} from './evidence.js';
@@ -18,13 +19,13 @@ export function populationHistory(nhis,scope,dimension,interactive=false){
 export function patientProfile(nhis,view){
   const scope=view.patientScope,p=nhis.profiles[scope];
   const d=Object.entries(p.groups).map(([key,list])=>`<section><h3>${escapeHTML(key)}</h3><div class="profile-bars">${list.map(([label,v])=>`<div><span>${escapeHTML(label)}</span><i aria-hidden="true">${v==null?'':`<em style="width:${v}%"></em>`}</i><b>${v==null?'—':v.toFixed(1)+'%'}</b></div>`).join('')}</div></section>`).join('');
-  return heading('Patient profile')+
+  return heading('Patient profile')+atlasFigure('patients')+
     `<article class="panel profile-panel"><div class="section-top"><h2>Who makes up this population?</h2>${controls(scope,'patientScope')}</div>
     <p class="population-summary"><b>${(p.weightedAdults/1e6).toFixed(1)} million</b> U.S. adults reported ${conditionLabel(scope)} in 2025. Percentages show the makeup of this group.</p>
     <div class="profile-grid">${d}</div></article>`+
     lineChart(populationHistory(nhis,scope,view.profileMetric,true))+
     `<nav class="reading-links" aria-label="Related patient research"><a href="#patients/segments">Compare coverage segments →</a><a href="#patients/treatment">Compare treatment and technology use →</a></nav>`+
-    sourcesFooter(surveySources,[
+    sourcesFooter([...surveySources,['NIDDK · Tests and diagnosis','https://www.niddk.nih.gov/health-information/diabetes/overview/tests-diagnosis']],[
       'NHIS surveys U.S. civilian, noninstitutionalized adults 18+. Counts use annual Sample Adult weights. Respondents reporting prediabetes only reported a professional diagnosis of prediabetes and no diagnosis of diabetes. They are a subset of all adults with laboratory-defined prediabetes. All diagnosed includes other and unknown types.',
       'Percentages use valid responses within each characteristic and may differ slightly from 100% after rounding. Categories with fewer than ten respondents are suppressed. Family income is relative to the federal poverty threshold and uses the adult file’s first imputed value. Functional disability is the Washington Group indicator of serious difficulty in at least one of six domains. Work refers to the prior week.',
       'Each year is a new national sample. Changes describe populations and do not track individual transitions. Interview procedures changed in 2020. The 2025 annual file excludes the December sample.'

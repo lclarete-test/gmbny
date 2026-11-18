@@ -1,0 +1,53 @@
+.fda-summary { display:grid; grid-template-columns:minmax(145px, .65fr) minmax(0, 2fr); gap:clamp(18px,3.5vw,52px); align-items:start; margin-top:21px; }
+.fda-count strong { display:block; color:#4f4288; font-size:clamp(48px,5.3vw,78px); line-height:.98; letter-spacing:-.07em; font-weight:630; font-variant-numeric:tabular-nums; }
+.fda-count>span { display:block; margin-top:8px; color:#43506a; font-size:15px; max-width:23ch; line-height:1.4; }
+.fda-count dl { display:grid; margin:19px 0 0; }
+.fda-count dl>div { display:flex; justify-content:space-between; gap:8px; border-top:1px solid var(--line); padding:6px 0; }
+.fda-count dt { font-size:13px; color:#475369; }
+.fda-count dd { font-variant-numeric:tabular-nums; font-weight:650; }
+.fda-count p { color:#556079; font-size:13px; margin:13px 0 0; }
+.fda-key { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px 16px; list-style:none; padding:0; margin:0 0 17px; }
+.fda-key li { display:flex; gap:6px; align-items:center; color:#465169; font-size:12px; line-height:1.25; }
+.fda-key i { width:11px; height:11px; border-radius:2px; background:var(--fda-color); flex:none; }
+.fda-key b { color:#32394b; font-variant-numeric:tabular-nums; }
+.fda-plot ol { list-style:none; margin:0; padding:0; }
+.fda-plot li, .fda-axis { display:grid; grid-template-columns:54px minmax(0,1fr) 22px; align-items:center; gap:7px; }
+.fda-plot li { min-height:25px; line-height:1.04; padding:2px 0; }
+.fda-plot .fda-partial { border-top:1px dashed #b9b9c9; margin-top:4px; padding-top:5px; }
+.fda-year, .fda-plot li>b { font-size:12px; color:#434d62; font-variant-numeric:tabular-nums; }
+.fda-plot li>b { text-align:right; }
+.fda-year small { display:block; margin-top:2px; color:#59647b; font-size:10px; }
+.fda-track { height:19px; display:flex; align-items:stretch; background-image:repeating-linear-gradient(to right,#e7e7ee 0px,#e7e7ee 1px,transparent 1px,transparent 25%); border-right:1px solid #e7e7ee; }
+.fda-track span { display:grid; place-items:center; color:white; font-size:11px; font-weight:620; font-variant-numeric:tabular-nums; background-color:var(--fda-color); box-shadow:inset -1px 0 #ffffff65; }
+.fda-track span:first-child { border-radius:2px 0 0 2px; }
+.fda-track span:last-child { border-radius:0 2px 2px 0; }
+.fda-axis>div { display:flex; justify-content:space-between; grid-column:2; margin:5px -4px 0; font-size:10px; color:#59647b; font-variant-numeric:tabular-nums; }
+.fda-access ol { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); list-style:none; margin:16px 0 0; padding:0; }
+.fda-access li { position:relative; padding-right:13px; min-width:0; }
+.fda-access li::before { position:absolute; content:''; left:0; right:0; top:24px; height:1px; background:#c8bfdc; }
+.fda-access li:last-child::before { right:90%; }
+.fda-access .fda-date { display:block; color:#55448b; font-weight:650; font-size:12px; margin:0 0 17px; }
+.fda-access .fda-date::after { position:absolute; left:0; top:21px; width:7px; height:7px; content:''; border-radius:50%; background:#66559c; }
+.fda-access li h3 { color:#363b52; font-size:14px; }
+.fda-access li p { margin:5px 0 0; color:#515c72; font-size:13px; line-height:1.45; }
+@media(max-width:1000px) {
+  .fda-access ol { grid-template-columns:minmax(0,1fr); gap:0; }
+  .fda-access li { display:grid; grid-template-columns:75px minmax(0,1fr); column-gap:13px; padding:0 0 15px 14px; }
+  .fda-access li::before { left:3px; right:auto; top:7px; bottom:-5px; width:1px; height:auto; }
+  .fda-access li:last-child { padding-bottom:0; }
+  .fda-access li:last-child::before { display:none; }
+  .fda-access .fda-date { margin:0; }
+  .fda-access .fda-date::after { top:5px; }
+  .fda-access li p { grid-column:2; margin-top:3px; }
+}
+@media(max-width:730px) {
+  .fda-summary { grid-template-columns:minmax(0,1fr); margin-top:15px; gap:15px; }
+  .fda-count { display:grid; grid-template-columns:minmax(60px,auto) minmax(0,1fr); gap:5px 13px; align-items:center; }
+  .fda-count>span { margin:0; max-width:26ch; }
+  .fda-count dl, .fda-count p { grid-column:1/-1; margin:3px 0 0; }
+  .fda-count dl { grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+  .fda-count dl>div { justify-content:flex-start; gap:5px; }
+  .fda-plot li, .fda-axis { grid-template-columns:44px minmax(0,1fr) 17px; gap:5px; }
+  .fda-key { gap:8px 10px; }
+  .fda-access li { grid-template-columns:62px minmax(0,1fr); column-gap:7px; }
+}

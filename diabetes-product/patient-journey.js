@@ -1,3 +1,4 @@
+import {diagnosticJourneyCosts,diagnosticPriceSources,diagnosticPriceNotes} from './glucose-prices.js';
 import {heading} from './epidemiology.js';
 import {sourcesFooter, escapeHTML} from './charts.js';
 import {links} from './evidence.js';
@@ -14,7 +15,7 @@ const points={
 };
 function stage(key,number,nhis){
   const s=points[key],figure=key==='control'?nhis.type2Routine.distress[0][1].toFixed(1)+'%':s.figure;
-  return `<article class="journey-stage stage-${key}"><header><span class="stage-number">${number}</span><h2>${s.title}</h2></header><p class="touchpoint">${s.touch}</p><p class="stage-question">${s.question}</p><dl><div><dt>Action</dt><dd>${s.action}</dd></div><div><dt>Barrier</dt><dd>${s.barrier}</dd></div></dl>${figure?`<div class="stage-evidence"><strong>${escapeHTML(figure)}</strong><span>${s.finding}</span></div>`:''}</article>`;
+  return `<article class="journey-stage stage-${key}"><header><span class="stage-number">${number}</span><h2>${s.title}</h2></header><p class="touchpoint">${s.touch}</p><p class="stage-question">${s.question}</p><dl><div><dt>Action</dt><dd>${s.action}</dd></div><div><dt>Barrier</dt><dd>${s.barrier}</dd></div></dl>${figure?`<div class="stage-evidence"><strong>${escapeHTML(figure)}</strong><span>${s.finding}</span></div>`:''}${key==='diagnosis'?diagnosticJourneyCosts():''}</article>`;
 }
 export function patientJourney(nhis){
   return heading('Patient journey')+`<p class="journey-context">Living with type 2 diabetes in the United States. Screening and symptoms offer different paths into care.</p>
@@ -22,7 +23,7 @@ export function patientJourney(nhis){
     ${stage('diagnosis','2',nhis)}<div class="flow-arrow" aria-hidden="true">↓</div>${stage('treatment','3',nhis)}
     <div class="journey-branch"><section class="main-lane"><p class="lane-caption">Continuing care ↓</p>${stage('control','4',nhis)}</section><section class="side-lane"><p class="lane-caption">If urgent care is needed ↘</p>${stage('crisis','↩',nhis)}<p class="return-path">↩ Return to the care team</p></section></div>
     <div class="journey-fork home-lanes">${stage('lifestyle','5A',nhis)}${stage('longterm','5B',nhis)}</div></div>`+
-    sourcesFooter([['SHIELD · How U.S. adults discovered type 2 diabetes','https://pubmed.ncbi.nlm.nih.gov/20011059/'],['Patients and clinicians · Experiences at a new diagnosis','https://pubmed.ncbi.nlm.nih.gov/41438321/'],['Medication access · Patient interviews in Louisiana','https://doi.org/10.2147/PPA.S596366'],['NHIS · Cost-related insulin rationing','https://jamanetwork.com/journals/jama/fullarticle/2803263'],['Claims · Follow-up after emergency care, Table 1','https://doi.org/10.1007/s11606-026-10736-5'],['NHIS · Diabetes-related distress in 2025',links.nhis],['East Harlem · Food and type 2 diabetes','https://pubmed.ncbi.nlm.nih.gov/23877980/'],['NIDDK · Eye exams by insurance status',links.preventive]],[
+    sourcesFooter([...diagnosticPriceSources,['SHIELD · How U.S. adults discovered type 2 diabetes','https://pubmed.ncbi.nlm.nih.gov/20011059/'],['Patients and clinicians · Experiences at a new diagnosis','https://pubmed.ncbi.nlm.nih.gov/41438321/'],['Medication access · Patient interviews in Louisiana','https://doi.org/10.2147/PPA.S596366'],['NHIS · Cost-related insulin rationing','https://jamanetwork.com/journals/jama/fullarticle/2803263'],['Claims · Follow-up after emergency care, Table 1','https://doi.org/10.1007/s11606-026-10736-5'],['NHIS · Diabetes-related distress in 2025',links.nhis],['East Harlem · Food and type 2 diabetes','https://pubmed.ncbi.nlm.nih.gov/23877980/'],['NIDDK · Eye exams by insurance status',links.preventive]],[...diagnosticPriceNotes,
       'Questions and actions are editorial prompts based on the cited research. Interview findings represent the experiences described by participants. Each quantitative finding has its own denominator and period; this is a synthesis of several studies.',
       'SHIELD participants could report other diagnostic paths, including multiple reasons. The after-ED estimate uses 57,921 / 123,564 adults with a type 2 diabetes-related event in commercial and Medicare Advantage claims, 2016–22. It counts an outpatient diabetes visit before an ED return within 30 days.'
     ]);

@@ -1,0 +1,114 @@
+.glucose-prices { min-width: 0; }
+.gl-price-intro, .gl-price-aside, .diagnosis-prices p {
+  color: var(--muted, #526078);
+  line-height: 1.5;
+}
+.gl-price-intro { margin: 6px 0 0; }
+.gl-price-aside {
+  margin: 10px 0 0;
+  padding: 0 0 0 11px;
+  border-left: 3px solid #aaa4d7;
+  font-size: .85rem;
+}
+.gl-price-aside strong { color: var(--ink, #20273a); }
+.gl-price-table {
+  width: 100%;
+  margin: 21px 0 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: left;
+}
+.gl-price-table caption, .diagnosis-prices figcaption {
+  color: var(--ink, #20273a);
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: left;
+}
+.gl-price-table caption { padding: 0 0 7px; }
+.gl-price-table thead th {
+  background: #f0f1f8;
+  color: #45516b;
+  font-size: .75rem;
+  line-height: 1.35;
+}
+.gl-price-table th, .gl-price-table td {
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--line, #dce2e9);
+  padding: 9px 11px;
+  vertical-align: top;
+}
+.gl-price-table thead th:first-child { width: 27%; }
+.gl-price-table tbody th, .gl-price-table td {
+  color: var(--ink, #20273a);
+  font-size: .875rem;
+  line-height: 1.4;
+}
+.gl-price-table tbody th { font-weight: 650; }
+.gl-price-table b, .diagnosis-prices li strong {
+  color: #4d438b;
+  font-variant-numeric: tabular-nums;
+}
+.gl-price-context {
+  display: block;
+  margin: 3px 0 0;
+  font-size: .82rem;
+  color: var(--muted, #526078);
+}
+.diagnosis-prices {
+  margin: 17px 0 0;
+  padding: 13px 0 0;
+  border-top: 1px solid var(--line, #dce2e9);
+}
+.diagnosis-prices p { margin: 6px 0; font-size: .86rem; }
+.diagnosis-prices ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 126px), 1fr));
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+.diagnosis-prices li {
+  padding-left: 9px;
+  border-left: 2px solid #b0a9d8;
+  font-size: .79rem;
+  line-height: 1.4;
+}
+.diagnosis-prices li strong { display: block; font-size: 1.2rem; }
+@media (max-width: 650px) {
+  .gl-price-table, .gl-price-table caption, .gl-price-table tbody, .gl-price-table tr {
+    display: block;
+    width: 100%;
+  }
+  .gl-price-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .gl-price-table tbody tr {
+    border-top: 1px solid var(--line, #dce2e9);
+    padding: 9px 0;
+  }
+  .gl-price-table tbody th, .gl-price-table td {
+    display: block;
+    border: 0;
+    padding: 2px 0;
+  }
+  .gl-price-table td {
+    padding-top: 6px;
+  }
+  .gl-price-table td::before {
+    content: attr(data-column);
+    display: block;
+    margin-bottom: 2px;
+    font-size: .7rem;
+    color: #526078;
+    font-weight: 650;
+  }
+  .gl-price-context { margin-top: 1px; }
+}
+@media print {
+  .gl-price-table tr, .diagnosis-prices { break-inside: avoid; }
+}

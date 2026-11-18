@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 986 384" width="986" height="384" role="img" aria-labelledby="fig-title fig-desc">
+<title id="fig-title">People with diabetes and the people caring for them</title>
+<desc id="fig-desc">40.1 million U.S. people had diabetes in 2023. About 2.4 million family caregivers in the 2025 national report supported an adult mainly because of diabetes. In the 2025 caregiver module in 31 states, 60.7% were female, 79.1% did household tasks and 34.2% gave nursing or medical help.</desc>
+<defs><style>text{font-family:Arial,'Liberation Sans',sans-serif;font-variant-numeric:tabular-nums}</style></defs>
+<rect width="986" height="384" fill="#ffffff"/>
+<circle cx="196" cy="183" r="141" fill="#f4f1fb" stroke="#c9c0e2" stroke-width="1.6"/>
+<circle cx="196" cy="183" r="85" fill="#ffffff" stroke="#9e8cc3" stroke-width="1.8"/>
+<g transform="translate(180 141) scale(1.0000)" color="#58469c" stroke="#58469c" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="9" r="4.7"/><path d="M6 28v-3a10 10 0 0 1 20 0v3"/></g>
+<text x="196" y="205" font-size="34" font-weight="700" fill="#242641" text-anchor="middle">40.1M</text>
+<text x="196" y="228" font-size="16" font-weight="550" fill="#515a72" text-anchor="middle">with diabetes¹</text>
+<text x="196" y="82" font-size="17" font-weight="620" fill="#58469c" text-anchor="middle">Family care</text>
+<circle cx="326" cy="126" r="3.4" fill="#58469c" stroke="none" stroke-width="1"/>
+<path d="M326 126 H369 Q378 126 386 118 L401 103 H424" fill="none" stroke="#58469c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="437" y="91" font-size="38" font-weight="700" fill="#58469c" text-anchor="start">≈2.4M</text>
+<text x="437" y="121" font-size="17" font-weight="400" fill="#242641" text-anchor="start">family caregivers whose main</text>
+<text x="437" y="145" font-size="17" font-weight="400" fill="#242641" text-anchor="start">recipient needed help chiefly</text>
+<text x="437" y="169" font-size="17" font-weight="400" fill="#242641" text-anchor="start">because of diabetes.²</text>
+<path d="M751 70 L751 306" fill="none" stroke="#dcdde6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="783" y="91" font-size="16" font-weight="600" fill="#515a72" text-anchor="start">Caregivers in 31 states</text>
+<circle cx="795" cy="132" r="16" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(785.72 122.72) scale(0.5800)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="9" r="4.7"/><path d="M6 28v-3a10 10 0 0 1 20 0v3"/></g>
+<text x="822" y="136" font-size="24" font-weight="700" fill="#242641" text-anchor="start">60.7%</text>
+<text x="783" y="165" font-size="15" font-weight="450" fill="#515a72" text-anchor="start">were female</text>
+<circle cx="795" cy="204" r="16" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(785.72 194.72) scale(0.5800)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 15 16 4l13.5 11M6 13v15h20V13M13 28v-9h6v9"/></g>
+<text x="822" y="208" font-size="24" font-weight="700" fill="#242641" text-anchor="start">79.1%</text>
+<text x="783" y="237" font-size="15" font-weight="450" fill="#515a72" text-anchor="start">gave household help</text>
+<circle cx="795" cy="276" r="16" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(785.72 266.72) scale(0.5800)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="9" width="25" height="19" rx="3"/><path d="M11 9V5h10v4M11 18h10m-5-5v10"/></g>
+<text x="822" y="280" font-size="24" font-weight="700" fill="#242641" text-anchor="start">34.2%</text>
+<text x="783" y="309" font-size="15" font-weight="450" fill="#515a72" text-anchor="start">gave medical help</text>
+<path d="M25 326 L961 326" fill="none" stroke="#dcdde6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="25" y="349" font-size="14.3" font-weight="400" fill="#515a72" text-anchor="start">¹ U.S. people of all ages, diagnosed or undiagnosed diabetes in 2023.     ² U.S. caregivers of adults, 2025 report.</text>
+<text x="25" y="371" font-size="14.3" font-weight="400" fill="#515a72" text-anchor="start">Rings show a care relationship. The two counts describe different populations. Caregiver percentages come from a separate 2025 survey.</text>
+</svg>

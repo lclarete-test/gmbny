@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 986 415" width="986" height="415" role="img" aria-labelledby="fig-title fig-desc">
+<title id="fig-title">Where people can turn for diabetes support</title>
+<desc id="fig-desc">Five selected organizations connect different needs with services: the American Diabetes Association for school rights, Beyond Type 1 for insulin affordability, Breakthrough T1D for clinical trials, ADCES for local diabetes education and the diaTribe Foundation for treatment and device information. The ADA reported more than 3,700 recognized diabetes education sites serving about 800,000 people annually.</desc>
+<defs><style>text{font-family:Arial,'Liberation Sans',sans-serif;font-variant-numeric:tabular-nums}</style></defs>
+<rect width="986" height="415" fill="#ffffff"/>
+<text x="25" y="32" font-size="17" font-weight="500" fill="#515a72" text-anchor="start">Five places to find diabetes support in the U.S.</text>
+<path d="M425 153 C400 151 398 95 353 95" fill="none" stroke="#58469c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M425 201 C398 201 400 249 353 249" fill="none" stroke="#365e82" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M527 152 C567 150 560 80 612 80" fill="none" stroke="#8b502f" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M531 178 C567 178 589 181 644 181" fill="none" stroke="#58469c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M527 203 C567 204 561 282 612 282" fill="none" stroke="#365e82" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="477" cy="177" r="55" fill="#f8f8fb" stroke="#d1cedc" stroke-width="1.4"/>
+<g transform="translate(460 147) scale(1.0625)" color="#58469c" stroke="#58469c" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><g><path d="M16 28V4m0 2H5l-3 4 3 4h11m0-4h10l4 4-4 4H16"/><path d="M12 28h8"/></g></g>
+<text x="477" y="202" font-size="15.8" font-weight="650" fill="#242641" text-anchor="middle">Where to turn</text>
+<circle cx="333" cy="95" r="20" fill="#eeeafa" stroke="#58469c" stroke-width="1.4"/>
+<g transform="translate(321.4 83.4) scale(0.7250)" color="#58469c" stroke="#58469c" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 28h28M5 28V13l11-8 11 8v15M12.5 28v-6h7v6M9 16h2m10 0h2"/><circle cx="16" cy="14" r="2"/></g>
+<text x="299" y="92" font-size="18.5" font-weight="650" fill="#242641" text-anchor="end">School support</text>
+<text x="299" y="118" font-size="16" font-weight="400" fill="#515a72" text-anchor="end">American Diabetes Association</text>
+<circle cx="333" cy="249" r="20" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(321.4 237.4) scale(0.7250)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h12l14 14-9 9L3 12z"/><circle cx="9" cy="10" r="1.3"/></g>
+<text x="299" y="246" font-size="18.5" font-weight="650" fill="#242641" text-anchor="end">Help paying for insulin</text>
+<text x="299" y="272" font-size="16" font-weight="400" fill="#515a72" text-anchor="end">Beyond Type 1 · GetInsulin.org</text>
+<circle cx="633" cy="80" r="20" fill="#f8eee5" stroke="#8b502f" stroke-width="1.4"/>
+<g transform="translate(621.4 68.4) scale(0.7250)" color="#8b502f" stroke="#8b502f" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3h10M13 4v8L5 26a2 2 0 0 0 2 3h18a2 2 0 0 0 2-3l-8-14V4M10 20h12"/><circle cx="14" cy="24.5" r=".7"/><circle cx="19" cy="23" r=".7"/></g>
+<text x="667" y="77" font-size="18.5" font-weight="650" fill="#242641" text-anchor="start">Type 1 clinical trials</text>
+<text x="667" y="103" font-size="16" font-weight="400" fill="#515a72" text-anchor="start">Breakthrough T1D</text>
+<circle cx="665" cy="181" r="20" fill="#eeeafa" stroke="#58469c" stroke-width="1.4"/>
+<g transform="translate(653.4 169.4) scale(0.7250)" color="#58469c" stroke="#58469c" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M26 12c0 7-10 17-10 17S6 19 6 12a10 10 0 0 1 20 0z"/><circle cx="16" cy="12" r="3.4"/></g>
+<text x="699" y="178" font-size="18.5" font-weight="650" fill="#242641" text-anchor="start">Local diabetes education</text>
+<text x="699" y="204" font-size="16" font-weight="400" fill="#515a72" text-anchor="start">ADCES program finder</text>
+<circle cx="633" cy="282" r="20" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(621.4 270.4) scale(0.7250)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h19v24H4zM23 9h5v18a1 1 0 0 1-1 1h-4M8 9h11M8 13h11M8 18h4v5H8zM15 18h4M15 22h4"/></g>
+<text x="667" y="279" font-size="18.5" font-weight="650" fill="#242641" text-anchor="start">Treatment and device news</text>
+<text x="667" y="305" font-size="16" font-weight="400" fill="#515a72" text-anchor="start">The diaTribe Foundation</text>
+<path d="M25 331 L961 331" fill="none" stroke="#dcdde6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="25" y="366" font-size="25" font-weight="700" fill="#58469c" text-anchor="start">3,700+</text>
+<text x="123" y="364" font-size="17" font-weight="520" fill="#242641" text-anchor="start">ADA-recognized education sites</text>
+<text x="460" y="366" font-size="25" font-weight="700" fill="#365e82" text-anchor="start">≈800,000</text>
+<text x="577" y="364" font-size="17" font-weight="520" fill="#242641" text-anchor="start">people served annually</text>
+<text x="25" y="394" font-size="14.3" font-weight="400" fill="#515a72" text-anchor="start">U.S. diabetes self-management education and support · ADA 2025 annual report</text>
+</svg>

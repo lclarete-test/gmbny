@@ -1,3 +1,6 @@
+import {fdaTimeline,fdaSources,fdaNotes,fdaExportRows} from './fda-timeline.js';
+import {marketAccounts,marketAccountSources,marketAccountNotes,marketAccountRows} from './market-accounts.js';
+import {glucosePrices,glucosePriceSources,glucosePriceNotes,glucosePriceRows} from './glucose-prices.js';
 import {barList, dataTable, escapeHTML, lineChart, measures, sourcesFooter} from './charts.js';
 import {histories, links, milestones} from './evidence.js';
 import {card, heading, pair} from './epidemiology.js';
@@ -72,7 +75,7 @@ function explanatoryTable(headers, rows, label, format=escapeHTML) {
 
 export function marketOverview() {
   const spending = card('Where the treatment dollar goes',
-    `<div class="measure-call"><b>$153.2B</b><p>U.S. annual payments for care linked to diabetes, averaged across 2021–22. Of this, about <strong>$123.0 billion</strong> paid for prescribed medicines.</p></div>${barList(services)}<p class="reading">The $153.2 billion excludes care for complications and separately purchased medical equipment. Amputation is one example. A separate national hospital study found that an adult stay involving diabetes and a lower-limb amputation cost an average of $30,032 and lasted 11.4 days in 2019.</p>`);
+    `<div class="measure-call"><b>$153.2B</b><p>U.S. annual payments for care linked to diabetes, averaged across 2021–22. Of this, about <strong>$123.0 billion</strong> paid for prescribed medicines.</p></div>${barList(services)}<p class="reading">The $153.2 billion excludes care for complications and separately purchased medical equipment. The national economic estimate above also captures excess care for complications and productivity losses. Subtracting these two studies would mix years, populations and methods.</p>`);
   const prescribing = card('Which medicines people started',
     '<p class="industry-caption">Share of first glucose-lowering prescriptions in a U.S. claims study of adults with type 2 diabetes.</p>'+
     dataTable(['Drug family','Jan 2022','May 2023'],firstDrugs,'First-line use in adults with type 2 diabetes')+
@@ -84,13 +87,6 @@ export function marketOverview() {
     '<p class="industry-caption">Selected drugs billed to Medicare Part D in 2023. Both columns cover the same payer and calendar year.</p>'+
     dataTable(['Drug','Prescription fills','Gross spending'],partDBrands.map(([name,fills,gross])=>[name,fills.toFixed(2)+'M','$'+gross.toFixed(2)+'B']))+
     '<p class="reading">Metformin filled about 31.2 million prescriptions for $628 million. Ozempic filled 6.93 million for $9.20 billion. People can fill more than one prescription in a year.</p>');
-  const monitoring = card('What it costs to measure glucose',
-    explanatoryTable(['Purchase','Published U.S. price','What that buys'],[
-      ['Fingerstick meter','$14.99','One Accu-Chek Guide Me meter. Each test uses a compatible strip and a lancet.'],
-      ['Test strips','$19.99','First 50 Guide strips with the manufacturer’s eligible pharmacy coupon. About $0.40 per test before lancets.'],
-      ['Over-the-counter CGM','$99','Two Stelo sensors in a one-time adult purchase, for up to 30 days of readings.']
-    ],'Examples of prices posted by manufacturers')+
-    '<p class="reading">A meter can be reused. Strips and wearable sensors are recurring purchases, so the number of tests or days worn changes the annual bill.</p>');
   const allowance = card('What Medicare allowed for CGM',
     '<p class="industry-caption">Average allowed amount per claim, July 2022–June 2023. The total includes Medicare and beneficiary contributions.</p>'+
     dataTable(['Billed item','FDA class II','FDA class III'],medicareDevices,'Medicare CGM claim payments by item and device class')+
@@ -111,9 +107,9 @@ export function marketOverview() {
     '<p class="reading">These 2024 industry estimates count people using both technologies in each product total.</p>');
   const revenue = lineChart({...histories.devices, annual:true, title:'U.S. device sales at Dexcom and Insulet',
     note:'Dexcom then reported $969.8 million in U.S. revenue in Q3 2026, up from $851.9 million in Q3 2025.'});
-  return heading('U.S. diabetes market')+spending+pair(prescribing,drugSpending)+brands+monitoring+
+  return heading('U.S. diabetes market')+marketAccounts()+spending+pair(prescribing,drugSpending)+brands+glucosePrices()+
     pair(allowance,outOfPocket)+delivery+adoption+revenue+
-    sourcesFooter([
+    sourcesFooter([...marketAccountSources, ...glucosePriceSources,
       ['AHRQ · Diabetes treatment expenditure, 2021–22',ref.meps],
       ['HHS · Hospital costs for lower-extremity amputation, table 6-3',ref.amputation],
       ['First-line glucose-lowering prescriptions in type 2 diabetes · Komodo claims, 2019–23',ref.first],
@@ -128,7 +124,7 @@ export function marketOverview() {
       ['Dexcom · 2022 annual filing',links.dex22],['Dexcom · 2025 annual filing',links.dex25],
       ['Insulet · 2022 annual filing',links.omni22],['Insulet · 2024 annual filing',links.omni24],['Insulet · 2025 annual filing',links.omni25],
       ['Dexcom · U.S. Q3 2026 results',sources.dexrev.url]
-    ],[
+    ],[...marketAccountNotes, ...glucosePriceNotes,
       'MEPS covers U.S. civilian noninstitutionalized adults age 18+. AHRQ averaged 26.3 million adults treated per year. It counted six categories of actual payments where diabetes was recorded as the reason for care or identified during care. AHRQ excluded care for diabetes complications, nursing home residents and the separate equipment and services category. The HHS hospital estimate uses 87,270 adult non-maternal discharges meeting the 2019 PQI 16 definition. The cost covers the hospital stay and uses a different year and population. The prescribed-medicine dollar estimate is 80.3% of $153.2 billion, rounded.',
       'The first-prescription study followed 964,914 adults with type 2 diabetes across the full study period. Its GLP-1 category includes dual GIP/GLP-1 agonist tirzepatide. The five displayed classes are selected examples. The separate national spending study includes all diabetes types. Its newer group includes amylin analogs and certain combinations, and its older group includes metformin and sulfonylureas. Spending shares round to 99.9%.',
       'The Medicare Part D audit counted dispensing by selected drug, across covered indications. Gross spending includes ingredient cost and dispensing fees before rebates and other price concessions. These figures quantify Medicare Part D rather than the full U.S. drug market.',
@@ -181,12 +177,8 @@ const accessRules = [
 
 export function policyPage() {
   return heading('Public policy and access')+
-    '<p class="industry-lead">The FDA sets the population and intended use on the label. Medicare and state Medicaid programs decide which benefit pays and under what conditions. A sensor can therefore be available over the counter while a covered prescription sensor has clinical eligibility rules.</p>'+
-    card('What FDA authorization permits',explanatoryTable(['Product','U.S. decision','Who gained access'],[
-      ['Dexcom G6 · 2018','De Novo classification for an interoperable continuous glucose monitor.','Compatible devices could share readings, subject to their individual labels.'],
-      ['Omnipod 5 · 2024','The FDA cleared the first automated insulin dosing system indicated for type 2 diabetes.','Eligible adults with type 2 gained a labeled automated delivery option.'],
-      ['Stelo · 2024 and 2026','Initially cleared over the counter for adults who do not use insulin. In June 2026 the FDA expanded the indicated age to 2+.','Children require adult supervision. The label excludes insulin users, people on dialysis and people with problematic hypoglycemia.']
-    ],'Federal device decisions and indications'))+
+    fdaTimeline()+
+    '<nav class="coverage-paths" aria-label="Insurance coverage"><a href="#healthcare/public">Medicare and Medicaid coverage →</a><a href="#healthcare/private">Private coverage and prior approval →</a></nav>'+
     card('Which Medicare benefit pays',explanatoryTable(['Care or product','Coverage rule','What this means'],accessRules,'Medicare benefits for diabetes and prediabetes'))+
     pair(card('Medicare’s first negotiated prices',
       '<p class="industry-caption">Selected Part D products, effective January 1, 2026. CMS negotiated these prices for a 30-day equivalent supply.</p>'+
@@ -195,7 +187,7 @@ export function policyPage() {
       card('How Medicaid coverage varies',
         '<p>All states cover outpatient prescription drugs for categorically eligible enrollees and most other enrollees. For devices, the state’s benefit and authorization rules shape access.</p>'+
         '<dl class="industry-defs"><dt>Kansas</dt><dd>Its approved plan added subcutaneous CGMs to the durable medical equipment benefit in January 2024. A treating practitioner must prescribe the device.</dd><dt>North Carolina</dt><dd>Its May 2025 policy routes therapeutic CGMs through the pharmacy benefit and refers providers to the state’s prior-approval criteria.</dd></dl>'))+
-    sourcesFooter([
+    sourcesFooter([...fdaSources,
       ['FDA · Dexcom G6 De Novo decision',milestones[3][4]],['FDA · Automated insulin dosing for type 2',milestones[8][4]],
       ['FDA · Original over-the-counter Stelo clearance','https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPMN/pmn.cfm?ID=K234070'],
       ['FDA · Stelo pediatric expansion',sources.stelo.url],['Medicare · CGM eligibility and coinsurance',ref.medicareCgm],
@@ -204,7 +196,7 @@ export function policyPage() {
       ['CMS · GLP-1 Bridge guidance for prescribers','https://www.cms.gov/files/document/glp-1-prescribers-c-1.pdf'],
       ['Medicare · Diabetes Prevention Program',ref.prevention],['Medicaid.gov · State outpatient drug programs',ref.medicaid],
       ['Kansas · Approved Medicaid state plan amendment 23-0045',ref.ks],['North Carolina · Coverage policy 5A-3',ref.nc]
-    ],[
+    ],[...fdaNotes,
       'U.S. rules and sources checked November 17, 2026. Medicare cost sharing shown for Original Medicare assumes a participating provider or supplier who accepts assignment. A specific prescription, plan, supplier, clinical history and approved device combination may change coverage and a household’s payment.',
       'The two Medicaid examples illustrate different benefit routes. The 2026 CMS negotiated price is the maximum fair price for the selected product. The statutory monthly insulin limit is a beneficiary cost-sharing provision.'
     ]);
@@ -307,6 +299,7 @@ export function compareCatalog(ids) {
 
 export function industryExportRows() {
   const rows = [
+    ...marketAccountRows(), ...glucosePriceRows(), ...fdaExportRows(),
     ...services.map(([name,v])=>['Industry','Diabetes-linked service payments',name,v,'% of annual treatment expenditure, 2021–22',ref.meps]),
     ['Industry','Diabetes-linked treatment','All included services',153.2,'estimated annual USD billions, 2021–22',ref.meps],
     ['Industry','Diabetes-linked treatment','Prescribed medicines',123.0,'calculated annual USD billions, 2021–22',ref.meps],
@@ -319,9 +312,6 @@ export function industryExportRows() {
     ...medicareDevices.flatMap(([name,lower,upper])=>[['FDA class II',lower],['FDA class III',upper]].map(([group,amount])=>
       ['Industry',name,group,Number(amount.slice(1)),'average Medicare allowed USD per claim, Jul 2022–Jun 2023',ref.oig])),
     ...patientBills.map(([name,v])=>['Industry','Household out-of-pocket spending on diabetes supplies',name,v,'mean annual USD, commercially insured type 1, 2018',ref.oop]),
-    ['Industry','Accu-Chek Guide Me','One retail meter',14.99,'example USD, Nov 2026',ref.meter],
-    ['Industry','Accu-Chek Guide strips','First 50 with an eligible coupon',19.99,'example USD, Nov 2026',ref.strips],
-    ['Industry','Stelo adult retail','Two sensors, one-time purchase',99,'example USD, Nov 2026',ref.steloPrice],
     ['Hospital care','Lower-limb amputation','Mean cost per eligible stay',30032,'hospital cost in USD, U.S. adults with diabetes, 2019',ref.amputation],
     ['Hospital care','Lower-limb amputation','Mean length of eligible stay',11.4,'days per stay, U.S. adults with diabetes, 2019',ref.amputation],
     ['Industry','ADA attributed supply spending','Diabetes supplies',4.232,'USD billions, 2022',ref.ada],

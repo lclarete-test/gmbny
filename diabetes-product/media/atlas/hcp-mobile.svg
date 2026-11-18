@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 356 697" width="356" height="697" role="img" aria-labelledby="fig-title fig-desc">
+<title id="fig-title">Who takes part in diabetes care</title>
+<desc id="fig-desc">Among adults age 65 and older in a U.S. traditional Medicare cohort in 2018–2021, an annual primary care encounter was recorded for 75.2% of those with type 1 and 73.7% with type 2. Endocrinology reached 60.3% and 9.5%, respectively. Diabetes educators, dietitians, pharmacists, and eye, foot and kidney specialists also have distinct roles.</desc>
+<defs><style>text{font-family:Arial,'Liberation Sans',sans-serif;font-variant-numeric:tabular-nums}</style></defs>
+<rect width="356" height="697" fill="#ffffff"/>
+<text x="18" y="27" font-size="15" font-weight="500" fill="#515a72" text-anchor="start">Annual visits by specialty</text>
+<text x="18" y="52" font-size="13.7" font-weight="400" fill="#515a72" text-anchor="start">U.S. traditional Medicare cohort · age 65+</text>
+<text x="18" y="71" font-size="13.7" font-weight="400" fill="#515a72" text-anchor="start">2018–21 · people could see both specialties</text>
+<path d="M37 113 V310" fill="none" stroke="#dcdde6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="37" cy="108" r="19" fill="#eeeafa" stroke="#58469c" stroke-width="1.4"/>
+<g transform="translate(25.98 96.98) scale(0.6887)" color="#58469c" stroke="#58469c" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="9" r="4.7"/><path d="M6 28v-3a10 10 0 0 1 20 0v3"/></g>
+<text x="68" y="115" font-size="17.5" font-weight="650" fill="#242641" text-anchor="start">Person with diabetes</text>
+<path d="M37 155 Q37 167 49 167 H68" fill="none" stroke="#58469c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="74" cy="167" r="15" fill="#eeeafa" stroke="#58469c" stroke-width="1.4"/>
+<g transform="translate(65.3 158.3) scale(0.5437)" color="#58469c" stroke="#58469c" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4v5c0 5 3 8 7 8s7-3 7-8V4M5 4h3m8 0h3M12 17v4a6 6 0 0 0 12 0v-4"/><circle cx="24" cy="13.5" r="3"/></g>
+<text x="99" y="173" font-size="18" font-weight="650" fill="#242641" text-anchor="start">Primary care</text>
+<text x="70" y="201" font-size="14.3" font-weight="500" fill="#58469c" text-anchor="start">Type 1</text>
+<rect x="134" y="194" width="109" height="5" rx="2.5" fill="#eeeef4" stroke="none" stroke-width="1"/>
+<rect x="134" y="194" width="81.968" height="5" rx="2.5" fill="#58469c" stroke="none" stroke-width="1"/>
+<text x="305" y="203" font-size="17" font-weight="650" fill="#242641" text-anchor="end">75.2%</text>
+<text x="70" y="225" font-size="14.3" font-weight="500" fill="#365e82" text-anchor="start">Type 2</text>
+<rect x="134" y="218" width="109" height="5" rx="2.5" fill="#eeeef4" stroke="none" stroke-width="1"/>
+<rect x="134" y="218" width="80.33300000000001" height="5" rx="2.5" fill="#365e82" stroke="none" stroke-width="1"/>
+<text x="305" y="227" font-size="17" font-weight="650" fill="#242641" text-anchor="end">73.7%</text>
+<path d="M37 258 Q37 270 49 270 H68" fill="none" stroke="#58469c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="74" cy="270" r="15" fill="#eeeafa" stroke="#58469c" stroke-width="1.4"/>
+<g transform="translate(65.3 261.3) scale(0.5437)" color="#58469c" stroke="#58469c" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="26" height="21" rx="3"/><path d="M7 20l5-6 4 3 7-8M7 10h4M20 9h3v3"/></g>
+<text x="99" y="276" font-size="18" font-weight="650" fill="#242641" text-anchor="start">Endocrinology</text>
+<text x="70" y="304" font-size="14.3" font-weight="500" fill="#58469c" text-anchor="start">Type 1</text>
+<rect x="134" y="297" width="109" height="5" rx="2.5" fill="#eeeef4" stroke="none" stroke-width="1"/>
+<rect x="134" y="297" width="65.727" height="5" rx="2.5" fill="#58469c" stroke="none" stroke-width="1"/>
+<text x="305" y="306" font-size="17" font-weight="650" fill="#242641" text-anchor="end">60.3%</text>
+<text x="70" y="328" font-size="14.3" font-weight="500" fill="#365e82" text-anchor="start">Type 2</text>
+<rect x="134" y="321" width="109" height="5" rx="2.5" fill="#eeeef4" stroke="none" stroke-width="1"/>
+<rect x="134" y="321" width="10.355" height="5" rx="2.5" fill="#365e82" stroke="none" stroke-width="1"/>
+<text x="305" y="330" font-size="17" font-weight="650" fill="#242641" text-anchor="end">9.5%</text>
+<path d="M18 360 L338 360" fill="none" stroke="#dcdde6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="18" y="392" font-size="17" font-weight="650" fill="#242641" text-anchor="start">Other members of the care team</text>
+<circle cx="37" cy="430" r="16" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(27.72 420.72) scale(0.5800)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8c-3-3-8-4-13-3v20c5-1 9 0 13 3 4-3 8-4 13-3V5c-5-1-10 0-13 3zm0 0v19"/></g>
+<text x="65" y="429" font-size="16.7" font-weight="620" fill="#242641" text-anchor="start">Daily routines</text>
+<text x="65" y="451" font-size="14.5" font-weight="400" fill="#515a72" text-anchor="start">Diabetes educator and dietitian</text>
+<circle cx="37" cy="493" r="16" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(27.72 483.72) scale(0.5800)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(42 16 16)"><rect x="10" y="3" width="12" height="26" rx="6"/><path d="M10 16h12M13 10c0-2 1-4 3-4"/></g></g>
+<text x="65" y="492" font-size="16.7" font-weight="620" fill="#242641" text-anchor="start">Medication access</text>
+<text x="65" y="514" font-size="14.5" font-weight="400" fill="#515a72" text-anchor="start">Pharmacist</text>
+<circle cx="37" cy="556" r="16" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(27.72 546.72) scale(0.5800)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16s5-9 14-9 14 9 14 9-5 9-14 9S2 16 2 16z"/><circle cx="16" cy="16" r="4.3"/></g>
+<text x="65" y="555" font-size="16.7" font-weight="620" fill="#242641" text-anchor="start">Organ health</text>
+<text x="65" y="577" font-size="14.5" font-weight="400" fill="#515a72" text-anchor="start">Eye, foot and kidney specialists</text>
+<path d="M18 599 L338 599" fill="none" stroke="#dcdde6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="18" y="631" font-size="25" font-weight="700" fill="#58469c" text-anchor="start">8,706</text>
+<text x="338" y="629" font-size="14" font-weight="400" fill="#515a72" text-anchor="end">June 2026 · ABMS</text>
+<text x="18" y="656" font-size="15" font-weight="400" fill="#242641" text-anchor="start">U.S. physicians certified in endocrinology,</text>
+<text x="18" y="675" font-size="15" font-weight="400" fill="#242641" text-anchor="start">diabetes and metabolism</text>
+</svg>

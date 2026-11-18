@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 986 376" width="986" height="376" role="img" aria-labelledby="fig-title fig-desc">
+<title id="fig-title">From a blood test to a care routine</title>
+<desc id="fig-desc">A laboratory result branches into three example care pathways. In the 2025 U.S. National Health Interview Survey, an estimated 2.3 million adults reported type 1 diabetes, 22.1 million type 2 diabetes, and 28.2 million prediabetes without diagnosed diabetes. Insulin, treatment planning and prevention lead to different follow-up needs.</desc>
+<defs><style>text{font-family:Arial,'Liberation Sans',sans-serif;font-variant-numeric:tabular-nums}</style></defs>
+<rect width="986" height="376" fill="#ffffff"/>
+<text x="25" y="32" font-size="17" font-weight="500" fill="#515a72" text-anchor="start">From a laboratory result to daily care</text>
+<text x="960" y="32" font-size="15" font-weight="400" fill="#515a72" text-anchor="end">U.S. adults reporting each diagnosis · 2025</text>
+<path d="M118 179 H145 C185 179 179 100 223 100 H912" fill="none" stroke="#58469c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="249" cy="100" r="5" fill="#ffffff" stroke="#58469c" stroke-width="2.6"/>
+<text x="247" y="86" font-size="21" font-weight="700" fill="#58469c" text-anchor="start">Type 1 diabetes</text>
+<text x="249" y="127" font-size="18" font-weight="600" fill="#242641" text-anchor="start">2.3M adults</text>
+<circle cx="494" cy="100" r="15" fill="#eeeafa" stroke="#58469c" stroke-width="1.4"/>
+<g transform="translate(485.3 91.3) scale(0.5437)" color="#58469c" stroke="#58469c" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(39 16 16)"><rect x="12" y="7" width="8" height="17" rx="2"/><path d="M13 7V4h6v3M12 11h8M14 24v3h4v-3M16 27v3M17 14h3M17 18h3"/></g></g>
+<text x="517" y="90" font-size="17" font-weight="550" fill="#242641" text-anchor="start">Start insulin</text>
+<circle cx="745" cy="100" r="15" fill="#eeeafa" stroke="#58469c" stroke-width="1.4"/>
+<g transform="translate(736.3 91.3) scale(0.5437)" color="#58469c" stroke="#58469c" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="18" height="25" rx="4"/><path d="M10.5 7h11v9h-11zM12 12h2l1.5-3 1.5 5 1.5-2h2M15 20.5h2M14 28v2h4v-2"/></g>
+<text x="768" y="90" font-size="17" font-weight="550" fill="#242641" text-anchor="start">Review glucose</text>
+<path d="M905 95 L913 100 905 105" fill="none" stroke="#58469c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M118 179 H145 C185 179 179 185 223 185 H912" fill="none" stroke="#365e82" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="249" cy="185" r="5" fill="#ffffff" stroke="#365e82" stroke-width="2.6"/>
+<text x="247" y="171" font-size="21" font-weight="700" fill="#365e82" text-anchor="start">Type 2 diabetes</text>
+<text x="249" y="212" font-size="18" font-weight="600" fill="#242641" text-anchor="start">22.1M adults</text>
+<circle cx="494" cy="185" r="15" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(485.3 176.3) scale(0.5437)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5H7a1 1 0 0 0-1 1v23h19V6a1 1 0 0 0-1-1h-3"/><rect x="11" y="3" width="9" height="5" rx="1.7"/><path d="M10 13l1.5 1.5L14 11m2.5 2H22M10 20l1.5 1.5L14 18m2.5 2H22"/></g>
+<text x="517" y="175" font-size="17" font-weight="550" fill="#242641" text-anchor="start">Plan meals and medicines</text>
+<circle cx="745" cy="185" r="15" fill="#eaf2f8" stroke="#365e82" stroke-width="1.4"/>
+<g transform="translate(736.3 176.3) scale(0.5437)" color="#365e82" stroke="#365e82" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M26 13a10 10 0 1 0-1.5 9M26 6v7h-7M15.5 9v7l4.5 2.5"/></g>
+<text x="768" y="175" font-size="17" font-weight="550" fill="#242641" text-anchor="start">Review A1C</text>
+<path d="M905 180 L913 185 905 190" fill="none" stroke="#365e82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M118 179 H145 C185 179 179 270 223 270 H912" fill="none" stroke="#8b502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="249" cy="270" r="5" fill="#ffffff" stroke="#8b502f" stroke-width="2.6"/>
+<text x="247" y="256" font-size="21" font-weight="700" fill="#8b502f" text-anchor="start">Prediabetes only</text>
+<text x="249" y="297" font-size="18" font-weight="600" fill="#242641" text-anchor="start">28.2M adults</text>
+<circle cx="494" cy="270" r="15" fill="#f8eee5" stroke="#8b502f" stroke-width="1.4"/>
+<g transform="translate(485.3 261.3) scale(0.5437)" color="#8b502f" stroke="#8b502f" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M3 26h8v-6h7v-7h7V6h5M18 6l5-4m0 0h-5m5 0v5"/></g>
+<text x="517" y="260" font-size="17" font-weight="550" fill="#242641" text-anchor="start">Find a prevention program</text>
+<circle cx="745" cy="270" r="15" fill="#f8eee5" stroke="#8b502f" stroke-width="1.4"/>
+<g transform="translate(736.3 261.3) scale(0.5437)" color="#8b502f" stroke="#8b502f" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M26 13a10 10 0 1 0-1.5 9M26 6v7h-7M15.5 9v7l4.5 2.5"/></g>
+<text x="768" y="260" font-size="17" font-weight="550" fill="#242641" text-anchor="start">Recheck glucose</text>
+<path d="M905 265 L913 270 905 275" fill="none" stroke="#8b502f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="89" cy="179" r="35" fill="#f8f8fb" stroke="#dcdde6" stroke-width="1.2"/>
+<g transform="translate(69 159) scale(1.2500)" color="#242641" stroke="#242641" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5h10M10 6v14a4 4 0 0 0 8 0V6M11 13h6M21 6l5 5M24 2l5 5M19 14l5-6M8 26l-3 3"/></g>
+<text x="89" y="237" font-size="17" font-weight="650" fill="#242641" text-anchor="middle">Blood test</text>
+<text x="89" y="258" font-size="14" font-weight="400" fill="#515a72" text-anchor="middle">A1C or</text>
+<text x="89" y="277" font-size="14" font-weight="400" fill="#515a72" text-anchor="middle">plasma glucose</text>
+<path d="M25 326 L961 326" fill="none" stroke="#dcdde6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="25" y="353" font-size="15" font-weight="400" fill="#515a72" text-anchor="start">Lab tests establish glucose status. Clinical history and other tests can help distinguish diabetes types.</text>
+</svg>

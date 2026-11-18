@@ -1,3 +1,4 @@
+import {atlasFigure,endocrinologySource,educationSiteSource} from './atlas-figures.js';
 import { barList, dataTable, escapeHTML, lineChart, measures, sourcesFooter } from './charts.js';
 import { card, heading, pair } from './epidemiology.js';
 
@@ -38,10 +39,10 @@ export function hcpProfile() {
     ['Pharmacist', '28%', '44%'], ['Social worker', '22%', '33%'],
     ['Physician associate', '15%', '24%'], ['Community health worker', '9%', '17%']
   ];
-  return heading('Healthcare professional profile') +
+  return heading('Healthcare professional profile') + atlasFigure('hcp') +
     card('Who does what in diabetes care', tiles(roles)) +
     card('Who works on a diabetes education team?', dataTable(['Role reported on team', '2021', '2025'], team)) +
-    sourcesFooter([CDC_TEAM, ADA_TEAM, ADCES_SURVEY], [SURVEY_METHOD,
+    sourcesFooter([CDC_TEAM, ADA_TEAM, ADCES_SURVEY, endocrinologySource, ['Medicare · Primary care and endocrinology encounters by diabetes type','https://doi.org/10.2337/dc26-2070']], [SURVEY_METHOD,
       'The team question allowed multiple roles. A respondent could report both a physician and a pharmacist on the same team.']);
 }
 
@@ -128,8 +129,8 @@ export function organizations() {
   const cards = ORGANIZATIONS.map(([name, role, audience, work, links]) =>
     `<article class="creator-card"><h2>${escapeHTML(name)}</h2><dl><div><dt>${escapeHTML(role)}</dt><dd>${escapeHTML(work)}</dd></div><div><dt>Audience</dt><dd>${escapeHTML(audience)}</dd></div></dl><p>${links.map(([label, url]) =>
       `<a href="${escapeHTML(url)}" target="_blank" rel="noopener">${escapeHTML(label)}</a>`).join(' · ')}</p></article>`);
-  return heading('Diabetes organizations') + `<div class="creator-grid">${cards.join('')}</div>` +
-    sourcesFooter(ORGANIZATIONS.map(([name, , , , links]) => [name, links[0][1]]),
+  return heading('Diabetes organizations') + atlasFigure('organizations') + `<div class="creator-grid">${cards.join('')}</div>` +
+    sourcesFooter([educationSiteSource,...ORGANIZATIONS.map(([name, , , , links]) => [name, links[0][1]])],
       ['Roles and services come from each organization’s own materials. The directory focuses on support, advocacy, education and research available to people in the United States.']);
 }
 

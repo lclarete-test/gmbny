@@ -86,7 +86,7 @@ export function mountCharts(main) {
   main.querySelectorAll('.history-canvas').forEach(el=>{update(el,el.getBoundingClientRect().width);observer?.observe(el)});
 }
 export function sourcesFooter(entries, text = []) {
-  return `<section class="source-foot" aria-label="Sources and methods"><h2>Sources and methods</h2>${text.map(t=>`<p>${escapeHTML(t)}</p>`).join('')}<ul>${entries.map(([label,url])=>`<li><a href="${escapeHTML(url)}" target="_blank" rel="noopener">${escapeHTML(label)}</a></li>`).join('')}</ul></section>`;
+  return `<section class="source-foot" aria-label="Sources and methods"><h2>Sources and methods</h2>${text.map(t=>`<p>${escapeHTML(t)}</p>`).join('')}<ul>${Array.from(new Map(entries.map(item=>[item[1],item])).values()).map(([label,url])=>`<li><a href="${escapeHTML(url)}" target="_blank" rel="noopener">${escapeHTML(label)}</a></li>`).join('')}</ul></section>`;
 }
 export function measures(items) {
   return `<div class="measure-strip">${items.map(([number,label])=>`<div><strong>${escapeHTML(number)}</strong><span>${escapeHTML(label)}</span></div>`).join('')}</div>`;

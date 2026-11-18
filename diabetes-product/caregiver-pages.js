@@ -1,3 +1,4 @@
+import {atlasFigure} from './atlas-figures.js';
 import {barList, escapeHTML, lineChart, measures, sourcesFooter} from './charts.js';
 import {card, heading, pair} from './epidemiology.js';
 
@@ -38,7 +39,7 @@ export function caregiverProfile() {
     ["Annual household income", [["Under $25,000", 17.8], ["$25,000–49,999", 29.9], ["$50,000–99,999", 27.5], ["$100,000 or more", 24.7]]],
     ["Race and ethnicity", [["White, non-Hispanic", 54.4], ["Black, non-Hispanic", 14.1], ["Hispanic, any race", 22.0], ["Other or multiracial, non-Hispanic", 9.5]]]
   ];
-  return heading('Caregiver profile') +
+  return heading('Caregiver profile') + atlasFigure('caregivers') +
     '<article class="panel care-count"><div class="care-count-value"><strong>≈2.4M</strong><span>U.S. family caregivers</span></div><div><h2>When diabetes is the main reason for care</h2>' +
     reading('In the 2025 national report, 4% of the 59 million people who cared for an adult in the past year named diabetes as the main reason that person needed help. Families managing diabetes alongside another primary illness fall outside this estimate.') + '</div></article>' +
     card('Who provided care in the past month?', unit('31-state BRFSS · 2025 · diabetes was the recipient’s main condition') +
@@ -56,7 +57,7 @@ export function caregiverProfile() {
       bars([["Parent or parent-in-law", 35.3], ["Grandparent", 8.2], ["Spouse or partner", 20.9], ["Child or grandchild", 6.7], ["Sibling or other relative", 18.1], ["Friend or nonrelative", 10.9]])) +
     card('The financial impact of childhood type 1', unit('U.S. families of children with insulin-treated diabetes · 2005–06') +
       bars([['Over $1,000 in annual out-of-pocket medical costs', 41], ['Child’s condition caused financial problems', 38], ['A family member reduced hours or stopped working', 35], ['At least 11 hours of care or coordination per week', 24], ['Child missed at least 11 school days in a year', 20]])) +
-    sourcesFooter([source.national, source.brfss, source.weights, ['2025 BRFSS · Weighted estimates, sample sizes and uncertainty','data/caregiver-profile.json'], ['Reproduce the caregiver analysis','analysis/brfss_caregivers.py'], source.household, source.child], [
+    sourcesFooter([['CDC · 2023 U.S. diabetes population','https://www.cdc.gov/diabetes/php/data-research/index.html'], source.national, source.brfss, source.weights, ['2025 BRFSS · Weighted estimates, sample sizes and uncertainty','data/caregiver-profile.json'], ['Reproduce the caregiver analysis','analysis/brfss_caregivers.py'], source.household, source.child], [
       'The national estimate multiplies the rounded 4% in figure 6 (6,549 survey respondents caring for an adult) by 59.0 million family caregivers of adults in figure 1. The survey was fielded in August–October 2024 and published in 2025. It includes paid and unpaid family caregivers and asks about the main recipient. The survey does not identify diabetes type in this question.',
       brfssNote + ' The valid sample sizes were 1,643 for sex, 1,627 for age, 1,642 for education, 1,400 for income, 1,618 for race and ethnicity, and 1,578 for care duration and 1,618 for poor mental health days. The grouped race/ethnicity categories are mutually exclusive. Percentages may differ from 100% by rounding.',
       weightNote,
