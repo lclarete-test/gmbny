@@ -15,13 +15,15 @@ import {hcpProfile,hcpJourney,hcpRelationship,patientQuestions} from './professi
 import {physicianRows} from './physician-workforce.js';
 import {organizationsPage,orgExportRows} from './organizations.js';
 import {publicOverview,searchInterest,voices,publicSearchHistories} from './public-discussion.js';
-import {marketOverview,productEvolution,policyPage,catalogPage,compareCatalog,catalogProducts,industryExportRows} from './industry-pages.js';
+import {marketOverview,policyPage,industryExportRows} from './industry-pages.js';
+import {productEvolution,milestoneById,updateChallenge,readExploredStops,recordExploredStop} from './treatment-evolution.js';
+import {catalogPage,compareCatalog,deviceById,deviceTasks,connectionDiagram,refreshDeviceResults} from './device-catalog.js';
 import {searchHistory} from './market-signals.js';
 import {stateNames} from './map-data.js';
 import {painProfile} from './patient-pain.js';
 
 const $=id=>document.getElementById(id);
-const view={state:null,period:2000,costMode:0,costState:null,patientScope:'Type 2',profileMetric:'Population',treatmentScope:'Type 2',painScope:'Type 2',search:'',deviceType:'all',category:'all',selected:new Set(),theme:'types',voiceRole:'all'};
+const view={state:null,period:2000,costMode:0,costState:null,patientScope:'Type 2',profileMetric:'Population',treatmentScope:'Type 2',painScope:'Type 2',search:'',deviceType:'all',category:'all',deviceAccess:'all',openProduct:null,systemExample:'omni',sensorExample:null,selected:new Set(),milestone:null,explored:readExploredStops(),timelineQuiz:{index:0,answer:null},theme:'types',voiceRole:'all'};
 const science=[['intro','Introduction'],['biology','Diabetes biology'],['epidemiology','Epidemiology'],['clinical','Clinical profile']];
 const system=[['healthcare','Costs and care use'],['healthcare/public','Public coverage'],['healthcare/private','Private insurance'],['healthcare/policy','Public policy']];
 const audiences=[['patients/profile','Patients'],['caregivers/profile','Caregivers'],['hcp/profile','Healthcare professionals'],['organizations','Organizations']];
@@ -70,7 +72,7 @@ const pages={
   'caregivers/profile':[caregiverProfile],'caregivers/journey':[caregiverJourney],'caregivers/questions':[caregiverQuestions],
   'hcp/profile':[hcpProfile],'hcp/journey':[hcpJourney],'hcp/relationship':[hcpRelationship],organizations:[organizationsPage],
   discussion:[publicOverview],'discussion/search':[()=>searchInterest(view.theme)],'discussion/voices':[()=>voices(view.voiceRole)],
-  'industry/market':[marketOverview],'industry/companies':[productEvolution],'industry/products':[()=>catalogPage(view)]
+  'industry/market':[marketOverview],'industry/companies':[()=>productEvolution(view)],'industry/products':[()=>catalogPage(view)]
 };
 function navLink(path,name,active=path===route){
   return `<a href="#${path}" class="${active?'active':''}" ${path===route?'aria-current="page"':''}>${name}</a>`;
@@ -109,10 +111,37 @@ async function activateRoute(){
   if(location.hash==='#main-content'){main.focus();return;}
   let raw;
   try{raw=decodeURIComponent(location.hash.slice(1))}catch{raw=''}
+  const prior=route, focused=document.activeElement;
+  const cameFromMap=!!focused?.closest('.ev-map');
+  const cameFromPager=!!focused?.closest('.ev-pager');
+  const cameFromChallenge=!!focused?.closest('.ev-challenge');
   const merged=Object.hasOwn(mergedSections,raw)?mergedSections[raw]:null;
+  const parts=raw.split('/');
+  let target=merged?.[1], detailRoute=false;
   route=merged?.[0]||aliases[raw]||raw||'intro';
+  if(parts[0]==='industry'&&parts[1]==='companies'){
+    route='industry/companies';
+    const stop=parts.length===3?milestoneById.get(parts[2]):null;
+    view.milestone=stop?.id||milestoneById.keys().next().value;
+    recordExploredStop(view.explored,view.milestone);
+    detailRoute=!!stop;
+    if(stop&&prior===route&&(cameFromPager||cameFromChallenge))target='evolution-story';
+  }
+  if(parts[0]==='industry'&&parts[1]==='products'){
+    route='industry/products';
+    const path=parts.length===4&&parts[2]==='task'&&Object.hasOwn(deviceTasks,parts[3])?parts[3]:null;
+    const product=parts.length===4&&parts[2]==='item'?deviceById.get(parts[3]):null;
+    const previousCategory=view.category;
+    view.category=product?.path||path||'all';
+    view.openProduct=product?.id||null;
+    if(product||prior!==route||!path||view.category!==previousCategory){
+      view.search='';view.deviceType='all';view.deviceAccess='all';
+    }
+    if(product)target='catalog-'+product.id;
+    detailRoute=!!(product||path);
+  }
   if(!Object.hasOwn(pages,route))route='intro';
-  if(raw&&raw!==route&&!(merged&&route==='industry/market'))history.replaceState(null,'','#'+route);
+  if(raw&&raw!==route&&!detailRoute&&!(merged&&route==='industry/market'))history.replaceState(null,'','#'+route);
   const request=++generation;
   navigation();
   const needed=pages[route].slice(1);
@@ -121,8 +150,15 @@ async function activateRoute(){
     await loadData(needed);
     if(request!==generation)return;
     render();
-    const section=merged&&document.getElementById(merged[1]);
-    if(section)section.scrollIntoView({behavior:'instant'});else window.scrollTo(0,0);
+    const section=target&&document.getElementById(target);
+    if(section){
+      section.scrollIntoView({behavior:'instant'});
+      if(target==='evolution-story')section.focus({preventScroll:true});
+      if(view.openProduct&&route==='industry/products')section.querySelector('summary')?.focus({preventScroll:true});
+    }else if(prior===route&&cameFromMap&&view.milestone){
+      const links=[...main.querySelectorAll('.ev-map a[aria-current="step"]')];
+      links.find(link=>link.getClientRects().length)?.focus({preventScroll:true});
+    }else window.scrollTo(0,0);
   }catch(error){
     if(request!==generation)return;
     main.innerHTML='<h1>Research data could not load</h1><button type="button" data-retry>Retry</button>';
@@ -147,12 +183,6 @@ function dialog(content){
   if(!$('dialog').open)$('dialog').showModal();
 }
 document.addEventListener('click',e=>{
-  const catalogLink=e.target.closest('[data-catalog-item]');
-  if(catalogLink){
-    const item=catalogProducts.find(product=>product.id===catalogLink.dataset.catalogItem);
-    if(item){view.search=item.name;view.deviceType='all';view.category='all';}
-    return;
-  }
   const t=e.target.closest('button,[data-state],[data-cost-state],.skip-link');
   if(!t)return;
   if(t.matches('.skip-link')){e.preventDefault();main.focus();return;}
@@ -160,6 +190,12 @@ document.addEventListener('click',e=>{
   if(t.id==='close'){$('dialog').close();return;}
   if(t.id==='export'){exportData();return;}
   const d=t.dataset;
+  if(t.hasAttribute('data-quiz-answer')||d.quizAction){updateChallenge(view.timelineQuiz,t);return;}
+  if(t.hasAttribute('data-clear-device-filters')){
+    view.search='';view.deviceType='all';view.deviceAccess='all';view.openProduct=null;
+    $('product-search').value='';$('device-type').value='all';$('device-access').value='all';
+    refreshDeviceResults(view);$('product-search').focus();return;
+  }
   if(d.state){selection(()=>{view.state=d.state},t);return;}
   if(d.costState){selection(()=>{view.costState=d.costState},t);return;}
   if(d.costMode!==undefined){selection(()=>{view.costMode=Number(d.costMode)},t);return;}
@@ -183,15 +219,21 @@ document.addEventListener('change',e=>{
   const t=e.target, d=t.dataset;
   if(d.picker){selection(()=>{if(d.picker==='geo')view.state=t.value||null;else view.costState=t.value||null},t);return;}
   if(t.id==='profile-dimension'){view.profileMetric=t.value;const top=t.getBoundingClientRect().top;render();const next=$('profile-dimension');window.scrollBy(0,next.getBoundingClientRect().top-top);next.focus({preventScroll:true});return;}
-  if(t.id==='device-type'){view.deviceType=t.value;render();return;}
-  if(t.id==='category'){view.category=t.value;render();return;}
+  if(t.id==='device-type'||t.id==='device-access'){
+    view[t.id==='device-type'?'deviceType':'deviceAccess']=t.value;view.openProduct=null;
+    refreshDeviceResults(view);return;
+  }
+  if(t.id==='dv-system'||t.id==='dv-sensor'){
+    if(t.id==='dv-system'){view.systemExample=t.value;view.sensorExample=null;}
+    else view.sensorExample=t.value;
+    $('device-system').innerHTML=connectionDiagram(view.systemExample,view.sensorExample);
+    $(t.id).focus({preventScroll:true});return;
+  }
   if(d.compare){if(t.checked&&view.selected.size>=3){t.checked=false;dialog('<h2>Compare up to three products</h2><p>Remove one selection to add another.</p>');return;}t.checked?view.selected.add(d.compare):view.selected.delete(d.compare);comparisonBar();}
 });
 document.addEventListener('input',e=>{
   if(e.target.id!=='product-search')return;
-  const position=e.target.selectionStart;
-  view.search=e.target.value;render();
-  $('product-search').focus();$('product-search').setSelectionRange(position,position);
+  view.search=e.target.value;view.openProduct=null;refreshDeviceResults(view);
 });
 async function exportData(){
   try{await loadData()}catch{dialog('<h2>Download interrupted</h2><p>Try Export data again when the connection returns.</p>');return;}

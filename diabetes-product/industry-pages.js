@@ -5,7 +5,11 @@ import {glucosePrices,glucosePriceSources,glucosePriceNotes,glucosePriceRows} fr
 import {barList, dataTable, escapeHTML, lineChart, measures, sourcesFooter} from './charts.js';
 import {histories, links, milestones} from './evidence.js';
 import {card, heading, pair} from './epidemiology.js';
-import {products, sources} from './data.js';
+import {sources} from './data.js';
+import {milestoneRows} from './treatment-evolution.js';
+import {deviceExportRows} from './device-catalog.js';
+export {productEvolution} from './treatment-evolution.js';
+export {catalogPage, compareCatalog, catalogProducts} from './device-catalog.js';
 
 const ref = {
   amputation: 'https://aspe.hhs.gov/sites/default/files/documents/b60f396f32e29a2a9469276d9ca80e4b/aspe-insulin-affordibility-rtc.pdf',
@@ -21,16 +25,6 @@ const ref = {
   meter: 'https://www.accu-chek.com/products/meters/guide-me',
   strips: 'https://www.accu-chek.com/tools/prescription-discount-program',
   steloPrice: 'https://www.stelo.com/buy-stelo-one-time',
-  fdaMeter: 'https://www.fda.gov/medical-devices/in-vitro-diagnostics/blood-glucose-monitoring-devices',
-  dash: 'https://www.omnipod.com/hcp/products/omnipod-dash-system',
-  earlyInsulin: 'https://www.fda.gov/about-fda/fda-history-exhibits/100-years-insulin',
-  injection: 'https://americanhistory.si.edu/collections/object-groups/insulin-and-diabetes-management/insulin-injection',
-  oral: 'https://www.si.edu/spotlight/insulin-and-diabetes-management/oral-diabetes-medications',
-  glucose: 'https://www.si.edu/spotlight/insulin-and-diabetes-management/glucose-sugar-monitoring',
-  firstCgm: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?ID=P980022',
-  byetta: 'https://www.accessdata.fda.gov/drugsatfda_docs/nda/2009/021919s000MedR.pdf',
-  sglt2: 'https://www.accessdata.fda.gov/drugsatfda_docs/nda/2014/202293Orig1s000MedR.pdf',
-  pumpHistory: 'https://www.acponline.org/sites/default/files/documents/about_acp/chapters/sc/22mtg/diabetes_technology_-_handout_1.pdf',
   medicareCgm: 'https://www.medicare.gov/coverage/continuous-glucose-monitors',
   medicareInsulin: 'https://www.medicare.gov/coverage/insulin',
   medicareBook: 'https://www.medicare.gov/publications/11022-medicare-coverage-of-diabetes-supplies-services-prevention-programs.pdf',
@@ -61,13 +55,8 @@ const patientBills = [
 ];
 const money = v => '$' + v.toLocaleString('en-US');
 
-function productLinks(value) {
-  const names = {'FreeStyle Libre 3 Plus':'libre','G7 15 Day':'g7','Omnipod 5':'omni','Control-IQ+':'tandem','MiniMed 780G':'med','Stelo':'stelo'};
-  return escapeHTML(value).replace(/FreeStyle Libre 3 Plus|G7 15 Day|Omnipod 5|Control-IQ\+|MiniMed 780G|Stelo/g,
-    name=>`<a href="#industry/products" data-catalog-item="${names[name]}">${name}</a>`);
-}
-function explanatoryTable(headers, rows, label, format=escapeHTML) {
-  return `<div class="industry-prose-table"><table aria-label="${escapeHTML(label)}"><thead><tr>${headers.map(h=>`<th scope="col">${escapeHTML(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(([k,...cells])=>`<tr><th scope="row">${format(k)}</th>${cells.map((c,i)=>`<td data-column="${escapeHTML(headers[i+1])}">${format(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+function explanatoryTable(headers, rows, label) {
+  return `<div class="industry-prose-table"><table aria-label="${escapeHTML(label)}"><thead><tr>${headers.map(h=>`<th scope="col">${escapeHTML(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(([k,...cells])=>`<tr><th scope="row">${escapeHTML(k)}</th>${cells.map((c,i)=>`<td data-column="${escapeHTML(headers[i+1])}">${escapeHTML(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
 
 export function marketOverview() {
@@ -126,40 +115,6 @@ export function marketOverview() {
     ]);
 }
 
-const eras = [
-  ['1921–23', 'Insulin was discovered in 1921 and first used to treat a patient in Toronto in 1922. U.S. distribution expanded in 1923. Insulin could replace the hormone missing in type 1 diabetes.', 'Patients drew insulin from a vial into a reusable syringe. Urine tests were an early way to check for excess glucose.'],
-  ['1950s–60s', 'Sulfonylurea tablets gave people with type 2 diabetes a way to stimulate their own insulin production.', 'Disposable syringes reduced the work of sterilizing and reusing needles. Urine test strips simplified testing at home.'],
-  ['1970s–80s', 'In 1982 the FDA approved Humulin. Recombinant technology made human insulin available at scale.', 'Meters and blood test strips brought a glucose reading into the home. Portable pumps supplied insulin continuously. Pens made injections easier to carry and measure.'],
-  ['1990s', 'The FDA approved metformin for type 2 diabetes in 1994 and rapid-acting insulin lispro in 1996. The latter offered an insulin option for mealtimes.', 'In 1999 the MiniMed CGMS recorded glucose between fingersticks. Clinicians could download the sensor history to see excursions that spot checks missed.'],
-  ['2005–13', 'Exenatide introduced injectable GLP-1 therapy for type 2 diabetes in 2005. Canagliflozin, approved in 2013, lowers glucose by increasing urinary glucose excretion.', 'Personal sensors began giving users real-time readings and alarms. The measurement could inform an action while glucose was changing.'],
-  ['2016–19', 'In 2019 oral semaglutide brought a GLP-1 therapy for type 2 diabetes into tablet form.', 'The MiniMed 670G reached the U.S. market in 2017 with automated basal adjustment. In 2018 the FDA granted De Novo classification to Dexcom G6, opening an interoperable CGM category.'],
-  ['2022–24', 'Tirzepatide, approved in 2022 for adults with type 2 diabetes, acts on both the GIP and GLP-1 receptors.', 'Omnipod 5 reached U.S. pharmacies in 2022 and gained an adult type 2 indication in 2024. In 2024 Stelo launched over the counter for adults who do not use insulin, and Abbott introduced the 15-day FreeStyle Libre 3 Plus.'],
-  ['2025–26', 'In 2026 the FDA approved once-weekly basal insulin icodec for adults with type 2 diabetes. In October the indication expanded to children ages 10 and up with type 2.', 'In 2025 Dexcom launched G7 15 Day, Tandem launched Control-IQ+ and MiniMed 780G gained an adult type 2 indication. In June 2026 Stelo clearance expanded to ages 2+ without insulin use, with adult supervision for children.']
-];
-
-export function productEvolution() {
-  return heading('How diabetes products evolved')+
-    '<p class="industry-lead">Insulin changed what clinicians could treat. Home testing changed what patients could see. Connecting sensors to pumps made it possible to adjust insulin delivery between visits.</p>'+
-    `<section class="panel">${explanatoryTable(['Era','Medicines and treatment','Measurement and delivery'],eras,'U.S. diabetes treatment and device milestones by era',productLinks)}</section>`+
-    sourcesFooter([
-      ['FDA · The discovery, scale-up and development of insulin',ref.earlyInsulin],
-      ['Smithsonian · Insulin injections and pens',ref.injection],['Smithsonian · Oral medicines',ref.oral],
-      ['Smithsonian · Home glucose testing',ref.glucose],['American College of Physicians · History of diabetes technology',ref.pumpHistory],
-      ['FDA · Original U.S. approval date for metformin','https://www.accessdata.fda.gov/drugsatfda_docs/nda/98/020357s010_appltr_medr_chemr_EA.pdf'],
-      ['FDA · Original MiniMed continuous glucose monitoring system',ref.firstCgm],
-      ['FDA · Exenatide clinical review',ref.byetta],['FDA · U.S. SGLT2 approvals',ref.sglt2],
-      ['FDA · Real-time glucose monitoring with alarms, 2005','https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P980022S011'],
-      ['Abbott · 2024 annual report, Libre Plus launches','https://www.sec.gov/Archives/edgar/data/1800/000130817925000136/abt012575-ars.pdf'],
-      ['Dexcom · G7 15 Day U.S. launch','https://investors.dexcom.com/news/news-details/2025/Dexcom-G7-15-Day-Continuous-Glucose-Monitoring-System-to-Launch-on-Dec--1-in-the-United-States/default.aspx'],
-      ['FDA · 2026 prescribing information for weekly basal insulin icodec','https://www.accessdata.fda.gov/drugsatfda_docs/label/2026/761326s001lbl.pdf'],
-      ...milestones.slice(2).map(([year,name,, ,url])=>[`${name} · ${year}`,url]),
-      ['Tandem · Control-IQ+ U.S. launch',sources.tandem.url],['FDA · MiniMed 780G indication',sources.med.url],
-      ['FDA · Stelo pediatric indication',sources.stelo.url]
-    ],[
-      'The timeline distinguishes commercial availability, regulatory action and reimbursement. De Novo is the FDA pathway that established a new device classification for the interoperable G6. Device eligibility depends on the model and authorized combination.'
-    ]);
-}
-
 const accessRules = [
   ['Fingerstick monitoring','Part B may cover a prescribed home meter, test strips and lancets. Quantity limits depend on the patient’s circumstances.','A recurring strip supply can follow a different payment route from insulin.'],
   ['Continuous glucose monitoring','Part B may cover a prescribed CGM for a person with diabetes who uses insulin or has documented problematic hypoglycemia. The patient or caregiver needs training.','Under Original Medicare, the usual share is 20% of the approved amount after the Part B deductible. Supplemental coverage can change the patient’s bill.'],
@@ -195,101 +150,6 @@ export function policyPage() {
     ]);
 }
 
-const categoryNames = {
-  meter: 'Fingerstick meter and strips', rx: 'Prescription CGM', otc: 'Over-the-counter CGM',
-  syringe: 'Vial and syringe', pen: 'Insulin pen', pump: 'Conventional pump', AID: 'Automated insulin delivery'
-};
-const namedProducts = products.map(p=>{
-  const family = p.cat === 'CGM' ? (p.id === 'stelo' ? 'otc' : 'rx') : 'AID';
-  const roles = {
-    g7: 'A wearable sensor sends readings to a compatible display. Selected pump combinations can use its readings to adjust insulin.',
-    libre: 'A sensor provides a glucose reading every minute. Certain compatible systems can use the readings for automated delivery.',
-    stelo: 'A wearable sensor shows glucose trends in an app. The label excludes use with insulin, dialysis or problematic hypoglycemia.',
-    omni: 'A tubeless disposable pod adjusts insulin delivery with readings from a compatible sensor.',
-    tandem: 'Control-IQ+ software adjusts insulin delivery on compatible Tandem pumps using sensor readings and predicted glucose.',
-    med: 'A pump and compatible sensor work together to adjust basal insulin and deliver automatic correction doses.'
-  };
-  return {...p,family,url:sources[p.source].url,use:roles[p.id] || p.use,
-    type:p.id === 'libre' ? [...p.type,'gest'] : p.type,
-    audience:p.id === 'libre' ? 'Age 2+ with diabetes, including type 1, type 2 and gestational diabetes.'
-      : p.id === 'stelo' ? 'Age 2+ without insulin use. An adult must supervise use by children.' : p.audience};
-});
-const insulinLabel = 'https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/020563s214%2C205747s038lbl.pdf';
-const meterProduct = {
-  id:'guide',name:'Accu-Chek Guide Me',brand:'Roche',family:'meter',type:['t1','t2','gest'],
-  audience:'People measuring capillary blood glucose at home.',access:'Available over the counter',
-  wear:'Reusable meter and single-use strips',use:'A fingerstick sample on a compatible Guide strip gives one blood glucose reading.',
-  url:ref.meter
-};
-const injectionProducts = [
-  {id:'vial',name:'Humalog U-100 vial and syringe',brand:'Lilly',family:'syringe',type:['t1','t2'],
-    audience:'Adults and children with diabetes who need this rapid-acting insulin.',access:'Prescription insulin',
-    wear:'Vial and separate U-100 insulin syringes',use:'The insulin is drawn from a vial into a syringe for a manually administered injection.',
-    url:insulinLabel},
-  {id:'pen',name:'Humalog U-100 KwikPen',brand:'Lilly',family:'pen',type:['t1','t2'],
-    audience:'Adults and children with diabetes who need this rapid-acting insulin.',access:'Prescription insulin',
-    wear:'Prefilled disposable pen and pen needles',use:'The pen holds the same insulin formulation as the U-100 vial and lets the user dial each dose.',
-    url:insulinLabel},
-  {id:'dash',name:'Omnipod DASH',brand:'Insulet',family:'pump',type:['t1','t2'],
-    audience:'People with insulin-requiring diabetes.',access:'Prescription',
-    wear:'Disposable tubeless pod, up to 72 hours',use:'A handheld controller programs basal and mealtime insulin. The user enters glucose information manually.',
-    url:ref.dash}
-];
-export const catalogProducts = [
-  meterProduct,...namedProducts.filter(p=>p.cat==='CGM'),...injectionProducts,...namedProducts.filter(p=>p.cat==='AID')
-];
-const categoryOptions = [
-  ['all','All device families'],['meter','Fingerstick meters and strips'],['CGM','All continuous monitors'],
-  ['rx','Prescription CGMs'],['otc','Over-the-counter CGMs'],['syringe','Vials and syringes'],
-  ['pen','Insulin pens'],['pump','Conventional pumps'],['AID','Automated insulin delivery']
-];
-const populationOptions = [
-  ['all','All populations'],['t1','Type 1 diabetes'],['t2','Type 2 diabetes'],['gest','Gestational diabetes'],['pre','Prediabetes']
-];
-
-function options(items,selected) {
-  return items.map(([id,label])=>`<option value="${id}"${id===selected?' selected':''}>${escapeHTML(label)}</option>`).join('');
-}
-
-export function catalogPage(view={}) {
-  const search = view.search || '';
-  const category = view.category || 'all', population = view.deviceType || 'all';
-  const matches = catalogProducts.filter(p=>{
-    const matchCategory = category === 'all' || category === p.family || (category === 'CGM' && p.cat === 'CGM');
-    const searchable = [p.name,p.brand,categoryNames[p.family],p.audience,p.use,p.wear,p.access].join(' ').toLowerCase();
-    return matchCategory && (population === 'all' || p.type.includes(population)) && searchable.includes(search.trim().toLowerCase());
-  });
-  const cards = matches.map(p=>`<article class="product-card" id="catalog-${p.id}">
-    <span class="product-maker">${escapeHTML(p.brand)} · ${escapeHTML(categoryNames[p.family])}</span><h2>${escapeHTML(p.name)}</h2>
-    <p>${escapeHTML(p.use)}</p><p class="industry-product-patient">${escapeHTML(p.audience)}</p>
-    <dl class="industry-product-defs"><div><dt>Access</dt><dd>${escapeHTML(p.access)}</dd></div><div><dt>Format</dt><dd>${escapeHTML(p.wear)}</dd></div></dl>
-    <label><input type="checkbox" data-compare="${p.id}" ${view.selected?.has(p.id)?'checked':''}> Compare product</label></article>`).join('');
-  return heading('Devices and products')+
-    '<p class="industry-lead">Meters and sensors measure glucose. Syringes, pens and pumps deliver insulin. An automated system connects a compatible sensor, pump and dosing algorithm.</p>'+
-    `<div class="catalog-filters"><label>Find a product<input id="product-search" type="search" value="${escapeHTML(search)}" placeholder="Name, manufacturer or device"></label>
-    <label>Device family<select id="category">${options(categoryOptions,category)}</select></label>
-    <label>Population<select id="device-type">${options(populationOptions,population)}</select></label></div>
-    <div class="product-grid">${cards||'<p class="empty" role="status">No products match these filters.</p>'}</div>`+
-    sourcesFooter([
-      ['FDA · Meter, strips and blood samples',ref.fdaMeter],['Roche · Accu-Chek Guide Me',ref.meter],
-      ...namedProducts.map(p=>[p.brand+' · '+p.name,p.url]),
-      ['Abbott · Libre 3 system indications and sensor specifications','https://payer.freestyle.abbott/content/dam/adc/freestylepayer/us/us-en/Leave%20Behind%2C%20FSL3%20Formulary%20Kit%2C%20Market%20Access%2C%20April%202025.pdf'],
-      ['FDA · Humalog vials and pens',insulinLabel],['Insulet · Omnipod DASH',ref.dash],['NIDDK · Insulin delivery methods',ref.treatment]
-    ],[
-      'Selected U.S. product examples, checked November 17, 2026. The population filter uses the cited product labeling and examples. The prediabetes filter identifies an over-the-counter tracking option for eligible people without insulin use. Diabetes and prediabetes are diagnosed with laboratory testing.',
-      'Automated delivery requires an authorized combination of software, pump and sensor. A prescription or an over-the-counter indication alone does not establish insurance coverage.'
-    ]);
-}
-
-export function compareCatalog(ids) {
-  const selected = ids instanceof Set ? ids : new Set(ids);
-  const selectedProducts = catalogProducts.filter(p=>selected.has(p.id)).slice(0,3);
-  const fields = [['Manufacturer','brand'],['Device family','family'],['Who can use it','audience'],['Access','access'],['Format and supplies','wear'],['Role','use']];
-  return '<h2>Compare products</h2>'+explanatoryTable(['Feature',...selectedProducts.map(p=>p.name)],
-    fields.map(([label,key])=>[label,...selectedProducts.map(p=>key==='family'?categoryNames[p.family]:p[key])]),
-    'Selected diabetes products compared by feature');
-}
-
 export function industryExportRows() {
   const rows = [
     ...marketAccountRows(), ...treatmentAccountRows(), ...glucosePriceRows(), ...fdaExportRows(),
@@ -309,7 +169,7 @@ export function industryExportRows() {
     ...[['CGM',3700000],['Insulin pump',891000],['Both',740000]].map(([group,v])=>['Industry','U.S. device users',group,v,'industry estimate of people, 2024',ref.marketEstimate]),
     ...[['Januvia',113],['Selected Fiasp / NovoLog',119],['Farxiga',178.50],['Jardiance',197]].map(([name,v])=>
       ['Public policy','Part D negotiated price',name,v,'USD per 30-day equivalent, effective Jan 2026',ref.prices]),
-    ...catalogProducts.map(p=>['Device catalog',p.name,categoryNames[p.family],p.access,p.audience,p.url])
+    ...milestoneRows(), ...deviceExportRows()
   ];
   return rows;
 }
