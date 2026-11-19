@@ -27,7 +27,7 @@ import {stateNames} from './map-data.js';
 import {painProfile} from './patient-pain.js';
 
 const $=id=>document.getElementById(id);
-const view={state:null,period:2000,geoYear:2025,geoMetric:'all',geoMeasure:'survey',historyScope:'state',glucoseStatus:'undiagnosed',nationalSeries:'reported',costMode:0,costState:null,costPayer:'all',patientScope:'Type 2',profileMetric:'Population',treatmentScope:'Type 2',painScope:'Type 2',search:'',deviceType:'all',category:'all',deviceAccess:'all',openProduct:null,systemExample:'omni',sensorExample:null,selected:new Set(),milestone:null,explored:readExploredStops(),timelineQuiz:{index:0,answer:null},theme:'types',voiceRole:'all'};
+const view={state:null,period:2000,geoYear:2025,geoMetric:'all',geoMeasure:'count',historyScope:'state',glucoseStatus:'undiagnosed',trendStart:2019,trendEnd:2025,nationalSeries:'reported',costMode:0,costState:null,costPayer:'all',patientScope:'Type 2',profileMetric:'Population',treatmentScope:'Type 2',painScope:'Type 2',search:'',deviceType:'all',category:'all',deviceAccess:'all',openProduct:null,systemExample:'omni',sensorExample:null,selected:new Set(),milestone:null,explored:readExploredStops(),timelineQuiz:{index:0,answer:null},theme:'types',voiceRole:'all'};
 const science=[['intro','Introduction'],['epidemiology','Epidemiology'],['comorbidities','Comorbidities and complications']];
 const system=[['healthcare','Costs and care use'],['healthcare/public','Public coverage'],['healthcare/private','Private insurance'],['healthcare/policy','Public policy']];
 const audiences=[['patients/profile','Patients'],['caregivers/profile','Caregivers'],['hcp/profile','Healthcare professionals'],['organizations','Organizations']];
@@ -56,7 +56,7 @@ const mergedSections={
 const aliases={overview:'epidemiology',people:'patients/profile',family:'caregivers/profile',journey:'patients/journey',life:'patients/routine',products:'industry/products',industry:'industry/market',market:'industry/market',online:'discussion/search',influencers:'discussion/voices','signals/search':'discussion/search','signals/pain':'patients/pain','signals/voices':'discussion/voices','public/online':'discussion/search','public/influencers':'discussion/voices','public/profile':'discussion','public/questions':'discussion/search',introduction:'intro',patients:'patients/profile',caregivers:'caregivers/profile',hcp:'hcp/profile',public:'discussion',policy:'healthcare/policy'};
 const main=$('main-content'),data={},requests=new Map();
 let route='',generation=0;
-const assetPaths={stateTotals:'data/state-total-2025.json',stateCosts:'data/state-payer-costs.json',typeDetail:'data/nhis-type-detail.json',conditions:'data/state-conditions.json',type1Counts:'data/type1-cases-2024.json',svg:'us-map.svg',states:'data/state-series.json',profiles:'data/state-profile.json',nhis:'data/nhis.json',coverage:'data/coverage.json',segments:'data/coverage-segments.json',caregivers:'data/caregiver-profile.json'};
+const assetPaths={caseMap:'data/state-case-map.json',stateTotals:'data/state-total-2025.json',stateCosts:'data/state-payer-costs.json',typeDetail:'data/nhis-type-detail.json',conditions:'data/state-conditions.json',type1Counts:'data/type1-cases-2024.json',svg:'us-map.svg',states:'data/state-series.json',profiles:'data/state-profile.json',nhis:'data/nhis.json',coverage:'data/coverage.json',segments:'data/coverage-segments.json',caregivers:'data/caregiver-profile.json'};
 async function loadData(keys=Object.keys(assetPaths)){
   await Promise.all(keys.map(key=>{
     if(data[key])return;
@@ -72,7 +72,7 @@ async function loadData(keys=Object.keys(assetPaths)){
   }));
 }
 const pages={
-  intro:[introduction],comorbidities:[()=>clinicalProfile(data.nhis),'nhis'],epidemiology:[()=>epidemiology(data,view),'svg','states','profiles','nhis','conditions','type1Counts','typeDetail','stateTotals'],
+  intro:[introduction],comorbidities:[()=>clinicalProfile(data.nhis),'nhis'],epidemiology:[()=>epidemiology(data,view),'svg','states','profiles','nhis','conditions','type1Counts','typeDetail','stateTotals','caseMap'],
   healthcare:[()=>healthcare(data,view),'svg','coverage','stateCosts'],'healthcare/public':[publicCoverage],'healthcare/private':[privateCoverage],'healthcare/policy':[policyPage],audience:[ecosystemPage],
   'patients/profile':[()=>patientProfile(data.nhis,data.segments,view),'nhis','segments'],
   'patients/journey':[()=>patientJourney(data.nhis),'nhis'],'patients/routine':[()=>patientRoutines(data.nhis),'nhis'],
@@ -228,11 +228,12 @@ document.addEventListener('click',e=>{
   if(d.historyScope&&['national','state'].includes(d.historyScope)){
     view.historyScope=d.historyScope;refreshHistory('[data-history-scope="'+d.historyScope+'"]');return;
   }
+  if(d.caseMeasure&&['count','percent'].includes(d.caseMeasure)){view.geoMeasure=d.caseMeasure;refreshGeography('[data-case-measure="'+d.caseMeasure+'"]');return;}
   if(d.geoMetric&&hasStateLayer(d.geoMetric)){
     if(view.geoMetric===d.geoMetric)return;
     view.geoMetric=d.geoMetric;
-    view.geoMeasure=d.geoMetric==='type1'?'resident':'survey';
-    view.geoYear=d.geoMetric==='all'?data.stateTotals.years.at(-1):'latest';
+    const years=Object.keys(data.caseMap[d.geoMetric]).map(Number);
+    if(!years.includes(view.geoYear))view.geoYear=Math.max(...years);
     view.historyScope='state';
     refreshGeography('[data-geo-metric="'+d.geoMetric+'"]');return;
   }
@@ -268,6 +269,12 @@ document.addEventListener('keydown',e=>{
 });
 document.addEventListener('change',e=>{
   const t=e.target, d=t.dataset;
+  if(d.trendBound){
+    const y=Number(t.value);
+    if(d.trendBound==='start'){view.trendStart=y;view.trendEnd=Math.max(view.trendEnd,y);}
+    else{view.trendEnd=y;view.trendStart=Math.min(view.trendStart,y);}
+    refreshHistory('[data-trend-bound="'+d.trendBound+'"]');return;
+  }
   if(d.picker==='geo'){view.state=t.value||null;view.historyScope='state';refreshGeography('[data-picker="geo"]');return;}
   if(d.picker==='geo-year'){view.geoYear=t.value==='latest'?'latest':Number(t.value);refreshGeography('[data-picker="geo-year"]');return;}
   if(d.picker==='geo-measure'){view.geoMeasure=['survey','resident','count'].includes(t.value)?t.value:'survey';refreshGeography('[data-picker="geo-measure"]');return;}
@@ -304,6 +311,7 @@ async function exportData(){
   for(const [dim,groups] of Object.entries(data.nhis.comparison))for(const [label,...values] of groups)values.forEach((v,i)=>rows.push(['Condition comparison · 2025',data.nhis.labels[i],dim+' / '+label,v,'% of adults in group',links.nhis]));
   for(const [scope,profile] of Object.entries(data.nhis.profiles))for(const [dim,list] of Object.entries(profile.groups))for(const [group,...vs] of list)vs.forEach((v,i)=>rows.push(['Patient profile · '+scope,['Patient share','Insulin','Oral medication','Other injectables'][i],dim+' / '+group,v,i?'% of patient group':'% of selected population',links.nhis]));
   for(const [key,list] of Object.entries(data.nhis.type2Routine))for(const [label,v] of list)rows.push(['Patient care routines',key==='a1c'?'Last A1C check':'Felt overwhelmed in the past month',label,v,'% of adults with type 2 diabetes · 2025',links.nhis]);
+  for(const [condition,years] of Object.entries(data.caseMap))for(const [year,states] of Object.entries(years))for(const [id,[count,pct]] of Object.entries(states))for(const [value,unit] of [[count,'People'],[pct,'% of '+(condition==='type1'?'residents':'adults')]])if(Number.isFinite(value))rows.push(['State case map',condition,year+' / '+stateNames[id],value,unit,condition==='type1'?data.type1Counts.sourceUrl:links.states]);
   rows.push(...glucoseExportRows(data.typeDetail),...stateCostExportRows(data.stateCosts),...healthcarePaymentRows());
   for(const layer of Object.values(data.conditions)){
     for(const [abbr,est] of Object.entries(layer.states)){

@@ -49,7 +49,7 @@ export function glucoseOverview(id='undiagnosed',typeDetail){
 export function comparisonHistory(nhis,detail){
   const early=detail.early;
   const labels=[...early.map(r=>r.year),...nhis.trend.map(r=>r[0])];
-  const series=['Reported type 1 diabetes','Reported type 2 diabetes','Reported prediabetes'].map((label,i)=>
+  const series=['Type 1','Type 2','Prediabetes'].map((label,i)=>
     [label,[...early.map(r=>r.values[i]),...nhis.trend.map(r=>r[i+1])]]);
   return {title:'U.S. diabetes diagnoses over time',unit:'Percentage of U.S. adults aged 18+ · NHIS interviews, '+labels[0]+'–'+labels.at(-1),
     format:'percent',digits:2,labels,series,
@@ -58,11 +58,24 @@ export function comparisonHistory(nhis,detail){
     breakAt:detail.breakBeforeYears.map(y=>labels.indexOf(y)).filter(i=>i>=0),
     annotate:[labels.indexOf(2006),labels.indexOf(2016),labels.length-1],source:links.nhis};
 }
-export function nationalHistory(nhis,typeDetail,mode,scopeControl=''){
+export function nationalHistory(nhis,typeDetail,mode,scopeControl='',start=2019,end=nhis.trend.at(-1)[0]){
   const lab=mode==='labs';
   const chart=lab?{...labTrend,colors:[glucoseColors.prediabetes,glucoseColors.undiagnosed],annotate:true}:comparisonHistory(nhis,typeDetail);
-  const controls='<div class="trend-controls">'+scopeControl+'<div class="epi-tabs" role="group" aria-label="National trend measure"><button type="button" data-national-series="reported" aria-pressed="'+!lab+'">Reported diagnoses</button><button type="button" data-national-series="labs" aria-pressed="'+lab+'">Blood test results</button></div></div>';
-  const note=lab?'Blood tests identify prediabetes and undiagnosed diabetes. CDC found no statistically significant long-term trend in either measure over its published examination periods.':'Adults first reported prediabetes in this survey in 2006. The survey asked about diabetes type in 2016 and 2017, skipped it in 2018, and resumed in 2019 with a redesigned questionnaire.';
+  let range='';
+  if(!lab){
+    const years=chart.labels,offset=years.indexOf(start),limit=years.indexOf(end)+1;
+    const picker=(name,value)=>`<label>${name==='start'?'From':'Through'} <select aria-label="${name==='start'?'Start year':'End year'}" data-trend-bound="${name}">${years.map(y=>`<option ${y===value?'selected':''}>${y}</option>`).join('')}</select></label>`;
+    range='<div class="case-period">'+picker('start',start)+picker('end',end)+'</div>';
+    chart.labels=years.slice(offset,limit);
+    chart.series=chart.series.map(([name,values])=>[name,values.slice(offset,limit)]);
+    chart.intervals=chart.intervals.map(v=>v.slice(offset,limit));
+    chart.breakAt=chart.breakAt.map(i=>i-offset).filter(i=>i>0);
+    chart.annotate=[0,chart.labels.length-1];
+    chart.unit='U.S. adults aged 18+ · percent reporting each condition · '+start+'–'+end;
+    chart.everyYear=true;
+  }
+  const controls='<div class="trend-controls">'+scopeControl+range+'<div class="epi-tabs" role="group" aria-label="National trend measure"><button type="button" data-national-series="reported" aria-pressed="'+!lab+'">Reported diagnoses</button><button type="button" data-national-series="labs" aria-pressed="'+lab+'">Blood test results</button></div></div>';
+  const note=lab?'Blood tests identify prediabetes and undiagnosed diabetes. CDC found no statistically significant long-term trend in either measure over its published examination periods.':start<2019?'NHIS recorded diabetes type in 2016 and 2017, skipped the question in 2018 and resumed in 2019. Breaks in the prediabetes line mark questionnaire changes.':'';
   return lineChart({...chart,title:'U.S. diabetes and prediabetes over time',controls,note});
 }
 export function glucoseExportRows(typeDetail){

@@ -61,107 +61,39 @@ function distinctExtreme(rows,fromTop) {
 
 const typeKeys=['type1','type2','prediabetes'];
 const typePalette={type1:'#5848a6',type2:'#2c689b',prediabetes:'#167769'};
-const lastObserved=(rec,years)=>years.filter(y=>Number.isFinite(rec?.annual?.[y])).at(-1);
 const isTypeSurvey=metric=>metric==='type1'||metric==='type2';
-const surveyYearLabel=(year,metric)=>year===2025&&isTypeSurvey(metric)?'2025 · BRFSS analysis':String(year);
-const isModelView=v=>v.geoMetric==='type1'&&['count','resident'].includes(v.geoMeasure);
-
-function surveyObservation(source,id,year,latest){
-  const record=source.states[id];
-  const date=latest?lastObserved(record,source.years):year;
-  const current=date===Number(source.period);
-  return {year:date,value:(current?record?.value:record?.annual?.[date])??null,
-    interval:record?.annualCI?.[date]||(current?record?.ci:null)};
-}
-
-function mapDataset(resources,view){
-  const metric=hasStateLayer(view.geoMetric)?view.geoMetric:'all';
-  const layer=layers[metric],model=isModelView(view),count=model&&view.geoMeasure==='count';
-  const source=model?resources.type1Counts:metric==='all'?allDiagnosed(resources):resources.conditions[metric];
-  const latest=!model&&metric!=='all'&&view.geoYear==='latest';
-  const year=!model&&!latest&&source.years.includes(Number(view.geoYear))?Number(view.geoYear):Number(source.period);
-  const observations={};
-  for(const id of locations){
-    if(model){
-      const s=source.states[id];
-      observations[id]={year,value:count?s.value:s.percent,interval:count?s.ci:s.percentCI};
-    }else observations[id]=surveyObservation(source,id,year,latest);
-  }
-  const values=Object.fromEntries(locations.map(id=>[id,observations[id].value]));
-  const ranked=Object.entries(values).filter(([,n])=>Number.isFinite(n)).sort((a,b)=>b[1]-a[1]);
-  const display=count?v=>Number.isFinite(v)?Math.round(v).toLocaleString('en-US'):'No estimate':v=>percent(v,layer.digits);
-  const cuts=count?[5000,15000,30000,60000]:model?[.38,.41,.44,.47]:layer.cuts;
-  const subject=model?(count?'Modeled type 1 cases':'Modeled type 1 prevalence'):layer.subject;
-  const unit=model?(count?'Estimated number of residents of all ages living with type 1 diabetes.':'Estimated percentage of all residents living with type 1 diabetes, including children.') :
-    metric==='prediabetes'?'Adults who reported prediabetes without a diabetes diagnosis, age-adjusted.':
-    metric==='all'?'Adults with a reported diabetes diagnosis of any type, age-adjusted.':'Adults with survey-classified '+(metric==='type1'?'type 1':'type 2')+' diabetes, age-adjusted.';
-  return {metric,layer,model,count,source,latest,year,observations,values,ranked,display,cuts,subject,unit};
-}
-
-function latestTypePair(resources,id){
-  const items=['type1','type2'].map(metric=>{
-    const layer=resources.conditions[metric],record=layer.states[id],year=lastObserved(record,layer.years);
-    const value=record?.annual?.[year];
-    return '<div><span>'+layers[metric].short+'</span><strong>'+percent(value,layers[metric].digits)+'</strong>'+
-      (year?'<small>'+surveyYearLabel(year,metric)+'</small>':'')+'</div>';
-  });
-  return '<div class="geo-by-type"><p>Latest adult survey estimates</p><div>'+items.join('')+'</div></div>';
-}
-
-function geoReadout(ctx,chosen,resources){
-  const {metric,source,latest,year,observations,ranked,display,model,count}=ctx;
-  let selection='';
-  if(chosen){
-    const obs=observations[chosen],valid=Number.isFinite(obs.value);
-    const rank=valid&&!latest?1+ranked.filter(([,v])=>v>obs.value).length:null;
-    const previous=!model&&!latest&&!valid?lastObserved(source.states[chosen],source.years):null;
-    let note=valid?surveyYearLabel(obs.year,model?null:metric):latest?'The optional state survey has no estimate in this period.':'No survey estimate for '+year+'.';
-    if(rank)note+=' · Rank '+rank+' of '+ranked.length;
-    if(valid&&obs.interval?.every(Number.isFinite))note+=(model?' · 95% model interval ':' · 95% CI ')+display(obs.interval[0])+' to '+display(obs.interval[1]);
-    selection='<div class="geo-current"><span>'+stateNames[chosen]+'</span><strong>'+display(obs.value)+'</strong><small>'+note+'</small>'+
-      (previous?'<button type="button" data-geo-year="'+previous+'">Show '+previous+' estimate</button>':'')+'</div>';
-  }
-  const label=ranked.length+' of 51 jurisdictions';
-  let references='';
-  if(latest){
-    const byYear=source.years.slice().reverse().map(y=>[y,Object.values(observations).filter(o=>o.year===y&&Number.isFinite(o.value)).length]).filter(([,n])=>n>0);
-    references='<p class="geo-vintage-heading">Year of each latest estimate</p><dl class="geo-vintages">'+byYear.map(([y,n])=>'<div><dt>'+surveyYearLabel(y,metric)+'</dt><dd>'+n+' jurisdictions</dd></div>').join('')+'</dl>'+
-      '<p class="geo-coverage">Choose a single year to see state ranks.</p>';
-  }else if(ranked.length){
-    const states=ranked.filter(([id])=>id!=='DC');
-    const ref=model?(count?source.national.value:source.national.percent):states.reduce((sum,[,v])=>sum+v,0)/states.length;
-    const mid=source.medianAnnual?.[year];
-    references='<dl><div class="geo-reference geo-mean"><dt><i aria-hidden="true">≈</i><span>'+(model?'United States, all ages':'Average across reporting states')+'</span></dt><dd>'+display(ref)+'</dd></div>'+
-      (Number.isFinite(mid)?'<div class="geo-median"><dt>CDC state median</dt><dd>'+display(mid)+'</dd></div>':'')+
-      rankReference('highest',distinctExtreme(ranked,true),display)+rankReference('lowest',distinctExtreme(ranked,false),display)+'</dl>';
-  }
-  const byType=chosen&&metric==='all'?latestTypePair(resources,chosen):'';
-  return '<aside class="atlas-readout geo-readout" aria-label="State comparisons">'+selection+byType+
-    '<p class="geo-coverage-primary"><b>'+label+'</b> · '+(latest?'latest available':year)+'</p>'+references+'</aside>';
-}
+const isModelView=view=>view.geoMetric==='type1';
+const people=n=>Number.isFinite(n)?Math.round(n).toLocaleString('en-US'):'No estimate';
 
 export function stateGeography(resources,view){
-  const ctx=mapDataset(resources,view);
-  const {metric,source,model,count,latest,year,display,observations,values,cuts,subject,unit}=ctx;
-  const chosen=Object.hasOwn(stateNames,view.state)?view.state:null;
-  const modelPick=metric==='type1'?'<label class="picker"><span>Measure</span><select data-picker="geo-measure" aria-label="Type 1 map measure">'+
-    [['resident','Modeled % of all residents'],['count','Modeled count, all ages'],['survey','Survey % of adults']].map(([id,name])=>'<option value="'+id+'" '+((id==='survey'?!model:view.geoMeasure===id)?'selected':'')+'>'+name+'</option>').join('')+'</select></label>':'';
-  const yearOptions=model?'':(metric==='all'?'':'<option value="latest" '+(latest?'selected':'')+'>Latest by state</option>')+
-    [...source.years].reverse().map(y=>'<option value="'+y+'" '+(!latest&&year===y?'selected':'')+'>'+surveyYearLabel(y,metric)+'</option>').join('');
-  const yearPicker=model?'':'<label class="picker"><span>Survey year</span><select data-picker="geo-year" aria-label="State map year">'+yearOptions+'</select></label>';
-  const buttons=Object.entries(layers).map(([id,l])=>'<button type="button" data-geo-metric="'+id+'" aria-pressed="'+(id===metric)+'">'+l.short+'</button>').join('');
-  const mark=v=>count?v.toLocaleString('en-US'):String(Number(v.toFixed(ctx.layer.digits)))+'%';
-  const items=legend(cuts,mark);
+  const metric=view.geoMetric, series=resources.caseMap[metric],years=Object.keys(series).map(Number).sort((a,b)=>a-b);
+  const year=years.includes(view.geoYear)?view.geoYear:years.at(-1), records=series[year];
+  const chosen=view.state, count=view.geoMeasure==='count',column=count?0:1;
+  const model=metric==='type1',layer=layers[metric],population=model?'all residents':'adults 18+';
+  const pct=n=>percent(n,model?2:1),format=count?people:pct;
+  const rows=Object.entries(records).filter(([,r])=>Number.isFinite(r[column])).map(([id,r])=>[id,r[column]]).sort((a,b)=>b[1]-a[1]);
+  const values=Object.fromEntries(rows);
+  const cuts=count?(model?[5000,15000,30000,60000]:[50000,200000,500000,1000000]):model?[.38,.41,.44,.47]:layer.cuts;
   const shade=v=>Number.isFinite(v)?colors[cuts.filter(c=>v>=c).length]:'url(#map-no-data)';
-  const ariaValue=(v,id)=>display(v)+(latest&&Number.isFinite(v)?' in '+observations[id].year:'');
-  let surveyNote=!model&&metric!=='all'?' Only participating states asked these optional questions.':'';
-  if(!model&&isTypeSurvey(metric)&&(latest||year===2025))surveyNote+=latest?' The 2022–24 rates are CDC estimates. The 2025 rates are a separate BRFSS analysis.':' The dashboard calculated this estimate from the 2025 BRFSS survey.';
-  return '<article class="panel atlas condition-map"><h2>Diabetes and prediabetes by state</h2>'+
-    '<div class="geo-toolbar"><div class="epi-tabs geo-tabs" role="group" aria-label="State map condition">'+buttons+'</div><div class="geo-location">'+pickState(chosen,'geo')+modelPick+yearPicker+
-    (chosen?'<button data-geo-reset type="button">Show all states</button>':'')+'</div></div>'+
-    '<p class="geo-unit"><strong>'+subject+' · '+(latest?source.years[0]+'–'+source.years.at(-1):year)+'</strong><span>'+unit+surveyNote+'</span></p>'+
-    '<div class="atlas-inner"><div>'+mapImage(resources.svg,values,chosen,'geo',shade,ariaValue,subject+' by state')+'</div>'+geoReadout(ctx,chosen,resources)+'</div>'+
-    '<div class="atlas-key">'+items.filter((_,i)=>i<5||ctx.ranked.length<51).map((label,i)=>'<span><i '+(colors[i]?'style="background:'+colors[i]+'"':'class="geo-missing"')+'></i>'+escapeHTML(label)+'</span>').join('')+'</div></article>';
+  const tabs=Object.entries(layers).map(([id,l])=>`<button type="button" data-geo-metric="${id}" aria-pressed="${id===metric}">${l.short}</button>`).join('');
+  const options=years.slice().reverse().map(y=>`<option value="${y}" ${y===year?'selected':''}>${y}</option>`).join('');
+  const key=legend(cuts,format).map((label,i)=>`<span><i ${colors[i]?'style="background:'+colors[i]+'"':'class="geo-missing"'}></i>${escapeHTML(label)}</span>`).join('');
+  const high=rows.length?rankReference('highest',distinctExtreme(rows,true),format):'';
+  const low=rows.length?rankReference('lowest',distinctExtreme(rows,false),format):'';
+  const mean=rows.filter(([id])=>id!=='DC');
+  const average=mean.length?format(mean.reduce((sum,[,v])=>sum+v,0)/mean.length):'No estimate';
+  const selection=records[chosen]||[];
+  const rank=Number.isFinite(selection[column])?1+rows.filter(([,v])=>v>selection[column]).length:null;
+  const selected=chosen?`<div class="geo-current"><strong>${stateNames[chosen]}</strong><span>${people(selection[0])} people · ${pct(selection[1])} of ${population}${rank?' · Rank '+rank+' of '+rows.length:''}</span><button type="button" data-geo-reset>Show all states</button></div>`:'';
+  const method=model?'The 2024 model includes children and adults. The percentage uses the state’s total resident population.':metric==='all'?'CDC estimates how many adults reported a diabetes diagnosis and their share of the state’s adult population.':(metric==='prediabetes'?'These adults reported prediabetes and had no diabetes diagnosis.':'These adults were classified as having type 2 diabetes in a state survey.')+' Counts are approximate: the survey percentage multiplied by the Census adult population, rounded to the nearest hundred.'+(metric==='type2'&&year===2025?' The 2025 survey analysis differs from CDC’s earlier estimates.':'');
+  return `<article class="panel condition-map"><h2>Diabetes and prediabetes by state</h2>
+    <div class="geo-toolbar"><div class="epi-tabs geo-tabs" aria-label="Condition">${tabs}</div>
+    <div class="geo-location">${pickState(chosen,'geo')}<label class="picker"><span>Year</span><select aria-label="State map year" data-picker="geo-year">${options}</select></label></div></div>
+    <div class="epi-tabs case-toggle" role="group" aria-label="Map measure"><button type="button" data-case-measure="count" aria-pressed="${count}">Number of people</button><button type="button" data-case-measure="percent" aria-pressed="${!count}">Percent of population</button></div>
+    <div class="case-outline">${mapImage(resources.svg,values,chosen,'geo',shade,format,layer.short+' by state')}</div>
+    <div class="atlas-key">${key}</div>${selected}
+    <div class="geo-readout"><dl class="case-ranks">${high}${low}<div class="geo-reference"><dt>State average</dt><dd>${average}</dd></div></dl></div>
+    <p class="geo-coverage-primary">${rows.length} of 51 jurisdictions · ${year} · ${population}.</p><p class="reading">${method}</p></article>`;
 }
 function stateGroups(source,id,metric){
   const rec=source.states[id];
@@ -183,15 +115,13 @@ function stateGroups(source,id,metric){
 
 export function stateDemographics(resources,view){
   if(!view.state||isModelView(view))return '';
-  const ctx=mapDataset(resources,view);
-  const date=ctx.observations[view.state]?.year;
-  if(!Number.isFinite(date))return '';
-  const rec=ctx.source.states[view.state];
+  const metric=view.geoMetric,date=view.geoYear;
+  const layer=metric==='all'?allDiagnosed(resources):resources.conditions[metric];
+  const rec=layer.states[view.state];if(!rec)return '';
   const profile=rec.profilesByYear?.[date]||rec;
-  const groups=profile.groupsByYear?.[date]||(rec.profilesByYear?.[date]||date===Number(ctx.source.period)?profile.groups:null);
-  if(!groups)return '';
-  const source={...ctx.source,period:date,states:{[view.state]:{...profile,groups,value:ctx.observations[view.state].value}}};
-  return stateGroups(source,view.state,ctx.metric);
+  const groups=profile.groupsByYear?.[date]||(rec.profilesByYear?.[date]||date===Number(layer.period)?profile.groups:null);
+  if(!groups||!Number.isFinite(rec.annual[date]))return '';
+  return stateGroups({...layer,period:date,states:{[view.state]:{...profile,groups,value:rec.annual[date]}}},view.state,metric);
 }
 
 export function historyScopeButtons(state,isNational){

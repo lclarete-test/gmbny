@@ -117,3 +117,7 @@
   #epi-history .epi-tabs{display:flex;max-width:100%;width:auto}
   .geo-vintage-heading{margin-top:8px}
 }
+
+.case-toggle{display:inline-flex;margin:12px 0 4px}.case-outline{width:100%;overflow-anchor:none}.condition-map .case-outline .atlas-map{display:block;margin:auto;width:100%;height:auto;max-height:clamp(310px,34vw,580px)}.condition-map .atlas-key{margin:8px 0 14px}.case-ranks{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px 16px}.condition-map .geo-current{display:flex;align-items:center;gap:8px 15px;flex-wrap:wrap}.condition-map .geo-current strong{font-size:1.15rem}.condition-map{overflow-anchor:none}
+
+.annual-plot-wrap{min-width:0;overflow-x:auto}.case-period{display:flex;gap:10px;align-items:center}.case-period label{display:flex;align-items:center;gap:5px;font-size:.85rem}

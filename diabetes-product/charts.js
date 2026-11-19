@@ -158,8 +158,8 @@ export function lineChart(d) {
   const key = d.series.map(([name, arr], i) =>
     `<span><i style="--series:${escapeHTML(seriesColor(d,i))}"></i>${escapeHTML(name)} <b>${formatted(arr[initial],d)}</b></span>`).join('');
   return `<article class="panel history-panel"><div class="section-top"><h2>${escapeHTML(d.title)}</h2>${d.controls||''}</div><div class="axis-unit">${escapeHTML(d.unit)}</div>
-    <div class="history-canvas" id="${id}" role="slider" tabindex="0" aria-label="${escapeHTML(d.title+' · inspect values')}" aria-valuemin="1" aria-valuemax="${Math.max(1,d.labels.length)}" aria-valuenow="${Math.max(1,initial+1)}" aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown Home End" aria-description="Use left and right arrow keys to change the period. Use up and down to change the series."></div>
-    <div class="chart-inspect"><label class="period-read">Period <select data-chart-period="${id}" aria-controls="${id}" aria-label="${escapeHTML('Period for '+d.title)}">${options}</select></label><div class="line-key">${key}</div></div>
+    <div class="annual-plot-wrap"><div class="history-canvas" style="${d.everyYear?'min-width:'+(d.labels.length*38+60)+'px':''}" id="${id}" role="slider" tabindex="0" aria-label="${escapeHTML(d.title+' · inspect values')}" aria-valuemin="1" aria-valuemax="${Math.max(1,d.labels.length)}" aria-valuenow="${Math.max(1,initial+1)}" aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown Home End" aria-description="Use left and right arrow keys to change the period. Use up and down to change the series."></div></div>
+    <div class="chart-inspect"><label class="period-read" ${d.everyYear?'style="display:none"':''}>Period <select data-chart-period="${id}" aria-controls="${id}" aria-label="${escapeHTML('Period for '+d.title)}">${options}</select></label><div class="line-key">${key}</div></div>
     ${d.note?`<p class="reading">${escapeHTML(d.note)}</p>`:''}
     ${d.annual?`<div class="annual-values">${d.labels.map((year,i)=>`<div><span>${escapeHTML(year)}</span><b>${formatted(d.series[0][1][i],d)}</b></div>`).join('')}</div>`:''}
     <details class="chart-values"><summary>Chart data</summary>${dataTable(['Period',...d.series.map(s=>s[0])],rows,d.title)}</details></article>`;
@@ -263,7 +263,7 @@ function draw(el, d, width) {
     svg.push(`<line class="gridline" x1="${left}" x2="${right}" y1="${y(value)}" y2="${y(value)}"/><text x="${left-7}" y="${y(value)+4}" text-anchor="end">${axisValue(value,d,step)}</text>`);
   }
   svg.push(`<path class="chart-axis" d="M${left} ${top}V${bottom}H${right}"/>`);
-  const ticks = tickIndices(xs,d.labels,x,right);
+  const ticks = d.everyYear?d.labels.map((_,i)=>i):tickIndices(xs,d.labels,x,right);
   d.labels.forEach((_,i) => {
     if (ticks.includes(i) || d.annual) svg.push(`<line class="chart-axis" x1="${x(i)}" x2="${x(i)}" y1="${bottom}" y2="${bottom+4}"/>`);
   });
@@ -285,9 +285,9 @@ function draw(el, d, width) {
   svg.push(anchorLabels(d, {x,y,top,bottom,left,right}, w));
   svg.push(`<g class="chart-selected"><line class="chart-guide" y1="${top}" y2="${bottom}"/><circle r="5.5" fill="white" stroke-width="2.5"/></g>`);
   el.innerHTML = `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" aria-hidden="true">${svg.join('')}</svg>`;
-  const select = el.parentElement.querySelector('[data-chart-period]');
+  const select = el.closest('.history-panel').querySelector('[data-chart-period]');
   const guide = el.querySelector('.chart-guide'), dot = el.querySelector('.chart-selected circle');
-  const legend = el.parentElement.querySelectorAll('.line-key b');
+  const legend = el.closest('.history-panel').querySelectorAll('.line-key b');
   let index = clamp(Number(select.value), 0, n-1), series = clamp(Number(el.dataset.series || 0), 0, d.series.length - 1);
   const describe = (i,s) => {
     const [name, values] = d.series[s];
