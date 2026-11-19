@@ -168,3 +168,6 @@
 }
 
 .pagehead .cs-chapter-lead{max-width:100ch;margin:10px 0 0;color:#39465a;font-size:clamp(1rem,.91vw,1.23rem);line-height:1.55}
+
+.cm-grid{margin-top:1rem}.cm-row{display:grid;grid-template-columns:minmax(110px,1.4fr) repeat(5,minmax(0,1fr));gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #dee2e9}.cm-head{font-size:.78rem;color:#45516a;align-items:end}.cm-row strong{font-size:.9rem}.cm-cell b{font-size:.94rem;font-variant-numeric:tabular-nums}.cm-cell i{display:block;height:5px;border-radius:2px;margin-top:4px;background:linear-gradient(to right,#61519a var(--share),#e9e8ee var(--share))}.cm-mobile{display:none}
+@media(max-width:850px){.cm-head{display:none}.cm-row:not(.cm-head){grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 14px}.cm-row strong{grid-column:1/-1}.cm-mobile{display:block;font-size:.75rem;color:#44516a}.cm-cell{align-self:end}}

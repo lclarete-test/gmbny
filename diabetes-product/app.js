@@ -7,7 +7,7 @@ import {epidemiology,epidemiologyHistory} from './epidemiology.js';
 import {stateGeography,stateDemographics,hasStateLayer} from './geography.js';
 import {comparisonHistory,statusDetails,glucoseExportRows} from './glucose-overview.js';
 import {glucoseStatus,labTrend} from './national-glucose.js';
-import {introduction,biology,amputationHistory,crisisHistory} from './clinical.js';
+import {introduction,clinicalProfile,amputationHistory,crisisHistory} from './clinical.js';
 import {spendingMap,stateCostExportRows} from './spending-map.js';
 import {healthcare,medicaidTrend,healthcarePaymentRows} from './healthcare.js';
 import {cgmHistory,cgmMedicare} from './audience.js';
@@ -28,7 +28,7 @@ import {painProfile} from './patient-pain.js';
 
 const $=id=>document.getElementById(id);
 const view={state:null,period:2000,geoYear:2025,geoMetric:'all',geoMeasure:'survey',historyScope:'state',glucoseStatus:'undiagnosed',nationalSeries:'reported',costMode:0,costState:null,costPayer:'all',patientScope:'Type 2',profileMetric:'Population',treatmentScope:'Type 2',painScope:'Type 2',search:'',deviceType:'all',category:'all',deviceAccess:'all',openProduct:null,systemExample:'omni',sensorExample:null,selected:new Set(),milestone:null,explored:readExploredStops(),timelineQuiz:{index:0,answer:null},theme:'types',voiceRole:'all'};
-const science=[['intro','Introduction'],['biology','Biology and clinical profile'],['epidemiology','Epidemiology']];
+const science=[['intro','Introduction'],['epidemiology','Epidemiology'],['comorbidities','Comorbidities and complications']];
 const system=[['healthcare','Costs and care use'],['healthcare/public','Public coverage'],['healthcare/private','Private insurance'],['healthcare/policy','Public policy']];
 const audiences=[['patients/profile','Patients'],['caregivers/profile','Caregivers'],['hcp/profile','Healthcare professionals'],['organizations','Organizations']];
 const discussion=[['discussion','Public discussion'],['discussion/search','Search interest'],['discussion/voices','Public voices']];
@@ -39,9 +39,10 @@ const sections={
   hcp:[['profile','Profile'],['journey','Journey'],['relationship','Patient relationship']]
 };
 const mergedSections={
-  clinical:['biology','clinical-findings'],
-  'epidemiology/clinical':['biology','clinical-findings'],
-  'biology/clinical':['biology','clinical-findings'],
+  biology:['intro','cs-regulation-heading'],
+  clinical:['comorbidities','clinical-findings'],
+  'epidemiology/clinical':['comorbidities','clinical-findings'],
+  'biology/clinical':['comorbidities','clinical-findings'],
   'patients/segments':['patients/profile','patient-coverage'],
   'patients/personas':['patients/profile','patient-coverage'],
   personas:['patients/profile','patient-coverage'],
@@ -71,7 +72,7 @@ async function loadData(keys=Object.keys(assetPaths)){
   }));
 }
 const pages={
-  intro:[introduction],biology:[()=>biology(data.nhis),'nhis'],epidemiology:[()=>epidemiology(data,view),'svg','states','profiles','nhis','conditions','type1Counts','typeDetail','stateTotals'],
+  intro:[introduction],comorbidities:[()=>clinicalProfile(data.nhis),'nhis'],epidemiology:[()=>epidemiology(data,view),'svg','states','profiles','nhis','conditions','type1Counts','typeDetail','stateTotals'],
   healthcare:[()=>healthcare(data,view),'svg','coverage','stateCosts'],'healthcare/public':[publicCoverage],'healthcare/private':[privateCoverage],'healthcare/policy':[policyPage],audience:[ecosystemPage],
   'patients/profile':[()=>patientProfile(data.nhis,data.segments,view),'nhis','segments'],
   'patients/journey':[()=>patientJourney(data.nhis),'nhis'],'patients/routine':[()=>patientRoutines(data.nhis),'nhis'],
@@ -100,7 +101,7 @@ function navigation(){
     group('Public discussion',linksFrom([['discussion','Knowledge and campaigns'],...discussion.slice(1)]))+
     group('Industry & market',linksFrom(industry));
   const isAudience=Object.hasOwn(sections,family)||family==='organizations'||family==='audience';
-  const mobile=[['intro','Introduction'],['biology','Biology and clinical profile'],['epidemiology','Epidemiology'],['healthcare','Healthcare'],['audience','Audience'],['discussion','Public discussion'],['industry/market','Market']];
+  const mobile=[['intro','Introduction'],['epidemiology','Epidemiology'],['comorbidities','Comorbidities and complications'],['healthcare','Healthcare'],['audience','Audience'],['discussion','Public discussion'],['industry/market','Market']];
   const activeKey=isAudience?'audience':family==='industry'?'industry/market':['discussion','healthcare'].includes(family)?family:route;
   const sub=isAudience?audiences.map(([p,n])=>[p,p.startsWith('hcp/')?'HCPs':n]):family==='industry'?industry:family==='discussion'?[['discussion','Knowledge and campaigns'],...discussion.slice(1)]:family==='healthcare'?system:[];
   $('mobile-navigation').innerHTML=`<div class="mobile-chapters">${mobile.map(([p,n])=>navLink(p,n,p===activeKey)).join('')}</div>`+
@@ -148,7 +149,7 @@ async function activateRoute(){
     detailRoute=!!(product||path);
   }
   if(!Object.hasOwn(pages,route))route='intro';
-  if(raw&&raw!==route&&!detailRoute&&!(merged&&(route==='industry/market'||route==='biology')))history.replaceState(null,'','#'+route);
+  if(raw&&raw!==route&&!detailRoute&&!(merged&&(route==='industry/market')))history.replaceState(null,'','#'+route);
   const request=++generation;
   navigation();
   const needed=pages[route].slice(1);

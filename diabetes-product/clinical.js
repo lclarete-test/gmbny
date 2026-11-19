@@ -1,4 +1,4 @@
-import {anatomicalSources} from './atlas-figures.js';
+import {anatomicalSources,atlasFigure} from './atlas-figures.js';
 import {barList,dataTable,lineChart,sourcesFooter} from './charts.js';
 import {wholeBodyFigure} from './clinical-figure.js';
 import {heading,pair} from './epidemiology.js';
@@ -40,7 +40,6 @@ export function introduction(){
   return heading('Diabetes in the United States')+
     `<section class="panel cs-introduction">
       <div class="cs-intro-copy"><p class="cs-definition">Glucose fuels the body’s cells. In diabetes, it builds up in the blood because the pancreas makes too little insulin, tissues respond less to insulin, or both.</p>
-        <p>After a meal, carbohydrates break down into glucose. As glucose enters the blood, the pancreas releases insulin. This hormone helps muscle and fat cells take up glucose and signals the liver to slow its own glucose production.</p>
         <p>Blood glucose normally rises after eating and then falls. When that response falls short, glucose can remain high between meals and overnight. Type 2 diabetes can develop quietly for years. Thirst, frequent urination and unexplained weight loss can appear when glucose rises further.</p>
       </div>
       <figure class="cs-tissue"><img src="media/pancreatic-islet.jpg" width="760" height="424" alt="Microscope image of a human pancreatic islet with red staining in the insulin-producing beta cells."><figcaption>Red staining reveals insulin in the beta cells of a human pancreas.</figcaption></figure>
@@ -50,6 +49,7 @@ export function introduction(){
       <div><strong>27.6%</strong><p>of U.S. adults with diabetes had yet to receive a diagnosis in 2023. That represents 11.0 million adults.</p></div>
       <div><strong>$412.9 billion</strong><p>in U.S. medical costs and lost productivity attributable to diagnosed diabetes in 2022.</p></div>
     </section>
+    ${glucoseRegulation()}
     <section class="panel cs-differences"><h2>What the different diagnoses mean</h2>
       <dl><div><dt>Type 1 diabetes</dt><dd>The immune system destroys insulin-producing beta cells. It can begin at any age. As insulin production falls, people need insulin from outside the body to survive.</dd></div>
         <div><dt>Type 2 diabetes</dt><dd>Muscle, fat and liver often respond less to insulin. The pancreas may make more for a time. Glucose rises as insulin production falls short of what the body needs.</dd></div>
@@ -57,17 +57,20 @@ export function introduction(){
         <div><dt>Gestational diabetes</dt><dd>As pregnancy advances, the body needs more insulin. Some people cannot make enough and develop diabetes, usually identified in the second or third trimester. Glucose often improves after birth. The risk of later type 2 is higher than after a pregnancy without gestational diabetes.</dd></div>
       </dl>
     </section>
+    ${labThresholds()}
     <section class="panel cs-trials"><h2>How prevention and treatment can change outcomes</h2>
       <div class="cs-trial-pair"><section><h3>Preventing type 2 diabetes</h3><p>The Diabetes Prevention Program followed 3,234 adults with elevated fasting glucose and an abnormal response to a glucose drink for an average of 2.8 years. The group that received coaching on eating, activity and weight had the lowest rate of new diagnoses.</p>
         <p class="cs-unit">New type 2 diagnoses per 100 person-years</p>${barList([['Placebo',11.0],['Metformin',7.8],['Lifestyle program',4.8]],{max:12,format:v=>v.toFixed(1),color:'#5147a8'})}</section>
         <section><h3>Protecting sight in type 1 diabetes</h3><p>The Diabetes Control and Complications Trial followed 1,441 people with type 1 diabetes for an average of 6.5 years. Among the 726 who began without retinal disease, intensive insulin therapy lowered the risk of developing it.</p>
         <div class="cs-trial-result"><strong>76%</strong><span>lower relative risk of developing diabetic retinopathy with intensive therapy compared with conventional therapy.</span></div></section></div>
     </section>
-    <nav class="cs-next" aria-label="Continue reading"><a href="#biology">Explore biology and clinical findings →</a><a href="#epidemiology">Explore U.S. epidemiology →</a></nav>`+
-    sourcesFooter([publications.ada,publications.insulin,publications.type1,publications.gestational,publications.cdc,publications.cost,publications.dpp,publications.dcct,publications.tissue,publications.license],[
+    <nav class="cs-next" aria-label="Continue reading"><a href="#epidemiology">Explore U.S. epidemiology →</a><a href="#comorbidities">Comorbidities and complications →</a></nav>`+
+    sourcesFooter([publications.ada,publications.insulin,publications.type1,publications.gestational,publications.cdc,publications.cost,publications.tracer,publications.exams,publications.dpp,publications.dcct,publications.tissue,publications.license,...anatomicalSources],[
       'CDC projects diabetes counts to the 2023 U.S. population. The undiagnosed share uses adults with diabetes as its denominator. The 2022 cost study includes $306.6 billion in direct medical costs and $106.3 billion in lost productivity.',
       'The conditions shown are the main categories used in this dashboard. Other forms include diabetes caused by specific genetic variants, pancreatic disease or certain drugs. Prediabetes uses laboratory ranges associated with elevated risk. Undiagnosed diabetes describes whether diabetes has been recognized and can occur across types.',
       'The prevention trial compared randomly assigned groups at elevated risk of type 2 diabetes. Person-years combine the follow-up time of participants in each group. In the type 1 trial, the 76% estimate is an adjusted relative risk reduction in the primary prevention cohort (95% confidence interval, 62% to 85%). Intensive therapy also increased severe hypoglycemia.',
+      'Meyer and colleagues used glucose tracers and measurements of blood entering and leaving tissues in 10 volunteers. Over 4.5 hours after 75 g of oral glucose, estimated skeletal muscle uptake averaged 19 g (standard error 3 g), and estimated liver glucose output fell 82% (standard error 6 percentage points) from fasting. These are group means from a controlled physiology study.',
+      'The laboratory ranges are for people who are not pregnant. Classic symptoms or a hyperglycemic crisis with random plasma glucose of at least 200 mg/dL can also establish diabetes. Pregnancy uses its own testing protocols. Autoantibodies and other clinical information can help identify the type.',
       'Micrograph by Anne Clark, University of Oxford, from Wellcome Collection. Creative Commons Attribution 4.0.'
     ]);
 }
@@ -88,11 +91,7 @@ function glucoseRegulation(){
           <div><dt>Fall in the liver’s glucose output from its fasting level</dt><dd>82%</dd></div></dl>
       </figure>
     </div>
-    <dl class="cs-response-types">
-      <div><dt>Type 1 diabetes</dt><dd>The immune system destroys insulin-producing beta cells. As insulin runs short, muscle takes up less glucose and the liver can keep releasing it.</dd></div>
-      <div><dt>Type 2 diabetes</dt><dd>Muscle and liver often respond less to insulin. Glucose rises when the pancreas can no longer make enough insulin to compensate.</dd></div>
-      <div><dt>Prediabetes</dt><dd>Blood tests show an intermediate glucose range. Some people return to a lower range and others develop type 2 diabetes.</dd></div>
-    </dl>
+    ${atlasFigure('biology')}
   </section>`;
 }
 
@@ -110,11 +109,10 @@ function labThresholds(){
 
 function diagnosedConditions(nhis) {
   if(!nhis?.clinical?.length)return '';
-  const rows=nhis.clinical.map(([condition,...values])=>[condition,...values.map(n=>n==null?'—':n.toFixed(1)+'%')]);
-  return `<article class="panel cs-comorbid" id="clinical-findings"><h2>Which conditions occur together?</h2>
-    <p>High blood pressure can precede diabetes and raise the risk of heart and kidney disease in its own right. The same person can appear in several rows if they reported more than one condition.</p>
-    <p class="axis-unit">U.S. adults, 2025 · percentage within each group who reported a prior diagnosis</p>
-    ${dataTable(['Condition','All diagnosed diabetes','Type 1 diabetes','Type 2 diabetes','Prediabetes only','No reported diabetes or prediabetes'],rows,'Co-occurring diagnoses among U.S. adults, 2025')}</article>`;
+  const labels=['All diagnosed diabetes','Type 1','Type 2','Prediabetes only','No reported diabetes or prediabetes'];
+  const groups=labels.map((name,i)=>`<span class="cm-group">${name}</span>`).join('');
+  const rows=nhis.clinical.map(([condition,...values])=>`<div class="cm-row"><strong>${condition}</strong>${values.map((v,i)=>`<div class="cm-cell"><span class="cm-mobile">${labels[i]}</span><b>${v==null?'—':v.toFixed(1)+'%'}</b><i aria-hidden="true" style="--share:${v??0}%"></i></div>`).join('')}</div>`).join('');
+  return `<article class="panel" id="clinical-findings"><h2>Which conditions are most common?</h2><p class="reading">Among U.S. adults with diagnosed diabetes, 72.6% reported high blood pressure and 64.6% reported high cholesterol. A person can have both.</p><p class="axis-unit">2025 · percentage within each group reporting a prior diagnosis · bars run from 0 to 100%</p><div class="cm-grid"><div class="cm-row cm-head"><span>Condition</span>${groups}</div>${rows}</div></article>`;
 }
 
 export function clinicalProfile(nhis){
@@ -122,7 +120,7 @@ export function clinicalProfile(nhis){
     <p class="reading">Among adults with diagnosed diabetes and stage 3 or 4 kidney disease, only 33.8% knew they had kidney disease.</p></article>`;
   const eyes=`<article class="panel cs-organ"><h2>When retinal damage threatens sight</h2><div class="cs-trial-result"><strong>1.84 million</strong><span>U.S. people had vision-threatening diabetic retinopathy in 2021. That was 5.06% of everyone with diabetes.</span></div>
     <p class="reading">Severe sight loss can have other causes, too. In 2023, 12.3% of U.S. adults with diagnosed diabetes reported blindness or serious difficulty seeing even with glasses.</p></article>`;
-  return `<header class="pagehead"><h1>Biology and clinical profile</h1><p class="cs-chapter-lead">Diabetes is a group of conditions in which blood glucose stays high because the body has too little insulin, responds poorly to it, or both. Insulin normally helps muscle take up glucose and signals the liver to release less. Understanding that balance helps explain both a high morning reading and the damage that can build up in the eyes, kidneys and nerves over years.</p></header>`+glucoseRegulation()+
+  return heading('Comorbidities and complications')+diagnosedConditions(nhis)+
     `<section class="panel cs-body"><h2>How diabetes affects the organs</h2>
       <p class="cs-organ-lead">Over years, elevated glucose can injure small blood vessels and nerves. The purple labels identify organs that regulate glucose. The red labels show how often selected conditions or hospital events occur in people with diabetes.</p>
       <div class="cs-anatomy-layout">${wholeBodyFigure()}
@@ -130,13 +128,13 @@ export function clinicalProfile(nhis){
       <section><h3>Feet</h3><p>Loss of sensation can leave a foot wound unnoticed. Poor circulation can slow healing and increase the risk of amputation.</p></section>
       <section><h3>Heart and blood vessels</h3><p>Blood pressure and cholesterol also affect cardiovascular risk. In 2021–23, 38.0% of U.S. adults with diagnosed diabetes had elevated non-HDL cholesterol.</p></section></div></div>
     </section>`+
-    labThresholds()+diagnosedConditions(nhis)+pair(kidneys,eyes)+
+    pair(kidneys,eyes)+
     lineChart(amputationHistory)+lineChart(crisisHistory)+
-    sourcesFooter([publications.insulin,publications.tracer,publications.ada,publications.organs,
+    sourcesFooter([publications.ada,publications.organs,
       ['American Diabetes Association · Retinopathy, neuropathy and foot care · Diabetes Care, 2026','https://doi.org/10.2337/dc26-S012'],
       ['American Diabetes Association · Chronic kidney disease · Diabetes Care, 2026','https://doi.org/10.2337/dc26-S011'],
       ['Umpierrez and colleagues · Hyperglycemic crises in adults with diabetes · Diabetes Care, 2024','https://doi.org/10.2337/dci24-0032'],
-      publications.exams,publications.cdc,
+      publications.cdc,
       ['NCHS · National Health Interview Survey, 2025 Sample Adult file',links.nhis],
       ['CDC · Chronic Kidney Disease in the United States, 2026',kidney],
       ['Lundeen and colleagues · Prevalence of diabetic retinopathy · JAMA Ophthalmology, 2023',retina],
@@ -145,14 +143,12 @@ export function clinicalProfile(nhis){
       ['McCoy and colleagues · Hyperglycemic crises by diabetes type · JAMA Network Open, 2021, supplementary eTable 4',crisisHistory.source],
       ...anatomicalSources
     ],[
-      'Meyer and colleagues used glucose tracers and measurements of blood entering and leaving tissues in 10 volunteers. Over 4.5 hours after 75 g of oral glucose, estimated skeletal muscle uptake averaged 19 g (standard error 3 g), and estimated liver glucose output fell 82% (standard error 6 percentage points) from fasting. These are group means from a controlled physiology study.',
       'The anatomical figure adapts public-domain artwork by Mikael Häggström. Its U.S. estimates come from separate sources and populations. Conditions may coexist. Long-term risk depends on duration of exposure, other illnesses and care.',
       'CDC laboratory and examination findings are crude estimates for adults with diagnosed diabetes, August 2021 to August 2023. Elevated blood pressure is at least 130/80 mmHg or use of blood pressure medication. Elevated non-HDL cholesterol is at least 130 mg/dL. Kidney estimates include stages 1 to 4 and exclude stage 5.',
       'The comparison by kidney disease and diabetes type uses a separate CDC analysis. It classifies type 1 using current insulin use started within one year of diagnosis and identifies prediabetes by laboratory values. Retinopathy estimates cover people of all ages with diabetes. The 2023 survey question on eyesight combines blindness and serious difficulty seeing from any cause.',
       'The NHIS table uses 2025 Sample Adult weights and valid responses for each condition. Type 1 and type 2 are subsets of diagnosed diabetes. The reference group reported neither a diabetes nor a prediabetes diagnosis. The groups differ in age. A dash marks fewer than 30 valid responses or fewer than ten events or nonevents.',
-      'The laboratory ranges are for people who are not pregnant. Classic symptoms or a hyperglycemic crisis with random plasma glucose of at least 200 mg/dL can also establish diabetes. Pregnancy uses its own testing protocols. Autoantibodies and other clinical information can help identify the type.',
       'Amputations use inpatient discharges and crude annual rates per 1,000 adults with diagnosed diabetes. The series starts after the 2015 coding change. The severe hyperglycemia study includes 20,156 adults with type 1 and 796,382 with type 2 in commercial or Medicare Advantage plans. Its adjusted emergency department and hospital event rates describe this insured cohort.'
     ]);
 }
 
-export const biology=clinicalProfile;
+
