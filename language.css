@@ -20,6 +20,8 @@ main.wrap,
   padding-block: .75rem;
 }
 
+.hub-nav .hub-brand { white-space: normal; }
+
 .hub-nav .hub-links {
   grid-column: 1 / -1;
   display: flex;
@@ -45,14 +47,15 @@ main.wrap,
 .language-switcher a[aria-current] { border-color: currentColor; font-weight: 700; }
 
 .diagnosis-layout > main.wrap,
-main.wrap .committee-intro {
+main.wrap .committee-intro,
+main.wrap .section.article {
   width: 100%;
   max-width: none;
 }
 
 main.wrap { min-width: 0; overflow-wrap: break-word; }
 main.wrap img { max-width: 100%; height: auto; }
-main.wrap :is(.hero, .section, .article, .results-section, .committee-synthesis, .committee-agenda) > p {
+main.wrap :is(.hero, .section, .article, .results-section, .page-section, .section-head, .committee-synthesis, .committee-agenda) > p {
   max-width: none;
 }
 
