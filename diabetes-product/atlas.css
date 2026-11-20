@@ -11,11 +11,41 @@
 .eco-stories h2,.atlas-reading h2 {font-size:clamp(18px,1.6vw,24px);margin:0 0 9px;letter-spacing:-.025em;}
 .eco-stories p,.atlas-reading p {color:#44516a;max-width:84ch;line-height:1.55;margin:0;}
 .eco-stories a,.atlas-reading a {display:inline-block;margin-top:10px;font-size:14px;}
+.eco-infographic {margin:0 0 18px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;padding:clamp(14px,2vw,26px);}
+.eco-infographic figcaption {font-size:clamp(18px,1.7vw,24px);font-weight:750;letter-spacing:-.02em;margin:0 0 16px;color:var(--ink);}
+.eco-diagram {position:relative;max-width:1120px;aspect-ratio:1200/620;margin:auto;isolation:isolate;}
+.eco-lines {position:absolute;inset:0;width:100%;height:100%;z-index:-1;overflow:visible;}
+.eco-lines path {fill:none;stroke:#d9dce8;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.eco-core,.eco-node {position:absolute;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;border:1px solid #dfe2ec;border-radius:16px;background:#fff;box-shadow:0 7px 20px rgba(45,42,78,.08);padding:12px;line-height:1.18;}
+.eco-core {left:37%;top:36%;width:26%;height:28%;background:#282448;color:#fff;border-color:#282448;box-shadow:0 12px 28px rgba(40,36,72,.2);}
+.eco-core span {font-size:clamp(12px,1.4vw,17px);font-weight:700;}
+.eco-core strong {font-size:clamp(30px,4.3vw,58px);line-height:1;margin:6px 0 3px;letter-spacing:-.05em;}
+.eco-core small,.eco-core em {font-size:clamp(9px,1vw,12px);font-style:normal;color:#d9d8ee;}
+.eco-core em {margin-top:8px;color:#aaa6d2;}
+.eco-node {width:20%;height:19%;text-decoration:none;color:var(--ink);transition:transform .15s ease,box-shadow .15s ease;}
+.eco-node:hover,.eco-node:focus-visible {transform:translateY(-2px);box-shadow:0 10px 24px rgba(45,42,78,.15);outline:2px solid #6657a6;outline-offset:2px;}
+.eco-node strong {font-size:clamp(20px,2.5vw,34px);letter-spacing:-.04em;margin:3px 0;}
+.eco-node-label {font-size:clamp(10px,1.15vw,14px);font-weight:750;}
+.eco-node-unit {font-size:clamp(8px,.9vw,11px);color:#596174;max-width:95%;}
+.eco-patient {left:40%;top:1%;width:20%;height:19%;background:#f1efff;border-color:#cfc9f5;}
+.eco-community {background:#f5f8fb;border-color:#d6e0e8;}
+.eco-care {background:#edf7f4;border-color:#c5e2d9;}
+.eco-supply {background:#fff5ec;border-color:#f0d6b5;}
+.eco-node:nth-child(3) {left:2%;top:9%;}
+.eco-node:nth-child(4) {left:78%;top:9%;}
+.eco-node:nth-child(5) {left:2%;top:72%;}
+.eco-node:nth-child(6) {left:40%;top:81%;}
+.eco-node:nth-child(7) {left:78%;top:72%;}
+.eco-node:nth-child(8) {left:2%;top:42%;}
+.eco-node:nth-child(9) {left:78%;top:42%;}
+.eco-node:nth-child(10) {left:20%;top:81%;}
+.eco-node:nth-child(11) {left:60%;top:81%;}
+.eco-method {margin:15px auto 0;max-width:92ch;color:#596174;font-size:12px;line-height:1.45;}
 .atlas-reading.figure-reading {display:flex;align-items:center;gap:clamp(20px,3vw,42px);}
 .atlas-reading .micro-islet {width:clamp(125px,16%,200px);height:auto;border-radius:6px;flex:none;}
 .coverage-paths {display:flex;align-items:center;flex-wrap:wrap;gap:5px 22px;font-size:14px;}
 .coverage-paths a {text-underline-offset:3px;}
 #navigation .nav-cluster h2 a {margin:0 -7px;padding:5px 7px;font-size:inherit;letter-spacing:inherit;color:inherit;}
-@media(max-width:900px){.ecosystem-canvas {max-width:485px;}.eco-area {left:var(--mx);top:var(--my);width:var(--mw);height:var(--mh);}}
+@media(max-width:900px){.ecosystem-canvas {max-width:485px;}.eco-area {left:var(--mx);top:var(--my);width:var(--mw);height:var(--mh);}.eco-diagram {aspect-ratio:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:0;}.eco-lines {display:none;}.eco-core,.eco-node,.eco-node:nth-of-type(n) {position:static;width:auto;height:auto;min-height:92px;}.eco-core {grid-column:1/-1;min-height:136px;}.eco-node-label{font-size:12px}.eco-node strong{font-size:25px}.eco-node-unit{font-size:10px}.eco-method{font-size:11px;}}
 @media(max-width:850px){.atlas-patients picture,.atlas-caregivers picture,.atlas-hcp picture,.atlas-organizations picture {max-width:490px;}}
 @media(max-width:760px){.atlas-biology picture,.atlas-clinical picture {max-width:435px;}.eco-stories {grid-template-columns:1fr;}.atlas-reading.figure-reading {display:block;}.atlas-reading .micro-islet {float:right;width:88px;margin:0 0 7px 13px;}}
