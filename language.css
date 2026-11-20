@@ -1,26 +1,68 @@
+:root {
+  --hub-frame: min(calc(100% - 2 * clamp(1rem, 4vw, 3rem)), 80rem);
+}
+
+.hub-nav > .wrap,
+main.wrap,
+.diagnosis-layout,
+.footer > .wrap {
+  box-sizing: border-box;
+  width: var(--hub-frame);
+  max-width: none;
+  margin-inline: auto;
+}
+
 .hub-nav > .wrap {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   gap: .5rem 1rem;
   padding-block: .75rem;
 }
-.hub-nav .hub-links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; overflow: visible; }
-.language-switcher { grid-column: 2; grid-row: 1; display: flex; flex-wrap: wrap; gap: .35rem; }
-.language-switcher a { padding: .35rem .55rem; border: 1px solid transparent; border-radius: .45rem; white-space: nowrap; }
-.language-switcher a[aria-current] { border-color: currentColor; font-weight: 700; }
-.diagnosis-layout, .hub-nav > .wrap, main.wrap, .footer > .wrap {
-  width: min(100% - clamp(1.75rem, 5vw, 5rem), 100rem);
-  margin-inline: auto;
+
+.hub-nav .hub-links {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: visible;
 }
-.diagnosis-layout > main.wrap { width: 100%; }
-main.wrap { min-width: 0; overflow-wrap: anywhere; }
+
+.language-switcher {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+}
+
+.language-switcher a {
+  padding: .35rem .55rem;
+  border: 1px solid transparent;
+  border-radius: .45rem;
+  white-space: nowrap;
+}
+
+.language-switcher a[aria-current] { border-color: currentColor; font-weight: 700; }
+
+.diagnosis-layout > main.wrap,
+main.wrap .committee-intro {
+  width: 100%;
+  max-width: none;
+}
+
+main.wrap { min-width: 0; overflow-wrap: break-word; }
 main.wrap img { max-width: 100%; height: auto; }
-main.wrap :is(.hero, .section, .article, .results-section) > p { max-width: 85ch; }
+main.wrap :is(.hero, .section, .article, .results-section, .committee-synthesis, .committee-agenda) > p {
+  max-width: none;
+}
+
+.diagnosis-sidebar nav {
+  flex-wrap: wrap;
+  white-space: normal;
+}
+
 @media (max-width: 42rem) {
   .hub-nav > .wrap { grid-template-columns: minmax(0, 1fr); }
   .language-switcher { grid-column: 1; grid-row: 2; }
   .hub-nav .hub-links { grid-row: 3; }
 }
-main.committee-overview { max-width: 100rem; }
-.committee-intro { max-width: none; }
-.committee-synthesis > p { max-width: 85ch; }
