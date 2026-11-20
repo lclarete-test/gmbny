@@ -9,18 +9,36 @@
   const translate = value => dictionary[value.trim()] || value;
   if (language === "en") {
     document.title = document.title.split(" | ").map(translate).join(" | ");
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-      acceptNode: node => node.parentElement.closest("script, style, svg, noscript") ?
-        NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
-    });
-    while (walker.nextNode()) {
-      const node = walker.currentNode;
-      if (node.data.trim()) node.data = node.data.replace(node.data.trim(), translate(node.data));
-    }
+    const localize = root => {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode: node => node.parentElement?.closest("script, style, svg, noscript") ?
+          NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
+      });
+      const localizeText = node => {
+        const value = node.data.trim();
+        const translated = translate(value);
+        if (translated !== value) node.data = node.data.replace(value, translated);
+      };
+      if (root.nodeType === Node.TEXT_NODE) {
+        if (!root.parentElement?.closest("script, style, svg, noscript")) localizeText(root);
+      } else {
+        while (walker.nextNode()) localizeText(walker.currentNode);
+      }
+    };
+    localize(document.body);
     document.querySelectorAll("[aria-label], [title], [placeholder], meta[name=description]").forEach(element => {
       for (const attribute of ["aria-label", "title", "placeholder", "content"]) {
         if (element.hasAttribute(attribute)) element.setAttribute(attribute, translate(element.getAttribute(attribute)));
       }
+    });
+    const observer = new MutationObserver(records => {
+      for (const record of records) {
+        if (record.type === "characterData") localize(record.target);
+        else for (const node of record.addedNodes) localize(node);
+      }
+    });
+    observer.observe(document.querySelector("main") || document.body, {
+      childList: true, subtree: true, characterData: true
     });
   }
   const nav = document.querySelector(".hub-nav .wrap");
