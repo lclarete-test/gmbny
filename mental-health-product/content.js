@@ -2,6 +2,7 @@ export const sources = {
   nsduh: ['SAMHSA · 2024 NSDUH national report', 'https://www.samhsa.gov/data/sites/default/files/reports/rpt56287/2024-nsduh-annual-national/2024-nsduh-annual-national-html-071425-edited/2024-nsduh-annual-national.htm'],
   tables: ['SAMHSA · 2024 NSDUH detailed tables', 'https://www.samhsa.gov/data/report/2024-nsduh-detailed-tables'],
   states: ['SAMHSA · 2023–2024 state prevalence, Table 33', 'https://www.samhsa.gov/data/sites/default/files/reports/rpt56957/2024-nsduh-sae-tables-percent-csvs/2024-nsduh-sae-tables-percent.pdf'],
+  stateCounts: ['SAMHSA · 2023–2024 state totals, Table 33', 'https://www.samhsa.gov/data/sites/default/files/reports/rpt56987/2024-nsduh-sae-totals-tables-csvs/2024-nsduh-sae-totals-tables.pdf'],
   youth: ['CDC · 2025 Youth Risk Behavior Survey', 'https://www.cdc.gov/yrbs/youth-health-in-focus/mental-health.html'],
   nimh: ['NIMH · Mental health information', 'https://www.nimh.nih.gov/health'],
   meps: ['AHRQ · MEPS Statistical Brief 539, 2019 expenditures', 'https://meps.ahrq.gov/mepsweb/data_files/publications/st539/stat539.pdf'],
@@ -9,6 +10,7 @@ export const sources = {
   medicare: ['Medicare · Outpatient mental health coverage', 'https://www.medicare.gov/coverage/mental-health-care-outpatient'],
   medicaid: ['Medicaid · Behavioral health services', 'https://www.medicaid.gov/medicaid/benefits/behavioral-health-services/index.html'],
   parity: ['U.S. Department of Labor · Mental health parity', 'https://www.dol.gov/agencies/ebsa/laws-and-regulations/laws/mental-health-and-substance-use-disorder-parity'],
+  hrsaQuarter: ['HRSA · Designated shortage area quarterly statistics', 'https://data.hrsa.gov/Default/GenerateHPSAQuarterlyReport/'],
   hrsa: ['HRSA · Health professional shortage areas', 'https://data.hrsa.gov/topics/health-workforce/shortage-areas'],
   nami: ['NAMI · Support and education programs', 'https://www.nami.org/support-education/'],
   find: ['SAMHSA · FindTreatment.gov', 'https://findtreatment.gov/'],
@@ -26,7 +28,7 @@ export const sources = {
 };
 
 export const chapters = [
-  ['Research', [['intro', 'Introduction'], ['epidemiology', 'Epidemiology'], ['comorbidities', 'Comorbidities and complications']]],
+  ['Research', [['intro', 'Introduction'], ['epidemiology', 'Epidemiology'], ['conditions', 'Types of mental illness'], ['comorbidities', 'Comorbidities and complications']]],
   ['Healthcare system', [['healthcare', 'Costs and care use'], ['healthcare/public', 'Public coverage'], ['healthcare/private', 'Private insurance'], ['healthcare/policy', 'Public policy']]],
   ['Audience', [['audience', 'Ecosystem'], ['patients/profile', 'Patients'], ['caregivers/profile', 'Caregivers'], ['hcp/profile', 'Healthcare professionals'], ['organizations', 'Organizations']]],
   ['Public discussion', [['discussion', 'Knowledge and campaigns'], ['discussion/search', 'Search interest'], ['discussion/voices', 'Public voices']]],
@@ -48,7 +50,12 @@ export const pages = {
     ['National change','The NSDUH estimate for adults with any mental illness was 58.7 million in 2023 and 61.5 million in 2024. SAMHSA reported no statistically significant change in prevalence from 2021 through 2024.'],
     ['Youth indicators','CDC’s high school survey recorded a decline in persistent sadness or hopelessness from 40% in 2023 to 33% in 2025. The survey represents students attending high school.'],
     ['Reading state comparisons','Use the age selector and confidence intervals to compare estimates. These are modeled annual averages for 2023–2024. A state’s rank can change with sampling and model uncertainty.'],
-  ], ['nsduh','states','youth']],
+  ], ['nsduh','states','stateCounts','youth']],
+  conditions: ['Types of mental illness', 'Explore the conditions, the definitions used for population estimates, and what each measure can tell us.', [
+    ['Any mental illness','SAMHSA uses this umbrella estimate for a mental, behavioral or emotional disorder in the past year, excluding developmental and substance use disorders.'],
+    ['Serious mental illness','SAMHSA uses this category for adults whose mental illness substantially limits major life activities. It is a measure of impairment that can span diagnoses.'],
+    ['Interpreting the estimates','People may meet criteria for more than one condition. The benchmarks come from different surveys and periods, so adding them would double count people and mix populations.'],
+  ], ['nsduh','nimh']],
   comorbidities: ['Comorbidities and complications', 'Clinical complexity changes which teams a person sees, how many handoffs they face and what progress means to them.', [
     ['Substance use and mental health','In 2024, 21.2 million U.S. adults had both any mental illness and a substance use disorder in the past year. Among those adults, 41.2% received neither type of treatment.'],
     ['Sleep, pain and chronic conditions','Flag sleep and pain symptoms as separate care needs. Track whether medical and behavioral teams share records, coordinate follow-up and account for side effects.'],
@@ -64,13 +71,13 @@ export const pages = {
     ['Medicare','Review Part B outpatient benefits and provider eligibility. Review medication benefits separately and check the member’s plan details.'],
     ['Medicaid','Benefits, delivery systems and network access vary by state. Compare managed care arrangements, behavioral health carve-outs and local service availability.'],
     ['Integrated care','CMS describes behavioral health integration and psychiatric collaborative care billing. Compare staffing, documented activities and measurement requirements before modeling revenue.'],
-  ], ['medicare','medicaid','cms']],
+  ], ['medicare','medicaid','cms','meps']],
   'healthcare/private': ['Private insurance', 'Coverage research should follow the steps a member takes from checking benefits to receiving a bill.', [
     ['Network and availability','Test whether directory entries accept new patients, match the plan and offer the relevant modality, language and appointment times.'],
     ['Costs','Record the deductible, copay, coinsurance and out-of-network reimbursement separately. Capture the quoted cost and the final patient responsibility.'],
     ['Employer benefits','Track whether an EAP or employer vendor covers a limited set of sessions, offers navigation, or hands the member off to the health plan.'],
     ['Parity','Use Department of Labor guidance when studying limits such as network rules and authorization requirements. Record jurisdiction, plan type and dates.'],
-  ], ['parity','spring']],
+  ], ['parity','spring','meps']],
   'healthcare/policy': ['Public policy', 'Policy research connects the rule, covered population, implementation mechanism and measurable result.', [
     ['Network and workforce','Compare provider shortage designations with real appointment availability. Workforce supply, insurance participation and language access need separate measures.'],
     ['Community clinics','Certified Community Behavioral Health Clinics are a service delivery model. Review participating sites, services, intake pathways and referral handoffs.'],
@@ -101,7 +108,7 @@ export const pages = {
     ['Psychotherapy','Compare access, format, clinician fit, session cadence and whether progress is reviewed during treatment.'],
     ['Medication management','Observe the prescribing visit, pharmacy handoff, medication cost and follow-up around benefits and side effects.'],
     ['Digital support','Separate telehealth delivery, self-guided tools, coaching and prescription software. Record the intended user, data sharing and availability of human support.'],
-  ], ['nimh','phti','rejoyn']],
+  ], ['nimh','phti','rejoyn','nsduh']],
   'patients/pain': ['Patient pain map', 'Research hypotheses across the care journey. Use interviews, operational logs and claims to test where people drop off and why.', [
     ['Discovery','Directory mismatch, uncertainty about what type of clinician to see and language availability. Measure contacts per completed booking.'],
     ['Intake','Repeated paperwork, unexpected costs, unclear privacy and long waits. Measure time from first attempt to first completed visit.'],
@@ -134,7 +141,7 @@ export const pages = {
     ['Clinical roles','Compare primary care clinicians, prescribers and therapists by assessment, treatment, referral and follow-up responsibilities.'],
     ['Coordination roles','Care managers and peers can play distinct roles in outreach, navigation and follow-through. Document where the roles overlap and where cases are handed off.'],
     ['Geographic supply','Use HRSA shortage designations to screen for access constraints and validate against plan directories, scheduling and local capacity.'],
-  ], ['hrsa','cms','ccbhc']],
+  ], ['hrsa','hrsaQuarter','cms','ccbhc']],
   'hcp/journey': ['Healthcare professional workflow', 'Follow the work from referral through assessment, treatment planning, monitoring and transition.', [
     ['Referral and triage','Track what information arrives, who reviews it and how the team decides the next step.'],
     ['Assessment and planning','Document how teams track symptoms and functioning, discuss preferences, and arrange follow-up.'],
@@ -197,4 +204,14 @@ export const metrics = [
   ['23.4%','Share of U.S. adults with any mental illness',2024,'SAMHSA NSDUH'],
   ['52.1%','Adults with any mental illness who received treatment',2024,'SAMHSA NSDUH'],
   ['33%','High school students with persistent sadness or hopelessness',2025,'CDC YRBS'],
+];
+
+export const conditions = [
+  {id:'depression', name:'Depressive disorders', measure:'Major depressive episode', time:'2024 · NSDUH', value:'8.2%', count:'21.4 million adults', summary:'Depressive disorders can affect mood, interest, energy and daily functioning. The survey measures major depressive episodes, which can occur in more than one disorder.', source:sources.nsduh[1]},
+  {id:'anxiety', name:'Anxiety disorders', measure:'Any anxiety disorder', time:'2001–2003 · NCS-R', value:'19.1%', summary:'This group includes conditions such as generalized anxiety disorder, panic disorder and social anxiety disorder. NIMH reports the historical estimate using the original survey’s grouping.', source:'https://www.nimh.nih.gov/health/statistics/any-anxiety-disorder'},
+  {id:'bipolar', name:'Bipolar disorders', measure:'Bipolar disorder', time:'2001–2003 · NCS-R', value:'2.8%', summary:'Bipolar disorders involve episodes of mania or hypomania. Depression can occur as part of the illness. Clinical classification looks at the pattern and history of episodes.', source:'https://www.nimh.nih.gov/health/statistics/bipolar-disorder'},
+  {id:'trauma', name:'Trauma-related disorders', measure:'Post-traumatic stress disorder', time:'2001–2003 · NCS-R', value:'3.6%', summary:'PTSD can follow trauma and involve intrusive memories, avoidance, mood or thinking changes, and heightened arousal.', source:'https://www.nimh.nih.gov/health/statistics/post-traumatic-stress-disorder-ptsd'},
+  {id:'ocd', name:'Obsessive-compulsive disorders', measure:'Obsessive-compulsive disorder', time:'2001–2003 · NCS-R', value:'1.2%', summary:'OCD can involve intrusive obsessions, repetitive compulsions, or both. The behaviors and thoughts can be time consuming and interfere with daily life.', source:'https://www.nimh.nih.gov/health/statistics/obsessive-compulsive-disorder-ocd'},
+  {id:'eating', name:'Eating disorders', measure:'Binge eating disorder', time:'2001–2003 · NCS-R', value:'1.2%', summary:'Eating disorders include anorexia nervosa, bulimia nervosa and binge eating disorder. This estimate covers binge eating disorder specifically.', source:'https://www.nimh.nih.gov/health/statistics/eating-disorders'},
+  {id:'psychosis', name:'Schizophrenia spectrum and other psychotic disorders', measure:'Schizophrenia', time:'NIMH research summary', summary:'Schizophrenia can involve hallucinations, delusions, disorganized thinking and changes in motivation or functioning. NIMH summarizes estimates from multiple studies with different methods.', source:'https://www.nimh.nih.gov/health/statistics/schizophrenia'},
 ];
