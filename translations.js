@@ -149,6 +149,7 @@ window.gmbTranslations = {
   "Compartilhar o diagnóstico com entidades brasileiras em Nova York, Nova Jersey e Connecticut.": "Share the assessment with Brazilian organizations in New York, New Jersey, and Connecticut.",
   "Prevenção do diabetes": "Diabetes prevention",
   "Implementar a primeira turma do DPP na comunidade brasileira.": "Launch the first DPP cohort in the Brazilian community.",
+  "Desenvolver um chatbot para interagir com os participantes do DPP entre as sessões.": "Develop a chatbot to engage with DPP participants between sessions.",
   "Promover eventos sobre diabetes.": "Host diabetes awareness events.",
   "Criar conteúdos e cartilhas sobre os riscos e custos do diabetes.": "Develop materials and guides on the risks and costs of diabetes.",
   "Buscar financiamento para o DPP, incluindo dispositivos como balanças digitais.": "Seek DPP funding, including for equipment such as digital scales.",
