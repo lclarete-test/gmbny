@@ -49,3 +49,17 @@ summary { cursor:pointer; font-weight:650; }
   .controls label { min-width: min(135px,100%); }
   th,td { padding:7px 8px; }
 }
+.condition-summary { display:grid; grid-template-columns:minmax(0, 1.5fr) minmax(0, 1fr); gap:clamp(16px, 3vw, 36px); padding:20px; background:#f4f2fa; border:1px solid #dfd9ee; border-radius:8px; }
+.condition-summary h3 { font-size:1.2rem; }
+.condition-summary p { margin-top:8px; }
+.condition-estimate { display:grid; gap:4px; align-content:start; border-left:1px solid #d4cde5; padding-left:20px; }
+.condition-estimate strong { color:var(--purple); font-size:clamp(1.8rem, 4vw, 3.2rem); line-height:1.05; }
+.condition-estimate span, .condition-estimate a { font-size:.9rem; }
+.condition-map .case-ranks { margin-top:14px; }
+.condition-map .geo-current { margin-top:14px; }
+.condition-map .geo-toolbar { margin-top:14px; }
+.chart-row { grid-template-columns: minmax(70px, 1fr) minmax(40px, 2.5fr) minmax(54px, auto); }
+@media (max-width:600px) {
+  .condition-summary { grid-template-columns:1fr; }
+  .condition-estimate { border-left:0; border-top:1px solid #d4cde5; padding:12px 0 0; }
+}
